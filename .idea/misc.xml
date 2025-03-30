@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/comanda-service/pom.xml" />
+        <option value="$PROJECT_DIR$/serviciu-service/pom.xml" />
+        <option value="$PROJECT_DIR$/specialist-service/pom.xml" />
+        <option value="$PROJECT_DIR$/tranzactie-service/pom.xml" />
+        <option value="$PROJECT_DIR$/utilizator-service/pom.xml" />
+        <option value="$PROJECT_DIR$/specializare-service/pom.xml" />
+        <option value="$PROJECT_DIR$/specialistserviciu-service/pom.xml" />
+        <option value="$PROJECT_DIR$/specialistspecializare-service/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" project-jdk-name="23" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
