@@ -26,7 +26,11 @@ public class UtilizatoriController {
     @GetMapping("/{id}")
     public ResponseEntity<UtilizatorDto> getUtilizatoriById(@PathVariable("id") Long id) {
         UtilizatorDto utilizatorDto = utilizatoriService.getUtilizatoriById(id);
-        return new ResponseEntity<>(utilizatorDto, HttpStatus.OK);
+        if (utilizatorDto != null) {
+            return new ResponseEntity<>(utilizatorDto, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping
