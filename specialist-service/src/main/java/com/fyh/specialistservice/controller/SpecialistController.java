@@ -2,21 +2,31 @@ package com.fyh.specialistservice.controller;
 
 
 import com.fyh.specialistservice.dto.SpecialistDto;
+import com.fyh.specialistservice.dto.SpecializareDto;
 import com.fyh.specialistservice.service.SpecialistService;
+import com.fyh.specialistservice.service.SpecialistiSpecializariClient;
+import com.fyh.specialistservice.service.SpecializareClient;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/specialisti")
 public class SpecialistController {
 
     private final SpecialistService specialistService;
+    private final SpecialistiSpecializariClient specialistiSpecializariClient;
+    private final SpecializareClient specializareClient;
 
-    public SpecialistController(SpecialistService specialistService) {
+    public SpecialistController(SpecialistService specialistService,
+                                SpecialistiSpecializariClient specialistiSpecializariClient,
+                                SpecializareClient specializareClient) {
         this.specialistService = specialistService;
+        this.specialistiSpecializariClient = specialistiSpecializariClient;
+        this.specializareClient = specializareClient;
     }
 
     @PostMapping
@@ -55,5 +65,19 @@ public class SpecialistController {
     public ResponseEntity<Void> deleteSpecialist(@PathVariable Long id) {
         specialistService.deleteSpecialist(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{idUtilizator}/specializari")
+    public ResponseEntity<String> addSpecializare(@PathVariable Long idUtilizator, @RequestBody Map<String, Long> requestBody) {
+        Long idSpecializare = requestBody.get("idSpecializare");
+        if (idSpecializare == null) {
+            return new ResponseEntity<>("Corpul cererii trebuie să conțină 'idSpecializare'.", HttpStatus.BAD_REQUEST);
+        }
+        return specialistService.addSpecializareToSpecialist(idUtilizator, idSpecializare);
+    }
+
+    @GetMapping("/{idUtilizator}/specializari")
+    public ResponseEntity<List<SpecializareDto>> getSpecializari(@PathVariable Long idUtilizator) {
+        return specialistService.getSpecializariForSpecialist(idUtilizator);
     }
 }

@@ -2,11 +2,16 @@ package com.fyh.comandaservice.service.impl;
 
 
 import com.fyh.comandaservice.dto.ComandaDto;
+import com.fyh.comandaservice.dto.ServiciuDto;
+import com.fyh.comandaservice.dto.SpecialistDto;
+import com.fyh.comandaservice.dto.UtilizatorDto;
 import com.fyh.comandaservice.entity.Comanda;
 import com.fyh.comandaservice.mapper.ComandaMapper;
 import com.fyh.comandaservice.repository.ComandaRepository;
 import com.fyh.comandaservice.service.ComandaService;
-import org.springframework.beans.factory.annotation.Qualifier;
+import com.fyh.comandaservice.service.ServiciuClient;
+import com.fyh.comandaservice.service.SpecialistClient;
+import com.fyh.comandaservice.service.UtilizatorClient;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +22,31 @@ public class ComandaServiceImpl implements ComandaService {
 
     private final ComandaRepository comandaRepository;
 
-    public ComandaServiceImpl(@Qualifier("comandaRepository") ComandaRepository comandaRepository) {
+    private final UtilizatorClient utilizatorClient;
+    private final SpecialistClient specialistClient;
+    private final ServiciuClient serviciuClient;
+    public ComandaServiceImpl( ComandaRepository comandaRepository, UtilizatorClient utilizatorClient, SpecialistClient specialistClient, ServiciuClient serviciuClient) {
         this.comandaRepository = comandaRepository;
+        this.utilizatorClient = utilizatorClient;
+        this.specialistClient = specialistClient;
+        this.serviciuClient = serviciuClient;
+    }
+
+    public ComandaDto getComandaWithDetails(Long idComanda) {
+        Comanda comanda = comandaRepository.findById(idComanda).orElse(null);
+        if (comanda != null) {
+            UtilizatorDto client = utilizatorClient.getUtilizatoriById(comanda.getIdClient());
+            SpecialistDto specialist = specialistClient.getSpecialistByUtilizatorId(comanda.getIdSpecialist()); // Sau getSpecialistById
+            ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
+
+            ComandaDto comandaDto = ComandaMapper.mapToComandaDto(comanda);
+            comandaDto.setIdClient(client.getId());
+            comandaDto.setIdSpecialist(specialist.getId());
+            comandaDto.setId(serviciu.getId());
+
+            return comandaDto;
+        }
+        return null;
     }
 
     @Override
@@ -52,6 +80,8 @@ public class ComandaServiceImpl implements ComandaService {
         }
         return null;
     }
+
+
 
     @Override
     public void deleteComanda(Long id) {

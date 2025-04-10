@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(url = "http://localhost:8088", value = "UTILIZATORI-SERVICE", configuration = CustomErrorDecoder.class)
-public interface APIClient {
+public interface UtilizatorClient {
 
     @GetMapping("/api/utilizatori/{id}")
     UtilizatorDto getUtilizatoriById(@PathVariable("id") Long id);

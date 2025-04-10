@@ -6,6 +6,8 @@ import com.fyh.serviciuservice.entity.Serviciu;
 import com.fyh.serviciuservice.mapper.ServiciuMapper;
 import com.fyh.serviciuservice.repository.ServiciuRepository;
 import com.fyh.serviciuservice.service.ServiciuService;
+import com.fyh.serviciuservice.service.SpecializareClient;
+import com.fyh.specializareservice.dto.SpecializareDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +18,11 @@ import java.util.stream.Collectors;
 public class ServiciuServiceImpl implements ServiciuService {
 
     private final ServiciuRepository serviciuRepository;
+    private final SpecializareClient specializareClient;
 
-    public ServiciuServiceImpl(@Qualifier("serviciuRepository") ServiciuRepository serviciuRepository) {
+    public ServiciuServiceImpl(@Qualifier("serviciuRepository") ServiciuRepository serviciuRepository, SpecializareClient specializareClient) {
         this.serviciuRepository = serviciuRepository;
+        this.specializareClient = specializareClient;
     }
 
     @Override
@@ -26,6 +30,18 @@ public class ServiciuServiceImpl implements ServiciuService {
         Serviciu serviciu = ServiciuMapper.mapToServiciu(serviciuDto);
         Serviciu savedServiciu = serviciuRepository.save(serviciu);
         return ServiciuMapper.mapToServiciuDto(savedServiciu);
+    }
+    public ServiciuDto getServiciuWithSpecializare(Long idServiciu) {
+        Serviciu serviciu = serviciuRepository.findById(idServiciu).orElse(null);
+        if (serviciu != null) {
+            ServiciuDto serviciuDto = ServiciuMapper.mapToServiciuDto(serviciu);
+            if (serviciu.getIdSpecializare() != null) {
+                SpecializareDto specializare = specializareClient.getSpecializareById(serviciu.getIdSpecializare());
+                serviciuDto.setIdSpecializare(specializare.getId());
+            }
+            return serviciuDto;
+        }
+        return null;
     }
 
     @Override

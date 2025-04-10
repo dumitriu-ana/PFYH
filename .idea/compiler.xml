@@ -8,7 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for specialist-service" enabled="true">
+      <profile name="Annotation profile for tranzactie-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -19,8 +19,8 @@
         <module name="specialistserviciu-service" />
         <module name="tranzactie-service" />
         <module name="serviciu-service" />
-        <module name="comanda-service" />
         <module name="specialistspecializare-service" />
+        <module name="comanda-service" />
         <module name="specialist-service" />
         <module name="utilizator-service" />
       </profile>

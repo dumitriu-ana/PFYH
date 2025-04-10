@@ -5,6 +5,7 @@ import com.fyh.tranzactieservice.dto.TranzactieDto;
 import com.fyh.tranzactieservice.entity.Tranzactie;
 import com.fyh.tranzactieservice.mapper.TranzactieMapper;
 import com.fyh.tranzactieservice.repository.TranzactieRepository;
+import com.fyh.tranzactieservice.service.ComandaClient;
 import com.fyh.tranzactieservice.service.TranzactieService;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,10 @@ public class TranzactieServiceImpl implements TranzactieService {
 
     private final TranzactieRepository tranzactieRepository;
 
-    public TranzactieServiceImpl(TranzactieRepository tranzactieRepository) {
+    private final ComandaClient comandaClient;
+    public TranzactieServiceImpl(TranzactieRepository tranzactieRepository, ComandaClient comandaClient) {
         this.tranzactieRepository = tranzactieRepository;
+        this.comandaClient = comandaClient;
     }
 
     @Override
