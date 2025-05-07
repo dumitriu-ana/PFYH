@@ -1,17 +1,18 @@
+// src/app/specialist.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SpecialistDto } from './models/specialist.dto';
+import { SpecialistCuNumeDto } from './models/specialistCuNume.dto'; // Ajustează calea
 
 @Injectable({
   providedIn: 'root'
 })
 export class SpecialistService {
-  private apiUrl = 'http://localhost:8083/api/specialisti'; // Asigură-te că URL-ul este corect
+  private apiUrlSpecialisti = 'http://localhost:8083/api/specialisti/lista';
 
   constructor(private http: HttpClient) { }
 
-  getSpecialisti(): Observable<SpecialistDto[]> {
-    return this.http.get<SpecialistDto[]>(this.apiUrl);
+  getSpecialisti(): Observable<SpecialistCuNumeDto[]> {
+    return this.http.get<SpecialistCuNumeDto[]>(this.apiUrlSpecialisti);
   }
 }

@@ -1,1 +1,8 @@
-/* You can add global styles to this file, and also import other style files */
+/* src/styles.css */
+.row.d-flex.top-left {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
+  align-content: flex-start !important;
+}

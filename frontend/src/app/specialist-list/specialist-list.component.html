@@ -1,14 +1,35 @@
-<div class="specialisti-container" *ngIf="specialisti && specialisti.length > 0">
-  <div class="card h-100 specialist-card text-center" *ngFor="let specialist of specialisti">
-    <div class="card-body p-3">
-      <h5 class="card-title text-dark-blue">{{ specialist.id }}</h5>
-      <div class="mt-2">
-        <button class="btn btn-vezi-detalii py-2 px-3">Vezi Detalii</button>
+<div class="container mt-4 specialisti-container-grid">
+  <div
+    class="row d-flex top-left"
+    *ngIf="paginaCurenta.length > 0"
+  >
+    <div class="col-md-4 mb-4" *ngFor="let specialist of paginaCurenta">
+      <div class="card h-100 specialist-card">
+        <div class="card-body">
+          <h5 class="card-title text-dark-blue">{{ specialist.nume }}</h5>
+          <p class="card-text">{{ specialist.descriere }}</p>
+          <a href="#" class="btn btn-vezi-detalii">Vezi detalii</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<p *ngIf="specialisti !== null && specialisti.length === 0">
-  Nu există specialiști disponibili momentan.
-</p>
+  <!-- Paginare -->
+  <nav *ngIf="totalPagini > 1">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="pagina === 1">
+        <a class="page-link" (click)="schimbaPagina(pagina - 1)">Anterior</a>
+      </li>
+      <li
+        class="page-item"
+        *ngFor="let p of pagini"
+        [class.active]="p === pagina"
+      >
+        <a class="page-link" (click)="schimbaPagina(p)">{{ p }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="pagina === totalPagini">
+        <a class="page-link" (click)="schimbaPagina(pagina + 1)">Următor</a>
+      </li>
+    </ul>
+  </nav>
+</div>

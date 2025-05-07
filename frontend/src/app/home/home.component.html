@@ -1,35 +1,70 @@
-<div class="home-page">
-  <h1>Bun venit în aplicația noastră pentru Specialiști!</h1>
-  <p>Descoperă și conectează-te cu specialiști în diverse domenii.</p>
-  <button routerLink="/specialisti" class="btn btn-primary mb-3">Vezi lista completă de Specialiști</button>
+<div class="home-page container py-4">
 
-  <h2>Specializări Disponibile</h2>
-  <div *ngIf="errorMessageSpecializari" class="alert alert-danger">{{ errorMessageSpecializari }}</div>
-
-  <div class="specializari-container" *ngIf="specializari && specializari.length > 0">
-    <div class="card h-100 specializare-card text-center" *ngFor="let specializare of specializari">
-      <div class="card-body p-3">
-        <h5 class="card-title text-dark-green">{{ specializare.denumire }}</h5>
-        <div class="d-flex justify-content-center gap-2 mt-2">
-          <button class="btn btn-specialisti py-2 px-3">Specialiști</button>
-          <button class="btn btn-servicii py-2 px-3">Servicii</button>
-        </div>
-      </div>
-    </div>
+  <div class="text-center mb-5">
+    <h1>Bun venit în aplicația noastră pentru Specialiști!</h1>
+    <p class="lead">Descoperă și conectează-te cu specialiști în diverse domenii.</p>
+    <button routerLink="/specialisti" class="btn btn-lg btn-primary">
+      Vezi lista completă de Specialiști
+    </button>
   </div>
-
-  <p *ngIf="!errorMessageSpecializari && (!specializari || specializari.length === 0)">
-    Nu există specializări disponibile momentan.
-  </p>
-  <p *ngIf="!specializari && !errorMessageSpecializari">Se încarcă specializările...</p>
 
   <hr class="my-4">
 
-  <h2>Specialiști Relevanți</h2>
-  <div *ngIf="errorMessageSpecialisti" class="alert alert-danger">{{ errorMessageSpecialisti }}</div>
-  <app-specialist-list [specialisti]="specialisti"></app-specialist-list>
-  <p *ngIf="!errorMessageSpecialisti && (!specialisti || specialisti.length === 0)">
-    Nu există specialiști relevanți momentan.
+  <!-- Specializări -->
+  <h2 class="text-center mb-4">Specializări Disponibile</h2>
+
+  <div *ngIf="isLoadingSpecializari" class="text-center py-3">
+    <div class="spinner-border text-info" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Se încarcă specializările...</p>
+  </div>
+
+  <div *ngIf="errorMessageSpecializari && !isLoadingSpecializari" class="alert alert-warning text-center" role="alert">
+    {{ errorMessageSpecializari }}
+    <button (click)="loadSpecializari()" class="btn btn-sm btn-link text-warning ms-2">Reîncearcă</button>
+  </div>
+
+  <app-specializare-list
+    *ngIf="!isLoadingSpecializari && !errorMessageSpecializari && specializari?.length"
+    [specializari]="specializari">
+  </app-specializare-list>
+
+  <p *ngIf="!isLoadingSpecializari && !errorMessageSpecializari && (!specializari || specializari.length === 0)"
+     class="text-center text-muted">
+    Nu există specializări disponibile momentan.
   </p>
-  <p *ngIf="!specialisti && !errorMessageSpecialisti">Se încarcă specialiștii...</p>
+
+  <hr class="my-4">
+
+  <!-- Specialiști -->
+  <h2 class="text-center mb-4">Specialiști Relevanți</h2>
+
+  <div *ngIf="isLoadingSpecialisti && !specialistiPentruLista" class="text-center py-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Se încarcă specialiștii...</p>
+  </div>
+
+  <div *ngIf="errorSpecialisti && !isLoadingSpecialisti" class="alert alert-danger text-center" role="alert">
+    {{ errorSpecialisti }}
+    <button (click)="loadSpecialistiPentruLista()" class="btn btn-sm btn-link text-danger ms-2">Reîncearcă</button>
+  </div>
+
+  <app-specialist-list
+    *ngIf="!isLoadingSpecialisti && specialistiPentruLista?.length"
+    [specialistiCuNume]="specialistiPentruLista">
+  </app-specialist-list>
+
+  <p *ngIf="!isLoadingSpecialisti && !errorSpecialisti && (!specialistiPentruLista || specialistiPentruLista.length === 0)"
+     class="text-center text-muted">
+    Nu există specialiști disponibili momentan.
+  </p>
+
+
+<!--  &lt;!&ndash; Listă Servicii &ndash;&gt;-->
+<!--  <h2>Servicii</h2>-->
+<!--  <app-servicii-list></app-servicii-list>-->
+
 </div>

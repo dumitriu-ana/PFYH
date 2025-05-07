@@ -1,17 +1,22 @@
 package com.fyh.specialistservice.controller;
 
 
+import com.fyh.specialistservice.dto.SpecialistListDto;
 import com.fyh.specialistservice.dto.SpecialistDto;
 import com.fyh.specialistservice.dto.SpecializareDto;
+import com.fyh.specialistservice.entity.Specialist;
 import com.fyh.specialistservice.service.SpecialistService;
 import com.fyh.specialistservice.service.SpecialistiSpecializariClient;
 import com.fyh.specialistservice.service.SpecializareClient;
+import com.fyh.specialistservice.service.UtilizatorClient;
+import com.fyh.utilizatorservice.dto.UtilizatorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/specialisti")
@@ -22,12 +27,14 @@ public class SpecialistController {
     private final SpecialistiSpecializariClient specialistiSpecializariClient;
     private final SpecializareClient specializareClient;
 
+    private final UtilizatorClient utilizatorClient;
     public SpecialistController(SpecialistService specialistService,
                                 SpecialistiSpecializariClient specialistiSpecializariClient,
-                                SpecializareClient specializareClient) {
+                                SpecializareClient specializareClient, UtilizatorClient utilizatorClient) {
         this.specialistService = specialistService;
         this.specialistiSpecializariClient = specialistiSpecializariClient;
         this.specializareClient = specializareClient;
+        this.utilizatorClient = utilizatorClient;
     }
 
     @PostMapping
@@ -80,5 +87,29 @@ public class SpecialistController {
     @GetMapping("/{idUtilizator}/specializari")
     public ResponseEntity<List<SpecializareDto>> getSpecializari(@PathVariable Long idUtilizator) {
         return specialistService.getSpecializariForSpecialist(idUtilizator);
+    }
+
+    @GetMapping("/lista")
+    public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
+        List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
+        List<SpecialistListDto> specialistiCuNume = specialisti.stream()
+                .map(specialist -> {
+                    UtilizatorDto utilizator = utilizatorClient.getUtilizatoriById(specialist.getIdUtilizator());
+                    String descriere = specialist.getDescriere();
+                    String shortDescriere = "";
+                    if (descriere != null) {
+                        shortDescriere = descriere.length() > 50 ? descriere.substring(0, 50) + "..." : descriere;
+                    }
+
+                    return new SpecialistListDto(
+                            specialist.getId(),
+                            specialist.getIdUtilizator(),
+                            utilizator != null ? utilizator.getNume() : "Nume Indisponibil",
+                            specialist.getAtestat(),
+                            shortDescriere
+                    );
+                })
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(specialistiCuNume, HttpStatus.OK);
     }
 }

@@ -1,0 +1,28 @@
+<div *ngIf="specializari && specializari.length > 0" id="carouselSpecializari" class="carousel slide" data-bs-ride="carousel">
+  <div class="carousel-inner">
+
+    <div *ngFor="let grup of grupuriSpecializari(); let i = index" class="carousel-item" [class.active]="i === 0">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-3" *ngFor="let specializare of grup">
+          <div class="card h-100 text-center shadow-sm">
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title text-success">{{ specializare.denumire }}</h5>
+              <div class="mt-auto">
+                <button class="btn btn-outline-primary btn-sm me-2">Vezi Specialiști</button>
+                <button class="btn btn-outline-secondary btn-sm">Vezi Servicii</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselSpecializari" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselSpecializari" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
