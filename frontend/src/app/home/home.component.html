@@ -1,0 +1,35 @@
+<div class="home-page">
+  <h1>Bun venit în aplicația noastră pentru Specialiști!</h1>
+  <p>Descoperă și conectează-te cu specialiști în diverse domenii.</p>
+  <button routerLink="/specialisti" class="btn btn-primary mb-3">Vezi lista completă de Specialiști</button>
+
+  <h2>Specializări Disponibile</h2>
+  <div *ngIf="errorMessageSpecializari" class="alert alert-danger">{{ errorMessageSpecializari }}</div>
+
+  <div class="specializari-container" *ngIf="specializari && specializari.length > 0">
+    <div class="card h-100 specializare-card text-center" *ngFor="let specializare of specializari">
+      <div class="card-body p-3">
+        <h5 class="card-title text-dark-green">{{ specializare.denumire }}</h5>
+        <div class="d-flex justify-content-center gap-2 mt-2">
+          <button class="btn btn-specialisti py-2 px-3">Specialiști</button>
+          <button class="btn btn-servicii py-2 px-3">Servicii</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p *ngIf="!errorMessageSpecializari && (!specializari || specializari.length === 0)">
+    Nu există specializări disponibile momentan.
+  </p>
+  <p *ngIf="!specializari && !errorMessageSpecializari">Se încarcă specializările...</p>
+
+  <hr class="my-4">
+
+  <h2>Specialiști Relevanți</h2>
+  <div *ngIf="errorMessageSpecialisti" class="alert alert-danger">{{ errorMessageSpecialisti }}</div>
+  <app-specialist-list [specialisti]="specialisti"></app-specialist-list>
+  <p *ngIf="!errorMessageSpecialisti && (!specialisti || specialisti.length === 0)">
+    Nu există specialiști relevanți momentan.
+  </p>
+  <p *ngIf="!specialisti && !errorMessageSpecialisti">Se încarcă specialiștii...</p>
+</div>

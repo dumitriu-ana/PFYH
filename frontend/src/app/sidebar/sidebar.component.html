@@ -1,0 +1,22 @@
+<div class="sidebar">
+  <h2 class="sidebar-title">Meniu</h2>
+  <ul class="sidebar-nav">
+    <li class="sidebar-item">
+      <a routerLink="/specialisti" routerLinkActive="active">Specialiști</a>
+    </li>
+    <li class="sidebar-item">
+      <a routerLink="/specializari" routerLinkActive="active">Specializări</a>
+    </li>
+    <li class="sidebar-item">
+      <a routerLink="/servicii" routerLinkActive="active">Servicii</a>
+    </li>
+    <li class="sidebar-item">
+      <a routerLink="/profil" routerLinkActive="active">Profil</a>
+    </li>
+  </ul>
+  <button class="btn btn-devino-specialist">Devino Specialist</button>
+</div>
+
+<button class="burger-menu-btn" (click)="toggleSidebar()">
+  ☰
+</button>

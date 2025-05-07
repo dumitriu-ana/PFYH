@@ -1,0 +1,104 @@
+/* sidebar.component.css */
+
+.sidebar {
+  background-color: #f0f0f0;
+  padding: 20px;
+  width: 15vw; /* Lățimea meniului pe desktop */
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow-y: auto;
+  z-index: 10;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.closed {
+  transform: translateX(-250px);
+}
+
+.sidebar-title {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 10px;
+}
+
+.sidebar-item a {
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: #555;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-item a:hover,
+.sidebar-item a.active {
+  background-color: #ddd;
+  color: #333;
+}
+
+.btn-devino-specialist {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-devino-specialist:hover {
+  background-color: #1e7e34;
+}
+
+.burger-menu-btn {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  background: none;
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 20;
+  display: none; /* Ascuns implicit pe desktop */
+}
+
+/* Stilizare pentru vizualizarea mobilă */
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    transform: translateX(-250px); /* Ascuns inițial pe mobil */
+    width: 250px;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #f0f0f0;
+  }
+
+  .sidebar.open {
+    transform: translateX(0); /* Afișat când este deschis pe mobil */
+  }
+
+  .burger-menu-btn {
+    display: block; /* Afișat pe mobil */
+  }
+
+  /* Ajustează conținutul principal pentru a nu fi acoperit de sidebar pe mobil */
+  /* Vei aplica un padding-left pe conținutul principal când sidebar-ul este deschis */
+}

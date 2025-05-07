@@ -1,0 +1,100 @@
+/* home.component.css */
+
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+p {
+  color: red;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+button.btn-primary {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.specializari-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-top: 20px; /* Adaugă spațiu deasupra containerului de carduri */
+}
+
+.specializare-card {
+  background-color: #f8f0e3; /* Crem deschis */
+  border: 1px solid #386641; /* Verde închis */
+  border-radius: 0.5rem; /* Colțuri ușor rotunjite */
+  transition: background-color 0.3s ease; /* Efect de hover pentru fundal */
+  text-align: center;
+  width: calc(33.33% - 10px); /* Implicit 3 carduri pe linie */
+  margin-bottom: 0; /* Elimină marginea inferioară implicită */
+}
+
+.specializare-card:hover {
+  background-color: #f0e6d2; /* Fundal mai deschis la hover */
+}
+
+.card-body {
+  padding: 0.5rem; /* Padding general pentru corpul cardului */
+}
+
+.card-title.text-dark-green {
+  color: #386641; /* Verde închis pentru titlu */
+  margin-bottom: 1rem; /* Adaugă spațiu sub titlu */
+}
+
+.btn-specialisti,
+.btn-servicii {
+  background-color: #ffb703; /* Portocaliu pentru fundalul butoanelor */
+  color: #386641; /* Verde închis pentru textul butoanelor */
+  border: 1px solid #386641; /* Border verde pentru butoane */
+  padding: 0.5rem 1rem; /* Padding pentru butoane */
+  border-radius: 0.25rem; /* Colțuri ușor rotunjite pentru butoane */
+  transition: background-color 0.3s ease; /* Efect de hover pentru fundalul butoanelor */
+  margin: 0.25rem; /* Margine pentru a distanța butoanele */
+}
+
+.btn-specialisti:hover,
+.btn-servicii:hover {
+  background-color: #e09f00; /* Fundal mai închis la hover */
+}
+
+/* Ajustări responsive pentru carduri */
+@media (max-width: 992px) { /* Pentru ecrane mai mici decât laptop */
+  .specializare-card {
+    width: calc(50% - 10px); /* 2 carduri pe linie */
+  }
+}
+
+@media (max-width: 768px) { /* Pentru tablete */
+  .specializare-card {
+    width: calc(100% - 10px); /* 1 card pe linie */
+  }
+}
+
+@media (min-width: 1200px) { /* Pentru ecrane mai mari */
+  .specializare-card {
+    width: calc(25% - 10px); /* 4 carduri pe linie pe ecrane mari */
+  }
+}
