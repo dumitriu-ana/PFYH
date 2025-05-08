@@ -1,0 +1,29 @@
+<div class="row d-flex flex-wrap top-left" *ngIf="paginaCurenta.length > 0">
+  <div class="col-md-4 mb-4" *ngFor="let s of paginaCurenta">
+    <div class="card h-100 specialist-card">
+      <div class="card-body">
+        <h5 class="card-title text-dark-blue">{{ s.titlu }}</h5>
+        <p class="card-text">
+          Tip: {{ s.tipServiciu }}<br>
+          Preț: {{ s.pret | currency:'RON' }}<br>
+          Durată ședință: {{ s.durataSedinta | slice:2:-1 }} min
+        </p>
+        <a [routerLink]="['/servicii', s.id]" class="btn btn-vezi-detalii">Vezi detalii</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav *ngIf="totalPagini > 1">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="pagina === 1">
+      <a class="page-link" (click)="schimbaPagina(pagina - 1)">Anterior</a>
+    </li>
+    <li class="page-item" *ngFor="let p of pagini" [class.active]="p === pagina">
+      <a class="page-link" (click)="schimbaPagina(p)">{{ p }}</a>
+    </li>
+    <li class="page-item" [class.disabled]="pagina === totalPagini">
+      <a class="page-link" (click)="schimbaPagina(pagina + 1)">Următor</a>
+    </li>
+  </ul>
+</nav>

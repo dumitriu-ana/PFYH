@@ -57,8 +57,4 @@ public class SpecialistiServiciiController {
         specialistiServiciiService.deleteSpecialistiServicii(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
-
-
 }

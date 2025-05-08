@@ -1,4 +1,3 @@
-
 export interface SpecialistDto {
   id: number;
    idUtilizator: number;

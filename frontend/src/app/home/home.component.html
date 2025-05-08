@@ -67,4 +67,33 @@
 <!--  <h2>Servicii</h2>-->
 <!--  <app-servicii-list></app-servicii-list>-->
 
+
+
+  <hr class="my-4">
+
+  <h2 class="text-center mb-4">Servicii Disponibile</h2>
+
+  <div *ngIf="isLoadingServicii" class="text-center py-3">
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Se încarcă serviciile...</p>
+  </div>
+
+  <div *ngIf="errorServicii && !isLoadingServicii" class="alert alert-danger text-center">
+    {{ errorServicii }}
+    <button (click)="loadServicii()" class="btn btn-sm btn-link text-danger ms-2">Reîncearcă</button>
+  </div>
+
+  <app-servicii-list
+    *ngIf="!isLoadingServicii && servicii?.length"
+    [servicii]="servicii">
+  </app-servicii-list>
+
+  <p *ngIf="!isLoadingServicii && !errorServicii && servicii?.length === 0"
+     class="text-center text-muted">
+    Nu există servicii disponibile momentan.
+  </p>
+
+
 </div>

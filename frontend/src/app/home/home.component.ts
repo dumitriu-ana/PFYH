@@ -12,6 +12,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { SpecialistService } from '../specialist.service';
 import { SpecialistCuNumeDto } from '../models/specialistCuNume.dto'; // Asigură-te că această cale și nume de fișier sunt corecte
 
+
+import { ServiciiService } from '../servicii.service';
+import { ServiciuDto } from '../models/serviciu.dto';
+import { ServiciiListComponent } from '../servicii-list/servicii-list.component';
+
+
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -20,6 +27,7 @@ import { SpecialistCuNumeDto } from '../models/specialistCuNume.dto'; // Asigur�
     RouterLink,
     HttpClientModule,
     SpecialistListComponent,
+    ServiciiListComponent,
     SpecializareListComponent
   ],
   templateUrl: './home.component.html',
@@ -36,14 +44,22 @@ export class HomeComponent implements OnInit {
   isLoadingSpecialisti: boolean = true; // <-- Denumire corectată
   errorSpecialisti: string | null = null;   // <-- Denumire corectată
 
+    // pentru servicii
+    servicii: ServiciuDto[] | null = null;
+    isLoadingServicii:boolean = true;
+    errorServicii: string | null = null;
+
   constructor(
     private specializareService: SpecializareService,
-    private specialistService: SpecialistService
+    private specialistService: SpecialistService,
+    private serviciiService: ServiciiService
   ) { }
 
   ngOnInit(): void {
     this.loadSpecializari();
     this.loadSpecialistiPentruLista(); // <-- Denumire corectată pentru apelul metodei
+        this.loadServicii();               // << apel nou
+
   }
 
   loadSpecializari(): void {
@@ -81,6 +97,21 @@ export class HomeComponent implements OnInit {
   }
 
 
-
+loadServicii(): void {
+  this.isLoadingServicii = true;
+  this.errorServicii = null;
+  this.serviciiService.getServicii().subscribe({
+    next: (data: ServiciuDto[]) => {
+      this.servicii = data;
+      this.isLoadingServicii = false;
+    },
+    error: (err: any) => {
+      console.error('Eroare încărcare servicii:', err);
+      this.errorServicii = 'Nu am putut prelua lista de servicii.';
+      this.servicii = [];
+      this.isLoadingServicii = false;
+    }
+  });
+}
 
 }

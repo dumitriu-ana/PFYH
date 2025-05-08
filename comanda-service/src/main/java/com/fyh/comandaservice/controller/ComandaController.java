@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/comenzi")
+@CrossOrigin(origins = "http://localhost:4200") //acces din front
 public class ComandaController {
 
     private final ComandaService comandaService;
