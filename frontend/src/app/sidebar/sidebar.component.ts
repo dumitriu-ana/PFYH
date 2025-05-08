@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, NgClass],
+  imports: [CommonModule, RouterLink, RouterLinkActive, NgClass],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })

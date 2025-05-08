@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { NgClass } from '@angular/common';
@@ -6,7 +7,7 @@ import { NgClass } from '@angular/common';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidebarComponent, NgClass],
+  imports: [CommonModule, RouterOutlet, SidebarComponent, NgClass],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
