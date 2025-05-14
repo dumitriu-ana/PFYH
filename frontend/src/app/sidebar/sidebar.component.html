@@ -1,6 +1,12 @@
-<div class="sidebar">
+<div [ngClass]="sidebarClasses">
   <h2 class="sidebar-title">Meniu</h2>
   <ul class="sidebar-nav">
+    <!-- 1) Link către Home -->
+    <li class="sidebar-item">
+      <a routerLink="/home" routerLinkActive="active">Acasă</a>
+    </li>
+
+    <!-- 2) Restul link-urilor -->
     <li class="sidebar-item">
       <a routerLink="/specialisti" routerLinkActive="active">Specialiști</a>
     </li>
@@ -10,12 +16,29 @@
     <li class="sidebar-item">
       <a routerLink="/servicii" routerLinkActive="active">Servicii</a>
     </li>
-
+    <li class="sidebar-item">
+      <a routerLink="/despre-fyh" routerLinkActive="active">Despre FYH</a>
+    </li>
   </ul>
-  <button class="btn" routerLink="/signup">Creare cont</button>
-  <button class="btn btn-devino-specialist">Devino Specialist</button>
+
+  <!-- butoanele de login/logout și signup -->
+  <div class="mt-auto px-3">
+    <button *ngIf="!isLoggedIn()"
+            class="btn btn-outline-primary w-100 mb-2"
+            routerLink="/login">
+      Intră în cont
+    </button>
+    <button *ngIf="isLoggedIn()"
+            class="btn btn-outline-danger w-100 mb-2"
+            (click)="logout()">
+      Delogare
+    </button>
+    <button *ngIf="!isLoggedIn()"
+            class="btn btn-success w-100"
+            routerLink="/signup">
+      Creare cont
+    </button>
+  </div>
 </div>
 
-<button class="burger-menu-btn" (click)="toggleSidebar()">
-  ☰
-</button>
+<button class="burger-menu-btn" (click)="toggleSidebar()">☰</button>

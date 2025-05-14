@@ -1,0 +1,22 @@
+/* toate secțiunile, indiferent de clasă */
+/* elimină marginile standard Bootstrap pentru toate container-urile din secțiuni */
+
+
+section.bg-orange {
+  background-color: #e6a309;
+}
+
+section h2 {
+  color: #006400;
+}
+
+
+#hero {
+  background: url('/assets/img/header.jpg') no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.7;
+}

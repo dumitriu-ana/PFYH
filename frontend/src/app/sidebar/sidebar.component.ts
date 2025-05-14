@@ -1,28 +1,37 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { NgClass } from '@angular/common';
+import { Component }            from '@angular/core';
+import { Router,                RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule,          NgClass } from '@angular/common';
+
+import { AuthService }          from '../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, NgClass],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    NgClass
+  ],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent {
   isMobileView = false;
-  isSidebarOpen = true; // Implicit deschis pe desktop
+  isSidebarOpen = true;
 
-  constructor() {
+  constructor(
+    private auth: AuthService,
+    private router: Router
+  ) {
     this.updateMobileView();
     window.addEventListener('resize', this.updateMobileView);
   }
 
   updateMobileView = () => {
-    this.isMobileView = window.innerWidth < 768; // Considerăm 768px ca breakpoint pentru mobil
+    this.isMobileView = window.innerWidth < 768;
     if (!this.isMobileView) {
-      this.isSidebarOpen = true; // Asigură-te că e deschis pe desktop la resize
+      this.isSidebarOpen = true;
     }
   };
 
@@ -35,8 +44,18 @@ export class SidebarComponent {
   get sidebarClasses() {
     return {
       'sidebar': true,
-      'open': !this.isMobileView || this.isSidebarOpen,
+      'open':   !this.isMobileView || this.isSidebarOpen,
       'closed': this.isMobileView && !this.isSidebarOpen
     };
+  }
+
+  // --- Adăugările pentru login/logout ---
+  isLoggedIn(): boolean {
+    return this.auth.hasToken();
+  }
+
+  logout(): void {
+    this.auth.clearToken();
+    this.router.navigate(['/home']);
   }
 }
