@@ -1,39 +1,27 @@
-// src/app/services/auth.service.ts
-import { Injectable, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, getIdTokenResult } from '@angular/fire/auth';
-import { User } from 'firebase/auth';
-import { from, Observable, of, switchMap } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { RegisterRequest } from '../models/register-request.model';
+import { AuthResponse } from '../models/auth-response.model';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private auth = inject(Auth);
+  private base = `${environment.apiUrl}/auth`;
 
-  // Observabil care emite user-ul curent Firebase, tipat corect
-  user$: Observable<User | null> = new Observable<User | null>(observer =>
-    onAuthStateChanged(this.auth, user => observer.next(user))
-  );
+  constructor(private http: HttpClient) {}
 
-  /** Înregistrare cu email/parolă */
-  signup(email: string, password: string): Observable<any> {
-    return from(createUserWithEmailAndPassword(this.auth, email, password));
+  register(req: RegisterRequest): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${this.base}/register`, req);
   }
 
-  /** Autentificare cu email/parolă */
-  login(email: string, password: string): Observable<any> {
-    return from(signInWithEmailAndPassword(this.auth, email, password));
-  }
-
-  /** Deconectare */
-  logout(): Observable<void> {
-    return from(signOut(this.auth));
-  }
-
-  /** Token cu custom claims (roluri) */
-  getIdTokenResult$(): Observable<any> {
-    return this.user$.pipe(
-      switchMap((user: User | null) =>
-        user ? from(getIdTokenResult(user)) : of(null)
-      )
+  login(email: string, password: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(
+      `${this.base}/login`, { email, password }
     );
+  }
+
+  saveToken(token: string) {
+    localStorage.setItem('JWT', token);
   }
 }

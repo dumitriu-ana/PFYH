@@ -1,6 +1,7 @@
 package com.fyh.utilizatorservice.controller;
 
 import com.fyh.utilizatorservice.dto.UtilizatorDto;
+import com.fyh.utilizatorservice.dto.UtilizatorPublicDto;
 import com.fyh.utilizatorservice.service.UtilizatoriService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,5 +51,13 @@ public class UtilizatoriController {
     public ResponseEntity<String> deleteUtilizatori(@PathVariable("id") Long id) {
         utilizatoriService.deleteUtilizatori(id);
         return new ResponseEntity<>("Utilizator sters cu succes!", HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/public")
+    public ResponseEntity<UtilizatorPublicDto> getPublicById(@PathVariable Long id) {
+        UtilizatorDto full = utilizatoriService.getUtilizatoriById(id);
+        UtilizatorPublicDto pub =
+                new UtilizatorPublicDto(full.getId(), full.getNume(), full.getEmail(), full.getTipUtilizator());
+        return ResponseEntity.ok(pub);
     }
 }

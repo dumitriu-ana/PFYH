@@ -1,7 +1,6 @@
 package com.fyh.specialistservice.entity;
 
-import com.fyh.specializareservice.entity.Specializare;
-import com.fyh.utilizatorservice.entity.Utilizator;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

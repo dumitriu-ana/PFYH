@@ -1,20 +1,13 @@
-<div class="signup-page container py-4">
-  <h2>Creare cont nou</h2>
-  <form (ngSubmit)="signup()" #signupForm="ngForm">
-    <div class="mb-3">
-      <label for="nume" class="form-label">Nume</label>
-      <input id="nume" name="nume" class="form-control" [(ngModel)]="nume" required>
+<div class="container py-4">
+  <h2>Înregistrează-te</h2>
+  <form (ngSubmit)="signup()" #f="ngForm">
+    <div><input name="nume" [(ngModel)]="nume" placeholder="Nume" required></div>
+    <div><input name="email" type="email" [(ngModel)]="email" placeholder="Email" required></div>
+    <div>
+      <input name="password" type="password"
+             [(ngModel)]="password"
+             placeholder="Parolă" required>
     </div>
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input id="email" name="email" type="email" class="form-control" [(ngModel)]="email" required>
-    </div>
-    <div class="mb-3">
-      <label for="pass" class="form-label">Parolă</label>
-      <input id="pass" name="password" type="password" class="form-control" [(ngModel)]="password" required>
-    </div>
-    <button type="submit" class="btn btn-primary" [disabled]="signupForm.invalid">
-      Crează cont
-    </button>
+    <button type="submit" [disabled]="f.invalid">Crează cont</button>
   </form>
 </div>

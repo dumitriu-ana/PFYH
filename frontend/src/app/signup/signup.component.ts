@@ -1,18 +1,15 @@
-import { Component }     from '@angular/core';
-import { CommonModule }   from '@angular/common';
-import { FormsModule }    from '@angular/forms';
-import { Router }         from '@angular/router';
-
-import { AuthService }    from '../services/auth.service';
-import { UserService }    from '../services/user.service';
-import { UtilizatorDto }  from '../models/utilizator.dto';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule }  from '@angular/forms';
+import { Router }       from '@angular/router';
+import { AuthService }  from '../services/auth.service';
+import { RegisterRequest } from '../models/register-request.model';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './signup.component.html'
 })
 export class SignupComponent {
   nume = '';
@@ -21,29 +18,21 @@ export class SignupComponent {
 
   constructor(
     private auth: AuthService,
-    private userSvc: UserService,
     private router: Router
   ) {}
 
   signup() {
-    this.auth.signup(this.email, this.password).subscribe({
-      next: cred => {
-        const uid = cred.user.uid;
-        const dto: Partial<UtilizatorDto> = {
-          idFirebase:    uid,
-          dataInreg:     new Date().toISOString(),
-          nume:          this.nume,
-          email:         this.email,
-          parola:        null,
-          tipUtilizator: 'client',
-          sold:          0
-        };
-        this.userSvc.create(dto).subscribe({
-          next: () => this.router.navigate(['/home']),
-          error: err => console.error('Eroare la creare Utilizator:', err)
-        });
+    const req: RegisterRequest = {
+      nume: this.nume,
+      email: this.email,
+      password: this.password
+    };
+    this.auth.register(req).subscribe({
+      next: res => {
+        this.auth.saveToken(res.token);
+        this.router.navigate(['/home']);
       },
-      error: err => console.error('Firebase signup error:', err)
+      error: err => console.error('Signup error', err)
     });
   }
 }

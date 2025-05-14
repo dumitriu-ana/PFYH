@@ -1,21 +1,18 @@
 package com.fyh.specialistservice.controller;
 
 
-import com.fyh.specialistservice.dto.SpecialistListDto;
-import com.fyh.specialistservice.dto.SpecialistDto;
-import com.fyh.specialistservice.dto.SpecializareDto;
-import com.fyh.specialistservice.entity.Specialist;
+import com.fyh.specialistservice.dto.*;
 import com.fyh.specialistservice.service.SpecialistService;
 import com.fyh.specialistservice.service.SpecialistiSpecializariClient;
 import com.fyh.specialistservice.service.SpecializareClient;
 import com.fyh.specialistservice.service.UtilizatorClient;
-import com.fyh.utilizatorservice.dto.UtilizatorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -92,24 +89,44 @@ public class SpecialistController {
     @GetMapping("/lista")
     public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
         List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
-        List<SpecialistListDto> specialistiCuNume = specialisti.stream()
-                .map(specialist -> {
-                    UtilizatorDto utilizator = utilizatorClient.getUtilizatoriById(specialist.getIdUtilizator());
-                    String descriere = specialist.getDescriere();
-                    String shortDescriere = "";
-                    if (descriere != null) {
-                        shortDescriere = descriere.length() > 50 ? descriere.substring(0, 50) + "..." : descriere;
-                    }
-
+        List<SpecialistListDto> lista = specialisti.stream()
+                .map(s -> {
+                    // apelezi doar campurile publice
+                    UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
+                    String nume = u.getNume();
+                    String desc = Optional.ofNullable(s.getDescriere())
+                            .map(d -> d.length()>50? d.substring(0,50)+"…" : d)
+                            .orElse("");
                     return new SpecialistListDto(
-                            specialist.getId(),
-                            specialist.getIdUtilizator(),
-                            utilizator != null ? utilizator.getNume() : "Nume Indisponibil",
-                            specialist.getAtestat(),
-                            shortDescriere
+                            s.getId(), s.getIdUtilizator(),
+                            nume, s.getAtestat(), desc
                     );
                 })
-                .collect(Collectors.toList());
-        return new ResponseEntity<>(specialistiCuNume, HttpStatus.OK);
+                .toList();
+        return ResponseEntity.ok(lista);
     }
+
+//    @GetMapping("/lista")
+//    public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
+//        List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
+//        List<SpecialistListDto> specialistiCuNume = specialisti.stream()
+//                .map(specialist -> {
+//                    UtilizatorDto utilizator = utilizatorClient.getUtilizatoriById(specialist.getIdUtilizator());
+//                    String descriere = specialist.getDescriere();
+//                    String shortDescriere = "";
+//                    if (descriere != null) {
+//                        shortDescriere = descriere.length() > 50 ? descriere.substring(0, 50) + "..." : descriere;
+//                    }
+//
+//                    return new SpecialistListDto(
+//                            specialist.getId(),
+//                            specialist.getIdUtilizator(),
+//                            utilizator != null ? utilizator.getNume() : "Nume Indisponibil",
+//                            specialist.getAtestat(),
+//                            shortDescriere
+//                    );
+//                })
+//                .collect(Collectors.toList());
+//        return new ResponseEntity<>(specialistiCuNume, HttpStatus.OK);
+//    }
 }
