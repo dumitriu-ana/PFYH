@@ -1,23 +1,42 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { SpecializareDto } from '../models/specializare.dto';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-specializare-list',
   standalone: true,
-imports: [CommonModule],
+  imports: [CommonModule],
   templateUrl: './specializare-list.component.html',
   styleUrls: ['./specializare-list.component.css']
 })
-export class SpecializareListComponent {
+export class SpecializareListComponent implements OnChanges {
   @Input() specializari: SpecializareDto[] = [];
 
-  grupuriSpecializari(): SpecializareDto[][] {
-    const grupSize = 4;
-    const grupuri: SpecializareDto[][] = [];
-    for (let i = 0; i < this.specializari.length; i += grupSize) {
-      grupuri.push(this.specializari.slice(i, i + grupSize));
+  // --- proprietăți paginare ---
+  pagina = 1;                      // pagina curentă
+  itemsPerPage = 8;                // câte elemente per pagină
+  totalPagini = 0;                 // numărul total de pagini
+  pagini: number[] = [];           // array [1,2,3...]
+  paginaCurenta: SpecializareDto[] = [];  // slice-ul din specializari
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['specializari']) {
+      this.setupPagination();
     }
-    return grupuri;
+  }
+
+  private setupPagination(): void {
+    this.totalPagini = Math.ceil(this.specializari.length / this.itemsPerPage);
+    this.pagini = Array.from({ length: this.totalPagini }, (_, i) => i + 1);
+    this.changePage(1);
+  }
+
+  changePage(p: number): void {
+    if (p < 1 || p > this.totalPagini) return;
+    this.pagina = p;
+    const start = (p - 1) * this.itemsPerPage;
+    this.paginaCurenta = this.specializari.slice(start, start + this.itemsPerPage);
+    // opțional: scroll sus după schimbare
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

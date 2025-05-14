@@ -1,0 +1,13 @@
+<div class="container py-4">
+  <h1 class="mb-4">Specializări</h1>
+
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border" role="status"></div>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-warning">{{ errorMsg }}</div>
+
+  <app-specializare-list
+    *ngIf="!isLoading && !errorMsg"
+    [specializari]="specializari">
+  </app-specializare-list>
+</div>

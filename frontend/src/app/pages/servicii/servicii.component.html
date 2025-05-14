@@ -1,0 +1,27 @@
+<div class="container py-4">
+  <h1 class="mb-4 text-center">Servicii</h1>
+
+  <div *ngIf="isLoading" class="text-center py-3">
+    <div class="spinner-border text-success" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Se încarcă serviciile...</p>
+  </div>
+
+  <div *ngIf="errorMsg && !isLoading" class="alert alert-danger text-center">
+    {{ errorMsg }}
+    <button (click)="ngOnInit()" class="btn btn-sm btn-link text-danger ms-2">
+      Reîncearcă
+    </button>
+  </div>
+
+  <app-servicii-list
+    *ngIf="!isLoading && !errorMsg"
+    [servicii]="servicii">
+  </app-servicii-list>
+
+  <p *ngIf="!isLoading && !errorMsg && servicii.length === 0"
+     class="text-center text-muted">
+    Nu există servicii disponibile momentan.
+  </p>
+</div>
