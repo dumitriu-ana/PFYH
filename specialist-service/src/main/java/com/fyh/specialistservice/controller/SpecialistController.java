@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/specialisti")
@@ -95,54 +96,41 @@ public class SpecialistController {
     }
 
     @GetMapping("/lista")
-    public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
+    public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume(
+            @RequestParam(required = false) Long specializareId
+    ) {
+        // 1) Ia toți specialiștii
         List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
-        List<SpecialistListDto> lista = specialisti.stream().map(s -> {
-            String nume = utilizatorClient
-                    .getPublicUtilizatorById(s.getIdUtilizator())
-                    .getNume();
-            String desc = Optional.ofNullable(s.getDescriere())
-                    .map(d-> d.length()>50? d.substring(0,50)+"…" : d)
-                    .orElse("");
-            //  aici apelăm serviciul de servicii:
-            List<ServiciuDto> srv = serviciiClient.getServiciiBySpecialist(s.getId());
-            return new SpecialistListDto(
-                    s.getId(), s.getIdUtilizator(), nume, s.getAtestat(), desc, srv
-            );
-        }).toList();
+
+        // 2) Dacă s-a transmis specializareId, filtrează
+        if (specializareId != null) {
+            specialisti = specialisti.stream()
+                    .filter(s -> specializareId.equals(s.getSpecializareId()))
+                    .collect(Collectors.toList());
+        }
+
+        // 3) Mapează în SpecialistListDto (nume+descriere+servicii deja încărcate)
+        List<SpecialistListDto> lista = specialisti.stream()
+                .map(s -> {
+                    UtilizatorPublicDto u = utilizatorClient
+                            .getPublicUtilizatorById(s.getIdUtilizator());
+                    String nume = Optional.ofNullable(u.getNume()).orElse("–");
+                    String desc = Optional.ofNullable(s.getDescriere())
+                            .map(d -> d.length()>50? d.substring(0,50)+"…" : d)
+                            .orElse("");
+                    // feign client către serviciu-service deja aduce lista de ServiciuDto
+                    List<ServiciuDto> srv = serviciiClient
+                            .getServiciiBySpecialist(s.getId());
+                    return new SpecialistListDto(
+                            s.getId(), s.getIdUtilizator(),
+                            nume, s.getAtestat(), desc,
+                            srv
+                    );
+                })
+                .toList();
+
         return ResponseEntity.ok(lista);
     }
 
-//    @GetMapping("/lista")
-//    public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
-//        List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
-//
-//
-//        List<SpecialistListDto> lista = specialisti.stream()
-//                .map(s -> {
-//                    // 1) Nume+descriere
-//                    UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
-//                    String nume = Optional.ofNullable(u.getNume()).orElse("—");
-//                    String desc = Optional.ofNullable(s.getDescriere())
-//                            .map(d-> d.length()>50? d.substring(0,50)+"…" : d)
-//                            .orElse("");
-//
-//                    // 2) lista de servicii full DTO
-//                    List<ServiciuDto> srv =
-//                            serviciiClient.getServiciiBySpecialist(s.getId());
-//
-//                    // 3) populează SpecialistListDto
-//                    return new SpecialistListDto(
-//                            s.getId(),
-//                            s.getIdUtilizator(),
-//                            nume,
-//                            s.getAtestat(),
-//                            desc,
-//                            srv     // ← aici trece lista de servicii
-//                    );
-//                })
-//                .toList();
-//
-//        return ResponseEntity.ok(lista);
-//    }
+
 }

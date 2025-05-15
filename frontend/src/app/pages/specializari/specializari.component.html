@@ -1,13 +1,107 @@
 <div class="container py-4">
   <h1 class="mb-4">Specializări</h1>
 
-  <div *ngIf="isLoading" class="text-center">
-    <div class="spinner-border" role="status"></div>
-  </div>
-  <div *ngIf="errorMsg" class="alert alert-warning">{{ errorMsg }}</div>
+  <button class="btn btn-success mb-3" (click)="expandAll()">
+    Afișează toți Specialiștii
+  </button>
 
-  <app-specializare-list
-    *ngIf="!isLoading && !errorMsg"
-    [specializari]="specializari">
-  </app-specializare-list>
+  <table class="table table-striped table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Denumire Specializare</th>
+      <th class="text-center">Specialiști</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let sp of specializari; let i = index">
+      <!-- Rândul de specializare -->
+      <tr>
+        <td>{{ i + 1 }}</td>
+        <td>{{ sp.denumire }}</td>
+        <td class="text-center">
+          <button class="btn btn-sm btn-primary"
+                  [disabled]="loadingSpecializari.has(sp.id)"
+                  (click)="toggleSpecialisti(sp.id)">
+            {{ isOpen(sp.id) ? 'Ascunde Specialiști' : 'Specialiști' }}
+          </button>
+        </td>
+      </tr>
+
+      <!-- Sub-tabel Specialiști (nivel 2) -->
+      <tr *ngIf="isOpen(sp.id)">
+        <td colspan="3" class="p-0">
+          <table class="table mb-4">
+            <thead class="table-secondary">
+            <tr>
+              <th>#</th>
+              <th>Nume</th>
+              <th>Descriere</th>
+              <th class="text-center">Acțiuni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <ng-container *ngFor="let s of specialistiMap[sp.id]; let j = index">
+              <tr>
+                <td>{{ j + 1 }}</td>
+                <td>{{ s.nume }}</td>
+                <td>{{ s.descriere }}</td>
+                <td class="text-center">
+                  <button class="btn btn-sm btn-outline-primary"
+                          (click)="toggleServicii(s.id)">
+                    {{ isServiciiOpen(s.id) ? 'Ascunde Servicii' : 'Vezi Servicii' }}
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Sub-tabel Servicii (nivel 3) -->
+              <!-- Nivel 3: Tabel Servicii -->
+              <tr *ngIf="isServiciiOpen(s.id)">
+                <td colspan="4" class="bg-light p-0">
+                  <table class="table table-sm mb-3">
+                    <thead class="table-secondary">
+                    <tr>
+                      <th>#</th>
+                      <th>ID</th>
+                      <th>ID Specializare</th>
+                      <th>Titlu</th>
+                      <th>Tip Serviciu</th>
+                      <th>Preț (lei)</th>
+                      <th>Durata Rezolvare</th>
+                      <th>Durata Ședință</th>
+                      <th>Max. Caractere</th>
+                      <th class="text-center">Acțiune</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let srv of s.servicii; let k = index">
+                      <td>{{ k + 1 }}</td>
+                      <td>{{ srv.id }}</td>
+                      <td>{{ srv.idSpecializare }}</td>
+                      <td>{{ srv.titlu }}</td>
+                      <td>{{ srv.tipServiciu }}</td>
+                      <td>{{ srv.pret | number:'1.2-2' }}</td>
+                      <td>{{ srv.durataRezolvare }}</td>
+                      <td>{{ srv.durataSedinta }}</td>
+                      <td>{{ srv.numarMaxCaractere }}</td>
+                      <td class="text-center">
+                        <button class="btn btn-success btn-sm">
+                          <i class="bi bi-cart-plus"></i> Cumpără
+                        </button>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+
+
+            </ng-container>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
 </div>
