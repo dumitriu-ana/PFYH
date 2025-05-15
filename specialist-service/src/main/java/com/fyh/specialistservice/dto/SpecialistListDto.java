@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class SpecialistListDto {
     private String nume; // Numele utilizatorului
     private String atestat;
     private String descriere;
+
+    private List<ServiciuDto> servicii;
 }

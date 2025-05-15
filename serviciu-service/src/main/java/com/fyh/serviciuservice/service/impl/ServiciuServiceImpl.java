@@ -6,11 +6,13 @@ import com.fyh.serviciuservice.entity.Serviciu;
 import com.fyh.serviciuservice.mapper.ServiciuMapper;
 import com.fyh.serviciuservice.repository.ServiciuRepository;
 import com.fyh.serviciuservice.service.ServiciuService;
+import com.fyh.serviciuservice.service.SpecialistClient;
 import com.fyh.serviciuservice.service.SpecializareClient;
-import com.fyh.specializareservice.dto.SpecializareDto;
+import com.fyh.serviciuservice.dto.SpecializareDto;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,12 @@ public class ServiciuServiceImpl implements ServiciuService {
 
     private final ServiciuRepository serviciuRepository;
     private final SpecializareClient specializareClient;
+    private final SpecialistClient specialistClient;
 
-    public ServiciuServiceImpl(@Qualifier("serviciuRepository") ServiciuRepository serviciuRepository, SpecializareClient specializareClient) {
+    public ServiciuServiceImpl(@Qualifier("serviciuRepository") ServiciuRepository serviciuRepository, SpecializareClient specializareClient, SpecialistClient specialistClient) {
         this.serviciuRepository = serviciuRepository;
         this.specializareClient = specializareClient;
+        this.specialistClient = specialistClient;
     }
 
     @Override
@@ -73,4 +77,25 @@ public class ServiciuServiceImpl implements ServiciuService {
     public void deleteServiciu(Long id) {
         serviciuRepository.deleteById(id);
     }
+
+
+    @Override
+    public List<ServiciuDto> findBySpecialist(Long idSpecialist) {
+        List<Long> ids;
+        try {
+            ids = specialistClient.getServiciiIdsForSpecialist(idSpecialist);
+        } catch (feign.FeignException.NotFound e) {
+            // specialistul nu există sau nu are id-uri: întoarce listă goală
+            return Collections.emptyList();
+        }
+
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return serviciuRepository.findAllById(ids)
+                .stream()
+                .map(ServiciuMapper::mapToServiciuDto)
+                .collect(Collectors.toList());
+    }
+
 }

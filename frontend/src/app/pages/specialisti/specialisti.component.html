@@ -2,23 +2,80 @@
   <h1 class="mb-4 text-center">Specialiști</h1>
 
   <div *ngIf="isLoading" class="text-center py-3">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+    <div class="spinner-border text-primary" role="status"></div>
     <p class="mt-2">Se încarcă specialiștii...</p>
   </div>
 
   <div *ngIf="errorMsg && !isLoading" class="alert alert-danger text-center">
     {{ errorMsg }}
-    <button (click)="ngOnInit()" class="btn btn-sm btn-link text-danger ms-2">
+    <button (click)="load()" class="btn btn-sm btn-link text-danger ms-2">
       Reîncearcă
     </button>
   </div>
 
-  <app-specialist-list
-    *ngIf="!isLoading && !errorMsg"
-    [specialistiCuNume]="specialisti">
-  </app-specialist-list>
+  <table *ngIf="!isLoading && !errorMsg" class="table table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Nume</th>
+      <th>Descriere</th>
+      <th>Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let s of specialisti; let i = index">
+      <!-- rând principal -->
+      <tr>
+        <td>{{ i + 1 }}</td>
+        <td>{{ s.nume }}</td>
+        <td>{{ s.descriere }}</td>
+        <td>
+          <button
+            class="btn btn-sm btn-outline-primary"
+            (click)="toggle(s.id)"
+          >
+            {{ isExpanded(s.id) ? 'Ascunde servicii' : 'Vezi servicii' }}
+          </button>
+        </td>
+      </tr>
+      <!-- rând extensibil -->
+      <tr *ngIf="isExpanded(s.id)">
+        <td colspan="4" class="p-0">
+          <table class="table table-bordered mb-4">
+            <thead class="table-light">
+            <tr>
+              <th>#</th>
+              <th>Titlu</th>
+              <th>Tip</th>
+              <th>Preț (lei)</th>
+              <th>Durata rezolvare</th>
+              <th>Durata ședință</th>
+              <th>Max. caractere</th>
+              <th>Acțiune</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let srv of s.servicii; let j = index">
+              <td>{{ j + 1 }}</td>
+              <td>{{ srv.titlu }}</td>
+              <td>{{ srv.tipServiciu }}</td>
+              <td>{{ srv.pret | number:'1.2-2' }}</td>
+              <td>{{ srv.durataRezolvare }}</td>
+              <td>{{ srv.durataSedinta }}</td>
+              <td>{{ srv.numarMaxCaractere }}</td>
+              <td>
+                <button class="btn btn-success btn-sm">
+                  Cumpără
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
 
   <p *ngIf="!isLoading && !errorMsg && specialisti.length === 0"
      class="text-center text-muted">

@@ -11,4 +11,6 @@ public interface ServiciuService {
     List<ServiciuDto> getAllServicii();
     ServiciuDto updateServiciu(Long id, ServiciuDto serviciuDto);
     void deleteServiciu(Long id);
+
+    List<ServiciuDto> findBySpecialist(Long idSpecialist);
 }

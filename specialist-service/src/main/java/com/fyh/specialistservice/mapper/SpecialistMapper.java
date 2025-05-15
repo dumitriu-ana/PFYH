@@ -1,8 +1,12 @@
 package com.fyh.specialistservice.mapper;
 
-
 import com.fyh.specialistservice.dto.SpecialistDto;
 import com.fyh.specialistservice.entity.Specialist;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class SpecialistMapper {
 
@@ -11,34 +15,42 @@ public class SpecialistMapper {
             return null;
         }
 
-        SpecialistDto specialistDto = new SpecialistDto();
-        specialistDto.setId(specialist.getId());
-        specialistDto.setIdUtilizator(specialist.getIdUtilizator());
-        specialistDto.setAtestat(specialist.getAtestat());
-        specialistDto.setStatusValidare(specialist.getStatusValidare());
-        specialistDto.setDescriere(specialist.getDescriere());
-        specialistDto.setSoldAcumulat(specialist.getSoldAcumulat());
-        specialistDto.setIdAdmin(specialist.getIdAdmin());
-        specialistDto.setDataValidare(specialist.getDataValidare());
+        SpecialistDto dto = new SpecialistDto();
+        dto.setId(specialist.getId());
+        dto.setIdUtilizator(specialist.getIdUtilizator());
+        dto.setSpecializareId(specialist.getSpecializareId());           // ← nou
+        // convertim Set<Long> în List<Long> pentru DTO
+        dto.setServiciuIds(new ArrayList<>(specialist.getServiciuIds())); // ← nou
 
-        return specialistDto;
+        dto.setAtestat(specialist.getAtestat());
+        dto.setStatusValidare(specialist.getStatusValidare());
+        dto.setDescriere(specialist.getDescriere());
+        dto.setSoldAcumulat(specialist.getSoldAcumulat());
+        dto.setIdAdmin(specialist.getIdAdmin());
+        dto.setDataValidare(specialist.getDataValidare());
+        return dto;
     }
 
-    public static Specialist mapToSpecialist(SpecialistDto specialistDto) {
-        if (specialistDto == null) {
+    public static Specialist mapToSpecialist(SpecialistDto dto) {
+        if (dto == null) {
             return null;
         }
 
-        Specialist specialist = new Specialist();
-        specialist.setId(specialistDto.getId());
-        specialist.setIdUtilizator(specialistDto.getIdUtilizator()); // Adaugă această linie
-        specialist.setIdAdmin(specialistDto.getIdAdmin());       // Adaugă această linie
-        specialist.setAtestat(specialistDto.getAtestat());
-        specialist.setStatusValidare(specialistDto.getStatusValidare());
-        specialist.setDescriere(specialistDto.getDescriere());
-        specialist.setSoldAcumulat(specialistDto.getSoldAcumulat());
-        specialist.setDataValidare(specialistDto.getDataValidare());
+        Specialist entity = new Specialist();
+        entity.setId(dto.getId());
+        entity.setIdUtilizator(dto.getIdUtilizator());
+        entity.setSpecializareId(dto.getSpecializareId());               // ← nou
+        // convertim List<Long> în Set<Long> pentru entitate
+        if (dto.getServiciuIds() != null) {
+            entity.setServiciuIds(new HashSet<>(dto.getServiciuIds())); // ← nou
+        }
 
-        return specialist;
+        entity.setAtestat(dto.getAtestat());
+        entity.setStatusValidare(dto.getStatusValidare());
+        entity.setDescriere(dto.getDescriere());
+        entity.setSoldAcumulat(dto.getSoldAcumulat());
+        entity.setIdAdmin(dto.getIdAdmin());
+        entity.setDataValidare(dto.getDataValidare());
+        return entity;
     }
 }

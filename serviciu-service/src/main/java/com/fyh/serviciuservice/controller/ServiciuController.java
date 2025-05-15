@@ -56,4 +56,13 @@ public class ServiciuController {
         serviciuService.deleteServiciu(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/specialisti/{idSpecialist}")
+    public ResponseEntity<List<ServiciuDto>> getServiciiBySpecialist(
+            @PathVariable Long idSpecialist
+    ) {
+        return ResponseEntity.ok(serviciuService.findBySpecialist(idSpecialist));
+    }
+
+
 }

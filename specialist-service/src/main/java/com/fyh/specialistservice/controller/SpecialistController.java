@@ -2,10 +2,7 @@ package com.fyh.specialistservice.controller;
 
 
 import com.fyh.specialistservice.dto.*;
-import com.fyh.specialistservice.service.SpecialistService;
-import com.fyh.specialistservice.service.SpecialistiSpecializariClient;
-import com.fyh.specialistservice.service.SpecializareClient;
-import com.fyh.specialistservice.service.UtilizatorClient;
+import com.fyh.specialistservice.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/specialisti")
@@ -25,13 +21,15 @@ public class SpecialistController {
     private final SpecializareClient specializareClient;
 
     private final UtilizatorClient utilizatorClient;
+    private final ServiciiClient serviciiClient;
     public SpecialistController(SpecialistService specialistService,
                                 SpecialistiSpecializariClient specialistiSpecializariClient,
-                                SpecializareClient specializareClient, UtilizatorClient utilizatorClient) {
+                                SpecializareClient specializareClient, UtilizatorClient utilizatorClient, ServiciiClient serviciiClient) {
         this.specialistService = specialistService;
         this.specialistiSpecializariClient = specialistiSpecializariClient;
         this.specializareClient = specializareClient;
         this.utilizatorClient = utilizatorClient;
+        this.serviciiClient = serviciiClient;
     }
 
     @PostMapping
@@ -86,47 +84,65 @@ public class SpecialistController {
         return specialistService.getSpecializariForSpecialist(idUtilizator);
     }
 
+    @GetMapping("/{id}/servicii-ids")
+    public ResponseEntity<List<Long>> getServiciiIdsForSpecialist(@PathVariable Long id) {
+        SpecialistDto s = specialistService.getSpecialistById(id);
+        if (s == null) {
+            return ResponseEntity.notFound().build();
+        }
+        // chiar şi dacă s.getServiciuIds() e golă, întoarce tot 200 cu []
+        return ResponseEntity.ok(s.getServiciuIds());
+    }
+
     @GetMapping("/lista")
     public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
         List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
-        List<SpecialistListDto> lista = specialisti.stream()
-                .map(s -> {
-                    // apelezi doar campurile publice
-                    UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
-                    String nume = u.getNume();
-                    String desc = Optional.ofNullable(s.getDescriere())
-                            .map(d -> d.length()>50? d.substring(0,50)+"…" : d)
-                            .orElse("");
-                    return new SpecialistListDto(
-                            s.getId(), s.getIdUtilizator(),
-                            nume, s.getAtestat(), desc
-                    );
-                })
-                .toList();
+        List<SpecialistListDto> lista = specialisti.stream().map(s -> {
+            String nume = utilizatorClient
+                    .getPublicUtilizatorById(s.getIdUtilizator())
+                    .getNume();
+            String desc = Optional.ofNullable(s.getDescriere())
+                    .map(d-> d.length()>50? d.substring(0,50)+"…" : d)
+                    .orElse("");
+            //  aici apelăm serviciul de servicii:
+            List<ServiciuDto> srv = serviciiClient.getServiciiBySpecialist(s.getId());
+            return new SpecialistListDto(
+                    s.getId(), s.getIdUtilizator(), nume, s.getAtestat(), desc, srv
+            );
+        }).toList();
         return ResponseEntity.ok(lista);
     }
 
 //    @GetMapping("/lista")
 //    public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume() {
 //        List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
-//        List<SpecialistListDto> specialistiCuNume = specialisti.stream()
-//                .map(specialist -> {
-//                    UtilizatorDto utilizator = utilizatorClient.getUtilizatoriById(specialist.getIdUtilizator());
-//                    String descriere = specialist.getDescriere();
-//                    String shortDescriere = "";
-//                    if (descriere != null) {
-//                        shortDescriere = descriere.length() > 50 ? descriere.substring(0, 50) + "..." : descriere;
-//                    }
 //
+//
+//        List<SpecialistListDto> lista = specialisti.stream()
+//                .map(s -> {
+//                    // 1) Nume+descriere
+//                    UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
+//                    String nume = Optional.ofNullable(u.getNume()).orElse("—");
+//                    String desc = Optional.ofNullable(s.getDescriere())
+//                            .map(d-> d.length()>50? d.substring(0,50)+"…" : d)
+//                            .orElse("");
+//
+//                    // 2) lista de servicii full DTO
+//                    List<ServiciuDto> srv =
+//                            serviciiClient.getServiciiBySpecialist(s.getId());
+//
+//                    // 3) populează SpecialistListDto
 //                    return new SpecialistListDto(
-//                            specialist.getId(),
-//                            specialist.getIdUtilizator(),
-//                            utilizator != null ? utilizator.getNume() : "Nume Indisponibil",
-//                            specialist.getAtestat(),
-//                            shortDescriere
+//                            s.getId(),
+//                            s.getIdUtilizator(),
+//                            nume,
+//                            s.getAtestat(),
+//                            desc,
+//                            srv     // ← aici trece lista de servicii
 //                    );
 //                })
-//                .collect(Collectors.toList());
-//        return new ResponseEntity<>(specialistiCuNume, HttpStatus.OK);
+//                .toList();
+//
+//        return ResponseEntity.ok(lista);
 //    }
 }

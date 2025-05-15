@@ -1,3 +1,4 @@
+import { ServiciuDto } from './serviciu.dto';
 
 export interface SpecialistCuNumeDto {
   id: number;
@@ -5,4 +6,6 @@ export interface SpecialistCuNumeDto {
   nume: string,
   atestat: string | null;
   descriere: string | null;
+
+    servicii: ServiciuDto[];    // ← adăugat
 }
