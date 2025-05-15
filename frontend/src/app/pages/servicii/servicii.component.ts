@@ -1,40 +1,74 @@
-import { Component, OnInit }           from '@angular/core';
-import { CommonModule }                from '@angular/common';
-import { HttpClientModule }            from '@angular/common/http';
+// src/app/pages/servicii/servicii.component.ts
 
-import { ServiciiService }             from '../../servicii.service';
-import { ServiciuDto }                 from '../../models/serviciu.dto';
-import { ServiciiListComponent }       from '../../servicii-list/servicii-list.component';
+import { Component, OnInit }   from '@angular/core';
+import { CommonModule }         from '@angular/common';
+import { HttpClientModule }     from '@angular/common/http';
+import { RouterLink }           from '@angular/router';
+
+import { ServiciiService }      from '../../servicii.service';
+import { SpecialistService }    from '../../specialist.service';
+import { ServiciuDto }          from '../../models/serviciu.dto';
+import { SpecialistCuNumeDto }  from '../../models/specialistCuNume.dto';
 
 @Component({
   selector: 'app-servicii',
   standalone: true,
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    ServiciiListComponent
-  ],
+  imports: [ CommonModule, HttpClientModule, RouterLink ],
   templateUrl: './servicii.component.html',
   styleUrls: ['./servicii.component.css']
 })
 export class ServiciiComponent implements OnInit {
   servicii: ServiciuDto[] = [];
-  isLoading = true;
-  errorMsg?: string;
+  loadingServicii = true;
+  errorServicii?: string;
 
-  constructor(private svc: ServiciiService) {}
+  // map serviciuId → listă de specialiști
+  specialistiMap: Record<number, SpecialistCuNumeDto[]> = {};
+  // set de servicii extinse
+  openServicii = new Set<number>();
+  // set de id-uri în curs de încărcare
+  loadingSpecialisti = new Set<number>();
 
-  ngOnInit(): void {
-    this.svc.getServicii().subscribe({
-      next: data => {
+  constructor(
+    private svcServ: ServiciiService,
+    private svcSpec: SpecialistService
+  ) {}
+
+  ngOnInit() {
+    this.svcServ.getServicii().subscribe({
+      next: (data: ServiciuDto[]) => {
         this.servicii = data;
-        this.isLoading = false;
+        this.loadingServicii = false;
       },
-      error: err => {
-        console.error('Eroare încărcare servicii:', err);
-        this.errorMsg = 'Nu am putut încărca serviciile.';
-        this.isLoading = false;
+      error: (err: any) => {
+        console.error('Eroare încărcare servicii', err);
+        this.errorServicii = 'Nu am putut încărca serviciile';
+        this.loadingServicii = false;
       }
     });
+  }
+
+  toggleSpecialisti(serviciuId: number) {
+    if (this.openServicii.has(serviciuId)) {
+      this.openServicii.delete(serviciuId);
+      delete this.specialistiMap[serviciuId];
+    } else {
+      this.loadingSpecialisti.add(serviciuId);
+      this.svcSpec.getByService(serviciuId).subscribe({
+        next: (list: SpecialistCuNumeDto[]) => {
+          this.specialistiMap[serviciuId] = list;
+          this.openServicii.add(serviciuId);
+          this.loadingSpecialisti.delete(serviciuId);
+        },
+        error: (err: any) => {
+          console.error(`Eroare la încărcare specialiști pentru serviciu ${serviciuId}`, err);
+          this.loadingSpecialisti.delete(serviciuId);
+        }
+      });
+    }
+  }
+
+  isOpen(serviciuId: number): boolean {
+    return this.openServicii.has(serviciuId);
   }
 }

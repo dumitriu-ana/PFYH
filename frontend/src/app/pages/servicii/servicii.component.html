@@ -1,26 +1,84 @@
+<!-- src/app/pages/servicii/servicii.component.html -->
 <div class="container py-4">
-  <h1 class="mb-4 text-center">Servicii</h1>
+  <h1 class="mb-4">Servicii</h1>
 
-  <div *ngIf="isLoading" class="text-center py-3">
-    <div class="spinner-border text-success" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Se încarcă serviciile...</p>
+  <!-- Loading -->
+  <div *ngIf="loadingServicii" class="text-center py-3">
+    <div class="spinner-border text-success" role="status"></div>
+    <span class="visually-hidden">Loading...</span>
   </div>
 
-  <div *ngIf="errorMsg && !isLoading" class="alert alert-danger text-center">
-    {{ errorMsg }}
-    <button (click)="ngOnInit()" class="btn btn-sm btn-link text-danger ms-2">
-      Reîncearcă
-    </button>
+  <!-- Error -->
+  <div *ngIf="errorServicii" class="alert alert-danger">
+    {{ errorServicii }}
   </div>
 
-  <app-servicii-list
-    *ngIf="!isLoading && !errorMsg"
-    [servicii]="servicii">
-  </app-servicii-list>
+  <!-- Tabel servicii -->
+  <table *ngIf="!loadingServicii && !errorServicii" class="table table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>#</th>
+      <th>Titlu</th>
+      <th>Tip</th>
+      <th>Pret (lei)</th>
+      <th>Durata Rezolvare</th>
+      <th>Durata Ședință</th>
+      <th class="text-center">Acțiuni</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let srv of servicii; let i = index">
+      <!-- rând principal serviciu -->
+      <tr>
+        <td>{{ i + 1 }}</td>
+        <td>{{ srv.titlu }}</td>
+        <td>{{ srv.tipServiciu }}</td>
+        <td>{{ srv.pret | number:'1.2-2' }}</td>
+        <td>{{ srv.durataRezolvare }}</td>
+        <td>{{ srv.durataSedinta }}</td>
+        <td class="text-center">
+          <button
+            class="btn btn-sm btn-primary"
+            [disabled]="loadingSpecialisti.has(srv.id)"
+            (click)="toggleSpecialisti(srv.id)">
+            {{ isOpen(srv.id) ? 'Ascunde specialiști' : 'Vezi specialiști' }}
+          </button>
+        </td>
+      </tr>
 
-  <p *ngIf="!isLoading && !errorMsg && servicii.length === 0"
+      <!-- sub-tabel specialiști -->
+      <tr *ngIf="isOpen(srv.id)">
+        <td colspan="7" class="p-0 bg-light">
+          <table class="table table-sm mb-4">
+            <thead class="table-secondary">
+            <tr>
+              <th>#</th>
+              <th>Nume</th>
+              <th>Descriere</th>
+              <th>Atestat</th>
+              <th class="text-center">Achizitionare</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let sp of specialistiMap[srv.id]; let j = index">
+              <td>{{ j + 1 }}</td>
+              <td>{{ sp.nume }}</td>
+              <td>{{ sp.descriere }}</td>
+              <td>{{ sp.atestat }}</td>
+              <td class="text-center">
+                  <button class="btn btn-success btn-sm"> Cumpără </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+
+  <!-- Fallback când nu sunt servicii -->
+  <p *ngIf="!loadingServicii && !errorServicii && servicii.length === 0"
      class="text-center text-muted">
     Nu există servicii disponibile momentan.
   </p>

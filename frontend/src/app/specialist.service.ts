@@ -1,7 +1,5 @@
-// src/app/specialist.service.ts
-
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SpecialistCuNumeDto } from './models/specialistCuNume.dto';
 
@@ -9,15 +7,22 @@ import { SpecialistCuNumeDto } from './models/specialistCuNume.dto';
   providedIn: 'root'
 })
 export class SpecialistService {
-  private apiUrlSpecialisti = 'http://localhost:8083/api/specialisti/lista';
+  private apiUrl = 'http://localhost:8083/api/specialisti';
 
   constructor(private http: HttpClient) { }
 
+  /** Preia toți specialiștii (opțional filtrați după specializare) */
   getSpecialisti(specializareId?: number): Observable<SpecialistCuNumeDto[]> {
-    let params = new HttpParams();
+    let url = `${this.apiUrl}/lista`;
     if (specializareId != null) {
-      params = params.set('specializareId', specializareId.toString());
+      url += `?specializareId=${specializareId}`;
     }
-    return this.http.get<SpecialistCuNumeDto[]>(this.apiUrlSpecialisti, { params });
+    return this.http.get<SpecialistCuNumeDto[]>(url);
+  }
+
+  /** ***Nou*** Preia specialiștii care oferă un anumit serviciu */
+  getByService(serviciuId: number): Observable<SpecialistCuNumeDto[]> {
+    const url = `${this.apiUrl}/lista/service/${serviciuId}`;
+    return this.http.get<SpecialistCuNumeDto[]>(url);
   }
 }

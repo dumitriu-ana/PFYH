@@ -132,5 +132,44 @@ public class SpecialistController {
         return ResponseEntity.ok(lista);
     }
 
+    @GetMapping("/lista/service/{serviciuId}")
+    public ResponseEntity<List<SpecialistListDto>> getSpecialistiByService(
+            @PathVariable Long serviciuId
+    ) {
+        // 1) Preia toți specialiștii scalzi (dto fără nume/servicii)
+        List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
+
+        // 2) Mapare SpecialistDto → SpecialistListDto (cu nume + servicii)
+        List<SpecialistListDto> completa = specialisti.stream()
+                .map(s -> {
+                    // preia numele
+                    UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
+                    String nume = Optional.ofNullable(u.getNume()).orElse("–");
+                    // scurtează descrierea
+                    String desc = Optional.ofNullable(s.getDescriere())
+                            .map(d -> d.length()>50 ? d.substring(0,50)+"…" : d)
+                            .orElse("");
+                    // lista completă de ServiciuDto (Feign call)
+                    List<ServiciuDto> srv = serviciiClient.getServiciiBySpecialist(s.getId());
+                    return new SpecialistListDto(
+                            s.getId(),
+                            s.getIdUtilizator(),
+                            nume,
+                            s.getAtestat(),
+                            desc,
+                            srv
+                    );
+                })
+                .collect(Collectors.toList());
+
+        // 3) Filtrează după serviciuId
+        List<SpecialistListDto> filtered = completa.stream()
+                .filter(sp -> sp.getServicii().stream()
+                        .anyMatch(srv -> srv.getId().equals(serviciuId))
+                )
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(filtered);
+    }
 
 }
