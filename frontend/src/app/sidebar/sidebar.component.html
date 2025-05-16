@@ -19,6 +19,15 @@
     <li class="sidebar-item">
       <a routerLink="/despre-fyh" routerLinkActive="active">Despre FYH</a>
     </li>
+
+    <!-- 3) Contul meu (doar dacă e logat) -->
+    <ng-container *ngIf="isLoggedIn()">
+      <li class="sidebar-item">
+        <a routerLink="/cont" routerLinkActive="active">
+          Contul meu: {{ auth.getCurrentUser()?.nume }}
+        </a>
+      </li>
+    </ng-container>
   </ul>
 
   <!-- butoanele de login/logout și signup -->

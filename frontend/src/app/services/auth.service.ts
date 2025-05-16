@@ -35,10 +35,17 @@ export class AuthService {
   /** returnează user-ul logat */
   getCurrentUser(): UtilizatorDto | null {
     const str = localStorage.getItem(this.USER_KEY);
-    return str ? JSON.parse(str) as UtilizatorDto : null;
+    if (!str || str === 'undefined') {
+      return null;
+    }
+    try {
+      return JSON.parse(str) as UtilizatorDto;
+    } catch {
+      return null;
+    }
   }
 
-  /** există token? */
+  /** verifică existența unui token */
   hasToken(): boolean {
     return !!localStorage.getItem(this.TOKEN_KEY);
   }

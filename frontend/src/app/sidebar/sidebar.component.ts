@@ -21,7 +21,7 @@ export class SidebarComponent {
   isSidebarOpen = true;
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private router: Router
   ) {
     this.updateMobileView();

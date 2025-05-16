@@ -43,6 +43,7 @@ export class SignupComponent {
     });
   }
 
+
   onClosePopup() {
     this.errorMsg = undefined;
   }

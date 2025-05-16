@@ -2,6 +2,7 @@ package com.fyh.utilizatorservice.service;
 
 import com.fyh.utilizatorservice.dto.*;
 import com.fyh.utilizatorservice.entity.Utilizator;
+import com.fyh.utilizatorservice.mapper.UtilizatorMapper;
 import com.fyh.utilizatorservice.repository.UtilizatoriRepository;
 import com.fyh.utilizatorservice.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,7 +26,9 @@ public class AuthService {
     public AuthResponse register(RegisterRequest req) {
         // 1) unicitate email
         if (repo.existsByEmail(req.email())) {
-            throw new IllegalArgumentException("Adresa de email introdusa este deja folosita. Introdu o alta adresa.");
+            throw new IllegalArgumentException(
+                    "Adresa de email introdusa este deja folosita. Introdu o alta adresa."
+            );
         }
         // 2) salvează utilizatorul
         Utilizator u = new Utilizator();
@@ -37,16 +40,25 @@ public class AuthService {
 
         // 3) emite JWT
         String token = jwt.createToken(saved.getEmail(), saved.getTipUtilizator());
-        return new AuthResponse(token);
+        // 4) construieşte DTO-ul
+        UtilizatorDto userDto = UtilizatorMapper.mapToUtilizatoriDto(saved);
+
+        // 5) întoarce răspunsul complet
+        return new AuthResponse(token, userDto);
     }
 
     public AuthResponse login(LoginRequest req) {
         Utilizator u = repo.findByEmail(req.email())
-                .orElseThrow(() -> new IllegalArgumentException("Credentialele folosite sunt invalide. Incearca din nou."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Credentialele folosite sunt invalide. Incearca din nou."
+                ));
         if (!encoder.matches(req.password(), u.getParola())) {
-            throw new IllegalArgumentException("Credentialele folosite sunt invalide. Incearca din nou.");
+            throw new IllegalArgumentException(
+                    "Credentialele folosite sunt invalide. Incearca din nou."
+            );
         }
         String token = jwt.createToken(u.getEmail(), u.getTipUtilizator());
-        return new AuthResponse(token);
+        UtilizatorDto userDto = UtilizatorMapper.mapToUtilizatoriDto(u);
+        return new AuthResponse(token, userDto);
     }
 }
