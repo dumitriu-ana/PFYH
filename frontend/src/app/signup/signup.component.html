@@ -1,13 +1,30 @@
-<div class="container py-4">
-  <h2>Înregistrează-te</h2>
-  <form (ngSubmit)="signup()" #f="ngForm">
-    <div><input name="nume" [(ngModel)]="nume" placeholder="Nume" required></div>
-    <div><input name="email" type="email" [(ngModel)]="email" placeholder="Email" required></div>
-    <div>
-      <input name="password" type="password"
-             [(ngModel)]="password"
-             placeholder="Parolă" required>
-    </div>
-    <button type="submit" [disabled]="f.invalid">Crează cont</button>
-  </form>
+<!-- signup.component.html -->
+<div class="page-wrapper">
+  <div class="signup-card">
+    <h2 class="signup-title">Înregistrează-te</h2>
+    <form (ngSubmit)="signup()" #f="ngForm">
+      <div class="form-group">
+        <label for="nume">Nume</label>
+        <input id="nume" name="nume" type="text" [(ngModel)]="nume" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" [(ngModel)]="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Parolă</label>
+        <input id="password" name="password" type="password" [(ngModel)]="password" required>
+      </div>
+      <div class="button-wrapper">
+        <button type="submit" [disabled]="f.invalid">Crează cont</button>
+      </div>
+    </form>
+  </div>
 </div>
+
+
+<app-popup
+  *ngIf="errorMsg"
+  [message]="errorMsg"
+  (close)="onClosePopup()">
+</app-popup>

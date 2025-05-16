@@ -3,12 +3,12 @@
 .app-container {
   display: flex;
   min-height: 100vh;
+
 }
 
 .main-content {
   flex-grow: 1;
-  padding: 20px;
-  margin-left: 250px; /* Lățimea sidebar-ului pe desktop */
+  margin-left: 15vw; /* Lățimea sidebar-ului pe desktop */
   transition: margin-left 0.3s ease-in-out;
 }
 

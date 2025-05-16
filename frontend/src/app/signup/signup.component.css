@@ -1,0 +1,85 @@
+/* Container full-screen, centrare pe orizontală și verticală */
+/* în styles.css sau în componenta de login */
+.login-page {
+  background: url('/assets/img/loginbg.jpg') no-repeat center center;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #f0f0f0;
+  background: url('/assets/img/loginbg.jpg') no-repeat center center;
+
+
+}
+
+/* Cutia galbenă cu bordură groasă și umbră */
+.signup-card {
+  background-color: #fcf19d;
+  border: 8px solid #2e7d32;       /* bordură mult mai groasă */
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  padding: 2rem 3rem;
+  width: 600px;                    /* mai lat */
+  max-width: 90%;
+}
+
+/* Titlu centrat, verde închis și bold */
+.signup-title {
+  text-align: center;
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 1.75rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Grup de câte un label + input pe rând */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.form-group label {
+  width: 140px;                   /* mai mult spațiu pentru label */
+  margin-right: 1rem;
+  color: #2e7d32;
+  font-weight: bold;
+  font-size: 1rem;
+}
+.form-group input {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
+  font-size: 1rem;
+  background-color: #e8f5e9;      /* verde deschis */
+  border: 3px solid #2e7d32;      /* contur verde închis */
+  border-radius: 4px;
+}
+
+/* Buton centrat pe orizontală */
+.button-wrapper {
+  text-align: center;
+  margin-top: 1.5rem;
+}
+.button-wrapper button {
+  padding: 0.6rem 2.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #2e7d32;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.button-wrapper button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+.button-wrapper button:not(:disabled):hover {
+  background-color: #1b5e20;
+}

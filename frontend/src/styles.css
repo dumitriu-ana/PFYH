@@ -1,8 +1,24 @@
-/* src/styles.css */
-.row.d-flex.top-left {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: flex-start !important;
-  align-items: flex-start !important;
-  align-content: flex-start !important;
+/* 1. Reset margin/padding implicit */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* 2. Containerul principal: sidebar + conținut */
+.app-container {
+  display: flex;
+  height: 100vh;       /* ocupă tot viewport-ul */
+}
+
+/* 3. Conținutul efectiv */
+.main-content {
+
+  overflow-y: auto;    /* scroll vertical dacă e nevoie */
+}
+
+/* 4. (Opțional) Suprascrie bootstrap .container ca să nu bage padding */
+.container {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }

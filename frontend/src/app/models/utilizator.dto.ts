@@ -8,3 +8,4 @@ export interface UtilizatorDto {
   tipUtilizator: 'admin' | 'client' | 'specialist';
   sold: number;
 }
+

@@ -1,3 +1,4 @@
+// src/app/services/auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -7,7 +8,7 @@ import { Observable }      from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private base = `${environment.apiUrl}/auth`;
+  private base = `${environment.apiUrl}/api/auth`;
   private readonly TOKEN_KEY = 'JWT';
 
   constructor(private http: HttpClient) {}
@@ -27,17 +28,15 @@ export class AuthService {
     localStorage.setItem(this.TOKEN_KEY, token);
   }
 
-  /** Returnează token-ul JWT sau null dacă nu există */
   getToken(): string | null {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
-  /** Returnează true dacă există un JWT valid (cel puțin stocat) */
+  /** Aici adaugi metoda lipsește */
   hasToken(): boolean {
     return !!this.getToken();
   }
 
-  /** Şterge token-ul din localStorage (logout) */
   clearToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
