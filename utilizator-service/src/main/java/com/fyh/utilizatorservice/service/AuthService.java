@@ -42,9 +42,9 @@ public class AuthService {
 
     public AuthResponse login(LoginRequest req) {
         Utilizator u = repo.findByEmail(req.email())
-                .orElseThrow(() -> new IllegalArgumentException("Credențiale invalide"));
+                .orElseThrow(() -> new IllegalArgumentException("Credentialele folosite sunt invalide. Incearca din nou."));
         if (!encoder.matches(req.password(), u.getParola())) {
-            throw new IllegalArgumentException("Credențiale invalide");
+            throw new IllegalArgumentException("Credentialele folosite sunt invalide. Incearca din nou.");
         }
         String token = jwt.createToken(u.getEmail(), u.getTipUtilizator());
         return new AuthResponse(token);
