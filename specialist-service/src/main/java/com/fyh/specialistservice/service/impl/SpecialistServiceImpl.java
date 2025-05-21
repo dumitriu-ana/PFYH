@@ -17,6 +17,7 @@ import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,9 +54,20 @@ public class SpecialistServiceImpl implements SpecialistService {
                 }
             }
         }
-        Specialist specialist = SpecialistMapper.mapToSpecialist(specialistDto);
-        Specialist savedSpecialist = specialistRepository.save(specialist);
-        return SpecialistMapper.mapToSpecialistDto(savedSpecialist);
+        Specialist entity = new Specialist();
+        entity.setIdUtilizator(  specialistDto.getIdUtilizator()   );
+        entity.setSpecializareId(specialistDto.getSpecializareId());
+        entity.setServiciuIds(   new HashSet<>(specialistDto.getServiciuIds()) );
+        entity.setAtestat(       specialistDto.getAtestat()        );
+        entity.setStatusValidare(specialistDto.getStatusValidare());
+        entity.setDescriere(     specialistDto.getDescriere()      );
+        entity.setSoldAcumulat(  specialistDto.getSoldAcumulat()   );
+        entity.setIdAdmin(       specialistDto.getIdAdmin()        );
+        entity.setDataValidare(  specialistDto.getDataValidare()   );
+
+        // 3) now save() will always do an INSERT
+        Specialist saved = specialistRepository.save(entity);
+        return SpecialistMapper.mapToSpecialistDto(saved);
     }
 
     @Override

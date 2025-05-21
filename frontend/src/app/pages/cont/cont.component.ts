@@ -1,46 +1,100 @@
 // src/app/pages/cont/cont.component.ts
-import { Component, OnInit }   from '@angular/core';
+import { Component, OnInit }  from '@angular/core';
 import { CommonModule }        from '@angular/common';
+import { FormsModule }         from '@angular/forms';
+import { Router }              from '@angular/router';
+
 import { AuthService }         from '../../services/auth.service';
+import { SpecialistService }   from '../../specialist.service';
+import { SpecializareService } from '../../specializare.service';
 import { UtilizatorDto }       from '../../models/utilizator.dto';
+import { SpecializareDto }     from '../../models/specializare.dto';
+import { SpecialistFullDto  }   from '../../models/specialistFull.dto';
 
 @Component({
   selector: 'app-cont',
   standalone: true,
-  imports: [CommonModule],
-  template: `
-    <div class="cont-container">
-      <h2>Contul meu: {{ user?.nume }}</h2>
-      <dl>
-        <dt>ID</dt><dd>{{ user?.id }}</dd>
-        <dt>Email</dt><dd>{{ user?.email }}</dd>
-        <dt>Data înregistrării</dt><dd>{{ user?.dataInreg | date:'medium' }}</dd>
-        <dt>Tip Utilizator</dt><dd>{{ user?.tipUtilizator }}</dd>
-        <dt>Sold</dt><dd>{{ user?.sold | currency:'RON' }}</dd>
-      </dl>
-    </div>
-  `,
-  styles: [`
-    .cont-container {
-      max-width: 600px;
-      margin: 2rem auto;
-      padding: 1.5rem;
-      border: 2px solid #2e7d32;
-      border-radius: 8px;
-      background: #f9fff9;
-    }
-    h2 {
-      color: #2e7d32; font-weight: bold; text-align: center;
-    }
-    dl { display: grid; grid-template-columns: auto 1fr; row-gap: .5rem; column-gap: 1rem; }
-    dt { font-weight: bold; color: #005f00; }
-    dd { margin: 0; }
-  `]
+  imports: [ CommonModule, FormsModule ],
+  templateUrl: './cont.component.html',
+  styleUrls: ['./cont.component.css']
 })
 export class ContComponent implements OnInit {
   user?: UtilizatorDto;
-  constructor(private auth: AuthService) {}
+
+  // for the „Devino specialist” form
+  showForm = false;
+  specializari: SpecializareDto[] = [];
+
+  specialistDto: Partial<SpecialistFullDto> = {
+    specializareId: 0,
+    serviciuIds:    [],
+    atestat:        '',
+    statusValidare: 'IN_PROCES',
+    descriere:      '',
+    soldAcumulat:   '0.00',
+    idAdmin:        null,
+    dataValidare:   null
+  };
+
+  // feedback
+  errorMsg?: string;
+  successMsg?: string;
+
+  constructor(
+    private auth: AuthService,
+    private svcSpec: SpecialistService,
+    private svcSpz: SpecializareService,
+    private router: Router
+  ) {}
+
   ngOnInit() {
+    // 1) must be logged in
     this.user = this.auth.getCurrentUser()!;
+    if (!this.user) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    // 2) fetch all specializări for dropdown
+    this.svcSpz.getSpecializari().subscribe({
+      next: list => this.specializari = list,
+      error: err => console.error('Nu am putut încărca specializările', err)
+    });
+  }
+
+  toggleForm() {
+    this.showForm = !this.showForm;
+    this.errorMsg = undefined;
+    this.successMsg = undefined;
+    if (this.user) {
+      this.specialistDto.idUtilizator = this.user.id;
+    }
+  }
+
+  submitSpecialist() {
+    if (!this.user) return;
+
+    const body: SpecialistFullDto = {
+      id:              0,
+      idUtilizator:    this.user.id,
+      specializareId:  this.specialistDto.specializareId!,
+      serviciuIds:     this.specialistDto.serviciuIds!,
+      atestat:         this.specialistDto.atestat!,
+      statusValidare:  'IN_PROCES',
+      descriere:       this.specialistDto.descriere!,
+      soldAcumulat:    '0.00',
+      idAdmin:         null,
+      dataValidare:    null
+    };
+
+    this.svcSpec.createSpecialist(body).subscribe({
+      next: () => {
+        this.successMsg = 'Cerere trimisă! Vei fi notificat când eşti validat.';
+        this.showForm  = false;
+      },
+      error: err => {
+        this.errorMsg = err.error?.message || 'Eroare la trimiterea cererii.';
+      }
+    });
   }
 }

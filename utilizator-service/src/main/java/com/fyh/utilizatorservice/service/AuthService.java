@@ -35,7 +35,7 @@ public class AuthService {
         u.setNume(req.nume());
         u.setEmail(req.email());
         u.setParola(encoder.encode(req.password()));
-        u.setTipUtilizator("CLIENT");
+        u.setTipUtilizator("client");
         Utilizator saved = repo.save(u);
 
         // 3) emite JWT

@@ -1,1 +1,62 @@
-<p>cont works!</p>
+<h2>Contul meu: {{ user?.nume }}</h2>
+<p><strong>Nume:</strong> {{ user?.nume }}</p>
+<p><strong>Email:</strong> {{ user?.email }}</p>
+<p><strong>Data:</strong> {{ user?.dataInreg }}</p>
+<p><strong>Tip Utilizator:</strong> {{ user?.tipUtilizator }}</p>
+
+<!-- show button only for CLIENTs -->
+<button
+  *ngIf="user?.tipUtilizator === 'client'"
+  class="btn btn-primary"
+  (click)="toggleForm()">
+  Devino specialist
+</button>
+
+<form *ngIf="showForm" (ngSubmit)="submitSpecialist()" #f="ngForm" class="mt-4">
+  <div class="mb-3">
+    <label for="specializare" class="form-label">Specializare</label>
+    <select
+      id="specializare"
+      name="specializareId"
+      class="form-control"
+      [(ngModel)]="specialistDto.specializareId"
+      required>
+      <option [ngValue]="null">Alege specializare</option>
+      <option *ngFor="let sp of specializari" [ngValue]="sp.id">
+        {{ sp.denumire }}
+      </option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label for="atestat" class="form-label">Atestat</label>
+    <input
+      id="atestat"
+      name="atestat"
+      class="form-control"
+      [(ngModel)]="specialistDto.atestat"
+      required>
+  </div>
+
+  <div class="mb-3">
+    <label for="descriere" class="form-label">Descriere</label>
+    <textarea
+      id="descriere"
+      name="descriere"
+      class="form-control"
+      rows="3"
+      [(ngModel)]="specialistDto.descriere"
+      required>
+    </textarea>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-success"
+    [disabled]="f.invalid">
+    Trimite cerere
+  </button>
+</form>
+
+<div *ngIf="errorMsg" class="alert alert-danger mt-3">{{ errorMsg }}</div>
+<div *ngIf="successMsg" class="alert alert-success mt-3">{{ successMsg }}</div>
