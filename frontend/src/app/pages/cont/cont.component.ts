@@ -7,9 +7,11 @@ import { Router }              from '@angular/router';
 import { AuthService }         from '../../services/auth.service';
 import { SpecialistService }   from '../../specialist.service';
 import { SpecializareService } from '../../specializare.service';
+
 import { UtilizatorDto }       from '../../models/utilizator.dto';
 import { SpecializareDto }     from '../../models/specializare.dto';
 import { SpecialistFullDto  }   from '../../models/specialistFull.dto';
+import { SpecialistCuNumeDto } from '../../models/specialistCuNume.dto';
 
 @Component({
   selector: 'app-cont',
@@ -21,10 +23,10 @@ import { SpecialistFullDto  }   from '../../models/specialistFull.dto';
 export class ContComponent implements OnInit {
   user?: UtilizatorDto;
 
-  // for the „Devino specialist” form
-  showForm = false;
-  specializari: SpecializareDto[] = [];
+  specializari: SpecializareDto[]        = [];
+  mySpecialist: SpecialistFullDto | null = null;
 
+  showForm = false;
   specialistDto: Partial<SpecialistFullDto> = {
     specializareId: 0,
     serviciuIds:    [],
@@ -36,39 +38,42 @@ export class ContComponent implements OnInit {
     dataValidare:   null
   };
 
-  // feedback
-  errorMsg?: string;
+  errorMsg?:   string;
   successMsg?: string;
 
   constructor(
-    private auth: AuthService,
+    private auth:    AuthService,
+    private svcSpz:  SpecializareService,
     private svcSpec: SpecialistService,
-    private svcSpz: SpecializareService,
-    private router: Router
+    private router:  Router
   ) {}
 
   ngOnInit() {
-    // 1) must be logged in
     this.user = this.auth.getCurrentUser()!;
     if (!this.user) {
       this.router.navigate(['/login']);
       return;
     }
 
-    // 2) fetch all specializări for dropdown
     this.svcSpz.getSpecializari().subscribe({
       next: list => this.specializari = list,
-      error: err => console.error('Nu am putut încărca specializările', err)
+      error: _    => console.error('Nu am putut încărca specializările')
+    });
+
+    // **noul apel**: preluăm toți specialiștii „full” și găsim pe al nostru
+    this.svcSpec.getAllSpecialistiFull().subscribe({
+      next: list => {
+        this.mySpecialist = list.find(s => s.idUtilizator === this.user!.id) || null;
+      },
+      error: err => console.error('Eroare la încărcarea specialistului', err)
     });
   }
 
   toggleForm() {
-    this.showForm = !this.showForm;
-    this.errorMsg = undefined;
+    this.showForm   = !this.showForm;
+    this.errorMsg   = undefined;
     this.successMsg = undefined;
-    if (this.user) {
-      this.specialistDto.idUtilizator = this.user.id;
-    }
+    this.specialistDto.idUtilizator = this.user!.id;
   }
 
   submitSpecialist() {
@@ -88,13 +93,23 @@ export class ContComponent implements OnInit {
     };
 
     this.svcSpec.createSpecialist(body).subscribe({
-      next: () => {
-        this.successMsg = 'Cerere trimisă! Vei fi notificat când eşti validat.';
-        this.showForm  = false;
+      next: spec => {
+        this.successMsg    = 'Cerere trimisă! Vei fi notificat când eşti validat.';
+        this.mySpecialist  = spec;
+        this.showForm      = false;
       },
       error: err => {
         this.errorMsg = err.error?.message || 'Eroare la trimiterea cererii.';
       }
     });
+  }
+
+  getSpecializareDenumire(id: number): string {
+    const sp = this.specializari.find(s => s.id === id);
+    return sp ? sp.denumire : '–';
+  }
+
+  isClient(): boolean {
+    return this.user?.tipUtilizator?.toLowerCase() === 'client';
   }
 }

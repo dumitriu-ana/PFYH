@@ -1,0 +1,91 @@
+/* wrapper full-screen cu background */
+.page-wrapper {
+  min-height: 100vh;
+  background: url('/assets/img/fundal_c.jpg') no-repeat center center;
+  background-size: cover;
+}
+
+/* conținut cu padding stânga-dreapta */
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  background: rgba(255,255,255,0.8);
+  border-radius: 8px;
+}
+
+/* titlu principal și nume */
+.page-title {
+  text-align: center;
+  color: #2e7d32;       /* verde închis */
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+}
+.user-name {
+  text-align: center;
+  color: #2e7d32;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+/* Specialist in... */
+.role {
+  text-align: center;
+  color: #5d4037;       /* maro închis / portocaliu închis */
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+.role-name {
+  font-weight: bold;
+}
+
+/* caseta sold */
+.sold-box {
+  display: inline-block;
+  background: #ef6c00;  /* portocaliu închis */
+  color: #fff;          /* crem/alb */
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+/* email albastru */
+.email {
+  color: #1565c0;       /* albastru */
+  margin-bottom: 1.5rem;
+}
+
+/* status, admin, data pe un rând */
+.status-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+.status-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #fff;
+}
+.status-in-proces {
+  background: #f9a825;  /* galben */
+}
+.status-validat {
+  background: #388e3c;  /* verde */
+}
+.status-admin,
+.status-date {
+  color: #424242;
+}
+
+/* câmpuri simple */
+.field {
+  margin-bottom: 1rem;
+}
+.field strong {
+  width: 120px;
+  display: inline-block;
+}

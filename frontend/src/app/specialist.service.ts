@@ -18,13 +18,18 @@ export class SpecialistService {
     return this.http.post<SpecialistFullDto>(this.apiUrl, s);
   }
 
-  /** Preia toți specialiștii (opțional filtrați după specializare) */
+  /** Preia doar lista simplificată (cu nume + servicii) */
   getSpecialisti(specializareId?: number): Observable<SpecialistCuNumeDto[]> {
     let url = `${this.apiUrl}/lista`;
     if (specializareId != null) {
       url += `?specializareId=${specializareId}`;
     }
     return this.http.get<SpecialistCuNumeDto[]>(url);
+  }
+
+  /** Preia toți specialiștii full, ca să putem filtra după idUtilizator */
+  getAllSpecialistiFull(): Observable<SpecialistFullDto[]> {
+    return this.http.get<SpecialistFullDto[]>(this.apiUrl);
   }
 
   /** Preia specialiștii care oferă un anumit serviciu */
