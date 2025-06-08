@@ -16,6 +16,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -152,5 +154,16 @@ public class SpecialistServiceImpl implements SpecialistService {
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(specializari, HttpStatus.OK);
+    }
+
+    @Override
+    public SpecialistDto validateSpecialist(Long id, Long adminId) {
+        Specialist specialist = specialistRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Specialistul nu există"));
+        specialist.setStatusValidare("VALIDAT");
+        specialist.setIdAdmin(adminId);
+        specialist.setDataValidare(Timestamp.valueOf(LocalDateTime.now()));
+        Specialist saved = specialistRepository.save(specialist);
+        return SpecialistMapper.mapToSpecialistDto(saved);
     }
 }

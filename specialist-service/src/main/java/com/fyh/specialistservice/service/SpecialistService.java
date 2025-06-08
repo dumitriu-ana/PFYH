@@ -17,4 +17,7 @@ public interface SpecialistService {
     ResponseEntity<String> addSpecializareToSpecialist(Long idUtilizator, Long idSpecializare);
 
     ResponseEntity<List<SpecializareDto>> getSpecializariForSpecialist(Long idUtilizator);
+
+    SpecialistDto validateSpecialist(Long id, Long adminId);
+
 }

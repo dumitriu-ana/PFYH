@@ -191,4 +191,13 @@ public class SpecialistController {
 
         return ResponseEntity.ok(full);
     }
+
+    @PostMapping("/{id}/validare")
+    public ResponseEntity<SpecialistDto> validate(
+            @PathVariable Long id,
+            @RequestBody Map<String, Long> body) {               //  adminId din body
+        Long adminId = body.get("idAdmin");
+        SpecialistDto updated = specialistService.validateSpecialist(id, adminId);
+        return ResponseEntity.ok(updated);
+    }
 }

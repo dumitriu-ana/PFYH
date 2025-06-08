@@ -42,7 +42,7 @@
         <td>{{ sp.idAdmin ?? '–' }}</td>
         <td>{{ sp.dataValidare ?? '–' }}</td>
         <td>
-          <button class="btn btn-sm btn-success">Validare</button>
+          <button class="btn btn-sm btn-success"  (click)="onValidate(sp)" >Validare</button>
           <button class="btn btn-sm btn-danger">Șterge</button>
         </td>
       </tr>

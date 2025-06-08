@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule }      from '@angular/common';
 import { HttpClientModule }  from '@angular/common/http';
 
-import { SpecialistService }                       from '../../specialist.service';
-import { SpecialistAdminDto }        from '../../models/specialist-admin.dto';
+import { SpecialistService }    from '../../specialist.service';
+import { SpecialistAdminDto }   from '../../models/specialist-admin.dto';
+import { AuthService }          from '../../services/auth.service';
 
 @Component({
   selector: 'app-administrare',
@@ -19,7 +20,10 @@ export class AdministrareComponent implements OnInit {
   isLoading = true;
   errorMsg?: string;
 
-  constructor(private svc: SpecialistService) {}
+  constructor(
+  private svc: SpecialistService,
+   private auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.load();
@@ -29,12 +33,11 @@ export class AdministrareComponent implements OnInit {
     this.isLoading = true;
     this.errorMsg = undefined;
     this.svc.getAllForAdmin().subscribe({
-      next: (data: SpecialistAdminDto[]) => {
-        // separăm în cele două tabele
-        this.listaInProces = data.filter(sp => sp.statusValidare === 'IN_PROCES');
-        this.listaValidati  = data.filter(sp => sp.statusValidare  === 'VALIDAT');
-        this.isLoading = false;
-      },
+   next: data => {
+     this.listaInProces = data.filter(sp => sp.statusValidare === 'IN_PROCES');
+     this.listaValidati  = data.filter(sp => sp.statusValidare === 'VALIDAT');
+     this.isLoading = false;
+   },
       error: err => {
         console.error('Eroare încărcare specialiști:', err);
         this.errorMsg = 'Nu am putut încărca specialiștii.';
@@ -42,4 +45,16 @@ export class AdministrareComponent implements OnInit {
       }
     });
   }
+
+  onValidate(sp: SpecialistAdminDto) {
+      const adminId = this.auth.getCurrentUser()!.id;
+      this.svc.validateSpecialist(sp.id, adminId).subscribe({
+        next: () => {
+          // după validare, reîncarci toată lista
+          this.load();
+        },
+        error: err => console.error('Validare eșuată', err)
+      });
+    }
+
 }

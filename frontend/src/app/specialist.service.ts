@@ -35,7 +35,14 @@ export class SpecialistService {
     return this.http.get<SpecialistCuNumeDto[]>(url);
   }
 
-    getAllForAdmin(): Observable<SpecialistAdminDto[]> {
+   getAllForAdmin(): Observable<SpecialistAdminDto[]> {
       return this.http.get<SpecialistAdminDto[]>(`${this.apiUrl}/admin`);
-    }
+   }
+
+  validateSpecialist(id: number, adminId: number): Observable<SpecialistFullDto> {
+        return this.http.post<SpecialistFullDto>(
+          `${this.apiUrl}/${id}/validare`,
+          { idAdmin: adminId }
+        );
+  }
 }
