@@ -13,7 +13,6 @@ import java.util.List;
 @RequestMapping("/api/specializari")
 @CrossOrigin(origins = "http://localhost:4200") //acces din front
 public class SpecializareController {
-
     private final SpecializareService specializareService;
 
     public SpecializareController(SpecializareService specializareService) {

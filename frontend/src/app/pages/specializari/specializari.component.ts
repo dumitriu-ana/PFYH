@@ -22,16 +22,10 @@ import { SpecialistCuNumeDto }      from '../../models/specialistCuNume.dto';
 export class SpecializariComponent implements OnInit {
   specializari: SpecializareDto[] = [];
 
-  /** map specializareId → lista de specialiști */
   specialistiMap: Record<number, SpecialistCuNumeDto[]> = {};
-
-  /** ce specializări sunt extinse (nivelul 2) */
   openSpecializari = new Set<number>();
-
-  /** ce specialiști au serviciile extinse (nivelul 3) */
   openServicii = new Set<number>();
 
-  /** set de id-uri pentru care încărcăm specialiști (dezactivează butonul) */
   loadingSpecializari = new Set<number>();
 
   constructor(
@@ -42,20 +36,15 @@ export class SpecializariComponent implements OnInit {
   ngOnInit() {
     this.svcSp.getSpecializari().subscribe({
       next: data => this.specializari = data,
-      error: err => console.error('nu am putut încărca specializările', err)
+      error: err => console.error('nu am putut incarca specializările', err)
     });
   }
 
-  /**
-   * Nivel 1 → 2: toggle tabel specialiști pentru o specializare
-   */
   toggleSpecialisti(spId: number) {
     if (this.openSpecializari.has(spId)) {
-      // închidem: ştergem datele
       this.openSpecializari.delete(spId);
       delete this.specialistiMap[spId];
     } else {
-      // deschidem: încărcăm
       this.loadingSpecializari.add(spId);
       this.svcSpec.getSpecialisti(spId).subscribe({
         next: list => {

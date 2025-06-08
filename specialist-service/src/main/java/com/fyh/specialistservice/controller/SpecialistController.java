@@ -20,7 +20,6 @@ public class SpecialistController {
     private final SpecialistService specialistService;
     private final SpecialistiSpecializariClient specialistiSpecializariClient;
     private final SpecializareClient specializareClient;
-
     private final UtilizatorClient utilizatorClient;
     private final ServiciiClient serviciiClient;
     public SpecialistController(SpecialistService specialistService,
@@ -32,7 +31,6 @@ public class SpecialistController {
         this.utilizatorClient = utilizatorClient;
         this.serviciiClient = serviciiClient;
     }
-
     @PostMapping
     public ResponseEntity<SpecialistDto> createSpecialist(@RequestBody SpecialistDto specialistDto) {
         SpecialistDto savedSpecialist = specialistService.createSpecialist(specialistDto);

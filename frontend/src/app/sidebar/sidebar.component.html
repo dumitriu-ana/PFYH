@@ -1,12 +1,10 @@
 <div [ngClass]="sidebarClasses">
   <h2 class="sidebar-title">Meniu</h2>
   <ul class="sidebar-nav">
-    <!-- 1) Link către Home -->
     <li class="sidebar-item">
       <a routerLink="/home" routerLinkActive="active">Acasă</a>
     </li>
 
-    <!-- 2) Restul link-urilor -->
     <li class="sidebar-item">
       <a routerLink="/specialisti" routerLinkActive="active">Specialiști</a>
     </li>
@@ -20,7 +18,6 @@
       <a routerLink="/despre-fyh" routerLinkActive="active">Despre FYH</a>
     </li>
 
-    <!-- 3) Contul meu (doar dacă e logat) -->
     <ng-container *ngIf="isLoggedIn()">
       <li class="sidebar-item">
         <a routerLink="/cont" routerLinkActive="active">
@@ -30,7 +27,6 @@
     </ng-container>
   </ul>
 
-  <!-- butoanele de login/logout și signup -->
   <div class="mt-auto px-3">
     <button *ngIf="!isLoggedIn()"
             class="btn btn-outline-primary w-100 mb-2"

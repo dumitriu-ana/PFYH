@@ -1,19 +1,18 @@
-<!-- src/app/pages/servicii/servicii.component.html -->
 <div class="container py-4">
   <h1 class="mb-4">Servicii</h1>
 
-  <!-- Loading -->
+
   <div *ngIf="loadingServicii" class="text-center py-3">
     <div class="spinner-border text-success" role="status"></div>
     <span class="visually-hidden">Loading...</span>
   </div>
 
-  <!-- Error -->
+
   <div *ngIf="errorServicii" class="alert alert-danger">
     {{ errorServicii }}
   </div>
 
-  <!-- Tabel servicii -->
+
   <table *ngIf="!loadingServicii && !errorServicii" class="table table-hover">
     <thead class="table-dark">
     <tr>
@@ -28,7 +27,6 @@
     </thead>
     <tbody>
     <ng-container *ngFor="let srv of servicii; let i = index">
-      <!-- rând principal serviciu -->
       <tr>
         <td>{{ i + 1 }}</td>
         <td>{{ srv.titlu }}</td>
@@ -46,7 +44,6 @@
         </td>
       </tr>
 
-      <!-- sub-tabel specialiști -->
       <tr *ngIf="isOpen(srv.id)">
         <td colspan="7" class="p-0 bg-light">
           <table class="table table-sm mb-4">
@@ -77,7 +74,6 @@
     </tbody>
   </table>
 
-  <!-- Fallback când nu sunt servicii -->
   <p *ngIf="!loadingServicii && !errorServicii && servicii.length === 0"
      class="text-center text-muted">
     Nu există servicii disponibile momentan.

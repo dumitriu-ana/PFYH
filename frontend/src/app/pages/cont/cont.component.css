@@ -1,24 +1,24 @@
-/* wrapper full-screen cu background */
+/* fundal full-screen */
 .page-wrapper {
   min-height: 100vh;
   background: url('/assets/img/fundal_c.jpg') no-repeat center center;
   background-size: cover;
 }
 
-/* conținut cu padding stânga-dreapta */
+/* conținut centrat, cu padding lateral */
 .content {
   max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1.5rem;
-  background: rgba(255,255,255,0.8);
+  background: rgba(255,255,255,0.85);
   border-radius: 8px;
 }
 
-/* titlu principal și nume */
+/* 1) Titlu și nume */
 .page-title {
   text-align: center;
-  color: #2e7d32;       /* verde închis */
-  margin-bottom: 0.5rem;
+  color: #2e7d32; /* verde închis */
+  margin-bottom: 0.3rem;
   font-size: 2rem;
 }
 .user-name {
@@ -28,35 +28,35 @@
   margin-bottom: 1rem;
 }
 
-/* Specialist in... */
+/* 2) Specialist în... */
 .role {
   text-align: center;
-  color: #5d4037;       /* maro închis / portocaliu închis */
-  font-style: italic;
+  color: #5d4037; /* maro închis */
   margin-bottom: 1rem;
+    font-weight: bold;
 }
 .role-name {
   font-weight: bold;
 }
 
-/* caseta sold */
+/* 3) Sold */
 .sold-box {
-  display: inline-block;
-  background: #ef6c00;  /* portocaliu închis */
-  color: #fff;          /* crem/alb */
-  padding: 0.5rem 1rem;
+  float: right;
+  background: #ef6c00; /* portocaliu închis */
+  color: #fff;         /* crem */
+  padding: 0.4rem 0.8rem;
   border-radius: 4px;
   font-weight: bold;
   margin-bottom: 1.5rem;
 }
 
-/* email albastru */
+/* 4) Email */
 .email {
-  color: #1565c0;       /* albastru */
+  color: #1565c0; /* albastru */
   margin-bottom: 1.5rem;
 }
 
-/* status, admin, data pe un rând */
+/* 5) Status validare + Admin + Data */
 .status-row {
   display: flex;
   flex-wrap: wrap;
@@ -71,21 +71,31 @@
   color: #fff;
 }
 .status-in-proces {
-  background: #f9a825;  /* galben */
+  background: #f9a825; /* galben */
 }
 .status-validat {
-  background: #388e3c;  /* verde */
+  background: #388e3c; /* verde */
 }
 .status-admin,
 .status-date {
   color: #424242;
 }
 
-/* câmpuri simple */
+/* 6) Câmpuri generale & specialist data */
 .field {
   margin-bottom: 1rem;
 }
 .field strong {
-  width: 120px;
   display: inline-block;
+  width: 160px;
+}
+.specialist-data p {
+  margin-bottom: 0.8rem;
+}
+
+/* Clear float sold */
+.content::after {
+  content: "";
+  display: block;
+  clear: both;
 }

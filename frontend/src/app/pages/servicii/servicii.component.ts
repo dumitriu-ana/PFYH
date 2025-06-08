@@ -22,11 +22,8 @@ export class ServiciiComponent implements OnInit {
   loadingServicii = true;
   errorServicii?: string;
 
-  // map serviciuId → listă de specialiști
   specialistiMap: Record<number, SpecialistCuNumeDto[]> = {};
-  // set de servicii extinse
   openServicii = new Set<number>();
-  // set de id-uri în curs de încărcare
   loadingSpecialisti = new Set<number>();
 
   constructor(
@@ -41,8 +38,8 @@ export class ServiciiComponent implements OnInit {
         this.loadingServicii = false;
       },
       error: (err: any) => {
-        console.error('Eroare încărcare servicii', err);
-        this.errorServicii = 'Nu am putut încărca serviciile';
+        console.error('Eroare incarcare servicii', err);
+        this.errorServicii = 'Nu am putut incarca serviciile';
         this.loadingServicii = false;
       }
     });

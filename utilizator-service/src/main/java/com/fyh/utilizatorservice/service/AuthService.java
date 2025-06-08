@@ -24,13 +24,10 @@ public class AuthService {
     }
 
     public AuthResponse register(RegisterRequest req) {
-        // 1) unicitate email
-        if (repo.existsByEmail(req.email())) {
-            throw new IllegalArgumentException(
-                    "Adresa de email introdusa este deja folosita. Introdu o alta adresa."
-            );
+
+        if (repo.existsByEmail(req.email())) {    //mail unic
+            throw new IllegalArgumentException("Adresa de email introdusa este deja folosita. Introdu o alta adresa.");
         }
-        // 2) salvează utilizatorul
         Utilizator u = new Utilizator();
         u.setNume(req.nume());
         u.setEmail(req.email());
@@ -38,12 +35,9 @@ public class AuthService {
         u.setTipUtilizator("client");
         Utilizator saved = repo.save(u);
 
-        // 3) emite JWT
-        String token = jwt.createToken(saved.getEmail(), saved.getTipUtilizator());
-        // 4) construieşte DTO-ul
-        UtilizatorDto userDto = UtilizatorMapper.mapToUtilizatoriDto(saved);
+        String token = jwt.createToken(saved.getEmail(), saved.getTipUtilizator()); //creare jwt
 
-        // 5) întoarce răspunsul complet
+        UtilizatorDto userDto = UtilizatorMapper.mapToUtilizatoriDto(saved);
         return new AuthResponse(token, userDto);
     }
 

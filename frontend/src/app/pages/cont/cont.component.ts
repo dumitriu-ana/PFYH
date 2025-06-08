@@ -60,7 +60,6 @@ export class ContComponent implements OnInit {
       error: _    => console.error('Nu am putut încărca specializările')
     });
 
-    // **noul apel**: preluăm toți specialiștii „full” și găsim pe al nostru
     this.svcSpec.getAllSpecialistiFull().subscribe({
       next: list => {
         this.mySpecialist = list.find(s => s.idUtilizator === this.user!.id) || null;
@@ -94,7 +93,7 @@ export class ContComponent implements OnInit {
 
     this.svcSpec.createSpecialist(body).subscribe({
       next: spec => {
-        this.successMsg    = 'Cerere trimisă! Vei fi notificat când eşti validat.';
+        this.successMsg    = 'Cerere trimisa.';
         this.mySpecialist  = spec;
         this.showForm      = false;
       },

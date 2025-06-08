@@ -1,86 +1,141 @@
-<!-- src/app/pages/cont/cont.component.html -->
 <div class="page-wrapper">
-<h2>Contul meu: {{ user?.nume }}</h2>
-<p><strong>ID:</strong>           {{ user?.id }}</p>
-<p><strong>Email:</strong>        {{ user?.email }}</p>
-<p><strong>Data înregistrării:</strong> {{ user?.dataInreg || '–' }}</p>
-<p><strong>Tip Utilizator:</strong> {{ user?.tipUtilizator }}</p>
+  <div class="content">
 
-<ng-container *ngIf="mySpecialist; else notYet">
-  <div class="card mt-4 p-3 border-success">
-    <h3 class="text-success">Date Specialist:</h3>
-    <p><strong>ID Specialist:</strong>     {{ mySpecialist.id }}</p>
-    <p><strong>Specializare:</strong>     {{ getSpecializareDenumire(mySpecialist.specializareId) }}</p>
-    <p><strong>Servicii IDs:</strong>      {{ mySpecialist.serviciuIds.join(', ') || '–' }}</p>
-    <p><strong>Atestat:</strong>           {{ mySpecialist.atestat }}</p>
-    <p><strong>Descriere:</strong>         {{ mySpecialist.descriere }}</p>
-    <p><strong>Status Validare:</strong>   {{ mySpecialist.statusValidare }}</p>
-    <p><strong>Sold Acumulat:</strong>     {{ mySpecialist.soldAcumulat }}</p>
-    <p><strong>ID Admin Validare:</strong> {{ mySpecialist.idAdmin ?? '–' }}</p>
-    <p><strong>Data Validare:</strong>     {{ mySpecialist.dataValidare ?? '–' }}</p>
+    <h1 class="page-title">Contul meu</h1>
+    <h2 class="user-name">{{ user?.nume }}</h2>
+
+    <p class="role" *ngIf="mySpecialist">
+      Specialist în
+      <span class="role-name">
+        {{ getSpecializareDenumire(mySpecialist.specializareId) }}
+      </span>
+    </p>
+
+    <div class="sold-box">
+      <strong>Sold:</strong> {{ user?.sold ?? '0.00' }}
+    </div>
+
+    <p class="email"><strong>Email:</strong> {{ user?.email }}</p>
+
+
+    <div class="status-row" *ngIf="mySpecialist">
+      <span
+        class="status-badge"
+        [ngClass]="{
+          'status-in-proces': mySpecialist.statusValidare === 'IN_PROCES',
+          'status-validat': mySpecialist.statusValidare === 'VALIDAT'
+        }"
+      >
+        {{ mySpecialist.statusValidare === 'VALIDAT' ? 'Validat' : 'În proces de validare' }}
+      </span>
+      <span class="status-admin">
+        Admin: {{ mySpecialist.idAdmin ?? '–' }}
+      </span>
+      <span class="status-date">
+        Data validării: {{ mySpecialist.dataValidare ?? '–' }}
+      </span>
+    </div>
+
+
+    <p class="field"><strong>ID:</strong> {{ user?.id }}</p>
+    <p class="field">
+      <strong>Data înregistrării:</strong>
+      {{ user?.dataInreg || '–' }}
+    </p>
+    <p class="field"><strong>Tip Utilizator:</strong> {{ user?.tipUtilizator }}</p>
+
+    <!-- 7) Date Specialist (după validare/formă simplă) -->
+    <ng-container *ngIf="mySpecialist">
+      <div class="specialist-data mt-4">
+        <p><strong>ID Specialist:</strong> {{ mySpecialist.id }}</p>
+        <p>
+          <strong>Atestat:</strong>
+          {{ mySpecialist.atestat }}
+        </p>
+        <p>
+          <strong>Descriere:</strong>
+          {{ mySpecialist.descriere }}
+        </p>
+        <button
+          *ngIf="isClient()"
+          class="btn btn-primary mb-3"
+
+        >
+          Adauga serviciu
+        </button>
+        <p>
+          <strong>Servicii IDs:</strong>
+          {{ mySpecialist.serviciuIds.length ? mySpecialist.serviciuIds.join(', ') : '–' }}
+        </p>
+      </div>
+    </ng-container>
+
+    <!-- 8) Buton + formular „Devino specialist” -->
+    <ng-template #notYet>
+      <button
+        *ngIf="isClient()"
+        class="btn btn-primary mb-3"
+        (click)="toggleForm()"
+      >
+        Devino specialist
+      </button>
+
+      <form
+        *ngIf="showForm"
+        (ngSubmit)="submitSpecialist()"
+        #f="ngForm"
+        class="mb-4"
+      >
+        <div class="mb-3">
+          <label for="specializare" class="form-label">Specializare</label>
+          <select
+            id="specializare"
+            name="specializareId"
+            class="form-control"
+            [(ngModel)]="specialistDto.specializareId"
+            required
+          >
+            <option [ngValue]="null">Alege specializare</option>
+            <option *ngFor="let sp of specializari" [ngValue]="sp.id">
+              {{ sp.denumire }}
+            </option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="atestat" class="form-label">Atestat</label>
+          <input
+            id="atestat"
+            name="atestat"
+            class="form-control"
+            [(ngModel)]="specialistDto.atestat"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="descriere" class="form-label">Descriere</label>
+          <textarea
+            id="descriere"
+            name="descriere"
+            class="form-control"
+            rows="3"
+            [(ngModel)]="specialistDto.descriere"
+            required
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="f.invalid"
+        >
+          Trimite cerere
+        </button>
+      </form>
+
+      <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+      <div *ngIf="successMsg" class="alert alert-success">{{ successMsg }}</div>
+    </ng-template>
   </div>
-</ng-container>
-
-<ng-template #notYet>
-  <button
-    *ngIf="isClient()"
-    class="btn btn-primary mb-3"
-    (click)="toggleForm()">
-    Devino specialist
-  </button>
-
-  <form
-    *ngIf="showForm"
-    (ngSubmit)="submitSpecialist()"
-    #f="ngForm"
-    class="mb-4">
-
-    <div class="mb-3">
-      <label for="specializare" class="form-label">Specializare</label>
-      <select
-        id="specializare"
-        name="specializareId"
-        class="form-control"
-        [(ngModel)]="specialistDto.specializareId"
-        required>
-        <option [ngValue]="null">Alege specializare</option>
-        <option *ngFor="let sp of specializari" [ngValue]="sp.id">
-          {{ sp.denumire }}
-        </option>
-      </select>
-    </div>
-
-    <div class="mb-3">
-      <label for="atestat" class="form-label">Atestat</label>
-      <input
-        id="atestat"
-        name="atestat"
-        class="form-control"
-        [(ngModel)]="specialistDto.atestat"
-        required>
-    </div>
-
-    <div class="mb-3">
-      <label for="descriere" class="form-label">Descriere</label>
-      <textarea
-        id="descriere"
-        name="descriere"
-        class="form-control"
-        rows="3"
-        [(ngModel)]="specialistDto.descriere"
-        required>
-      </textarea>
-    </div>
-
-    <button
-      type="submit"
-      class="btn btn-success"
-      [disabled]="f.invalid">
-      Trimite cerere
-    </button>
-  </form>
-
-  <div *ngIf="errorMsg"   class="alert alert-danger">{{ errorMsg }}</div>
-  <div *ngIf="successMsg" class="alert alert-success">{{ successMsg }}</div>
-</ng-template>
 </div>

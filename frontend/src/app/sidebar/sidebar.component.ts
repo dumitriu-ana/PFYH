@@ -49,7 +49,6 @@ export class SidebarComponent {
     };
   }
 
-  // --- Adăugările pentru login/logout ---
   isLoggedIn(): boolean {
     return this.auth.hasToken();
   }

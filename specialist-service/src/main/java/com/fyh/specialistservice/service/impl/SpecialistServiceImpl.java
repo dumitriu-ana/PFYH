@@ -107,18 +107,13 @@ public class SpecialistServiceImpl implements SpecialistService {
         if (specialist == null) {
             return new ResponseEntity<>("Specialistul cu ID-ul utilizator " + idUtilizator + " nu există.", HttpStatus.NOT_FOUND);
         }
-
         try {
-            // Verifică dacă specializarea există
             specializareClient.getSpecializareById(idSpecializare);
-
-            // Verifică dacă asocierea nu există deja (optional, depinde de cerințe)
             List<SpecializareDto> existingSpecializari = getSpecializariForSpecialist(idUtilizator).getBody();
             if (existingSpecializari != null && existingSpecializari.stream().anyMatch(s -> s.getId().equals(idSpecializare))) {
                 return new ResponseEntity<>("Specializarea este deja adăugată pentru acest specialist.", HttpStatus.CONFLICT);
             }
 
-            // Creează payload-ul pentru serviciul de asocieri
             Map<String, Long> payload = new HashMap<>();
             payload.put("idSpecialist", specialist.getIdUtilizator());
             payload.put("idSpecializare", idSpecializare);

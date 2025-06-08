@@ -16,23 +16,19 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  /** REGISTER */
-  register(req: RegisterRequest): Observable<AuthResponse> {
+  register(req: RegisterRequest): Observable<AuthResponse> {   //register
     return this.http.post<AuthResponse>(`${this.base}/register`, req);
   }
 
-  /** LOGIN */
-  login(req: LoginRequest): Observable<AuthResponse> {
+  login(req: LoginRequest): Observable<AuthResponse> {    //login
     return this.http.post<AuthResponse>(`${this.base}/login`, req);
   }
 
-  /** după login sau register salvează token + user */
-  handleAuthResponse(res: AuthResponse) {
+  handleAuthResponse(res: AuthResponse) {            //salvare user si token
     localStorage.setItem(this.TOKEN_KEY, res.token);
     localStorage.setItem(this.USER_KEY, JSON.stringify(res.user));
   }
 
-  /** returnează user-ul logat */
   getCurrentUser(): UtilizatorDto | null {
     const str = localStorage.getItem(this.USER_KEY);
     if (!str || str === 'undefined') {
