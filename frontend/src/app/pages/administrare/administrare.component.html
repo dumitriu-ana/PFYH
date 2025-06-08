@@ -1,0 +1,99 @@
+<!-- src/app/pages/administrare/administrare.component.html -->
+<div class="container py-4">
+  <h1 class="mb-4 text-center">Administrare Specialiști</h1>
+
+  <div *ngIf="isLoading" class="text-center">
+    <div class="spinner-border"></div>
+    <p>Se încarcă …</p>
+  </div>
+  <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
+
+  <!-- Tabel: În proces de validare -->
+  <section *ngIf="listaInProces.length">
+    <h2 class="mt-4">Cereri în proces de validare</h2>
+    <table class="table table-striped">
+      <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Nume</th>
+        <th>Email</th>
+        <th>Tip</th>
+        <th>Specializare</th>
+        <th>Atestat</th>
+        <th>Descriere</th>
+        <th>Status</th>
+        <th>Sold</th>
+        <th>Admin</th>
+        <th>Data Validare</th>
+        <th>Acțiuni</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sp of listaInProces; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ sp.numeUtilizator }}</td>
+        <td>{{ sp.emailUtilizator }}</td>
+        <td>{{ sp.tipUtilizator }}</td>
+        <td>{{ sp.denumireSpecializare }}</td>
+        <td>{{ sp.atestat }}</td>
+        <td>{{ sp.descriere }}</td>
+        <td>{{ sp.statusValidare }}</td>
+        <td>{{ sp.soldAcumulat }}</td>
+        <td>{{ sp.idAdmin ?? '–' }}</td>
+        <td>{{ sp.dataValidare ?? '–' }}</td>
+        <td>
+          <button class="btn btn-sm btn-success">Validare</button>
+          <button class="btn btn-sm btn-danger">Șterge</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Tabel: Specialiști validați -->
+  <section *ngIf="listaValidati.length">
+    <h2 class="mt-5">Specialiști validați</h2>
+    <table class="table table-striped">
+      <thead class="table-dark">
+      <tr>
+        <th>#</th>
+        <th>Nume</th>
+        <th>Email</th>
+        <th>Tip</th>
+        <th>Specializare</th>
+        <th>Atestat</th>
+        <th>Descriere</th>
+        <th>Status</th>
+        <th>Sold</th>
+        <th>Admin</th>
+        <th>Data Validare</th>
+        <th>Acțiuni</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let sp of listaValidati; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ sp.numeUtilizator }}</td>
+        <td>{{ sp.emailUtilizator }}</td>
+        <td>{{ sp.tipUtilizator }}</td>
+        <td>{{ sp.denumireSpecializare }}</td>
+        <td>{{ sp.atestat }}</td>
+        <td>{{ sp.descriere }}</td>
+        <td>{{ sp.statusValidare }}</td>
+        <td>{{ sp.soldAcumulat }}</td>
+        <td>{{ sp.idAdmin ?? '–' }}</td>
+        <td>{{ sp.dataValidare ?? '–' }}</td>
+        <td>
+          <button class="btn btn-sm btn-danger">Șterge</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Empty state -->
+  <p *ngIf="!isLoading && !errorMsg && !listaInProces.length && !listaValidati.length"
+     class="text-center text-muted">
+    Nu există cereri sau specialiști validați momentan.
+  </p>
+</div>

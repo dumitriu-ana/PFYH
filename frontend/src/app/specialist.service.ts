@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { SpecialistFullDto } from './models/specialistFull.dto';
 import { SpecialistCuNumeDto } from './models/specialistCuNume.dto';
+import { SpecialistAdminDto } from './models/specialist-admin.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +34,8 @@ export class SpecialistService {
     const url = `${this.apiUrl}/lista/service/${serviciuId}`;
     return this.http.get<SpecialistCuNumeDto[]>(url);
   }
+
+    getAllForAdmin(): Observable<SpecialistAdminDto[]> {
+      return this.http.get<SpecialistAdminDto[]>(`${this.apiUrl}/admin`);
+    }
 }

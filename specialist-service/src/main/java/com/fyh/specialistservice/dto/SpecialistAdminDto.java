@@ -12,14 +12,20 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SpecialistDto {
+public class SpecialistAdminDto {
     private Long id;
     private Long idUtilizator;
+    private String numeUtilizator;
+    private String emailUtilizator;
+    private String tipUtilizator;
+
     private Long specializareId;
-    private List<Long> serviciuIds;
+    private String denumireSpecializare;
+
+    private List<ServiciuDto> servicii;
     private String atestat;
-    private String statusValidare;
     private String descriere;
+    private String statusValidare;
     private String soldAcumulat;
     private Long idAdmin;
     private Timestamp dataValidare;

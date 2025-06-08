@@ -53,6 +53,11 @@ export class SidebarComponent {
     return this.auth.hasToken();
   }
 
+  isAdmin(): boolean {
+    const user = this.auth.getCurrentUser();
+    return user?.tipUtilizator === 'admin';
+  }
+
   logout(): void {
     this.auth.clearToken();
     this.router.navigate(['/home']);

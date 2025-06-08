@@ -14,7 +14,7 @@ import java.util.List;
 public class SpecialistListDto {
     private Long id;
     private Long idUtilizator;
-    private String nume; // Numele utilizatorului
+    private String nume;
     private String atestat;
     private String descriere;
 

@@ -170,4 +170,25 @@ public class SpecialistController {
         return ResponseEntity.ok(filtered);
     }
 
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<SpecialistAdminDto>> getAllForAdmin() {
+        List<SpecialistDto> raw = specialistService.getAllSpecialisti();
+        List<SpecialistAdminDto> full = raw.stream().map(s -> {
+            UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
+            SpecializareDto spz = specializareClient.getSpecializareById(s.getSpecializareId());
+            List<ServiciuDto> srv = serviciiClient.getServiciiBySpecialist(s.getId());
+            return new SpecialistAdminDto(
+                    s.getId(), s.getIdUtilizator(),
+                    u.getNume(), u.getEmail(), u.getTipUtilizator(),
+                    s.getSpecializareId(), spz.getDenumire(),
+                    srv,
+                    s.getAtestat(), s.getDescriere(), s.getStatusValidare(),
+                    s.getSoldAcumulat(), s.getIdAdmin(),
+                    s.getDataValidare()
+            );
+        }).toList();
+
+        return ResponseEntity.ok(full);
+    }
 }

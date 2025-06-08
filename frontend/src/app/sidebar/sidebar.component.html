@@ -24,6 +24,14 @@
           Contul meu: {{ auth.getCurrentUser()?.nume }}
         </a>
       </li>
+
+      <li class="sidebar-item">
+        <a routerLink="/comenzi" routerLinkActive="active">Comenzi</a>
+      </li>
+
+      <li class="sidebar-item" *ngIf="isAdmin()">
+        <a routerLink="/administrare" routerLinkActive="active">Administrare</a>
+      </li>
     </ng-container>
   </ul>
 

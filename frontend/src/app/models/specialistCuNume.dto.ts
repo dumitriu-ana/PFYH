@@ -7,5 +7,5 @@ export interface SpecialistCuNumeDto {
   atestat: string | null;
   descriere: string | null;
 
-    servicii: ServiciuDto[];    // ← adăugat
+  servicii: ServiciuDto[];
 }

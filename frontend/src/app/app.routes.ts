@@ -7,6 +7,8 @@ import { ServiciiComponent }   from './pages/servicii/servicii.component';
 import { AboutFyhComponent }   from './pages/about-fyh/about-fyh.component';
 import { LoginComponent }      from './pages/login/login.component';
 import { ContComponent }        from './pages/cont/cont.component';
+import { AdministrareComponent }        from './pages/administrare/administrare.component';
+import { ComenziComponent }        from './pages/comenzi/comenzi.component';
 
 export const routes: Routes = [
   { path: 'home',         component: HomeComponent },
@@ -18,6 +20,9 @@ export const routes: Routes = [
   { path: 'signup',       component: SignupComponent },
   { path: 'cont',         component: ContComponent },
   { path: 'logout',       redirectTo: 'home', pathMatch: 'full' },
+
+    { path: 'administrare', component: AdministrareComponent },
+    { path: 'comenzi', component: ComenziComponent },
 
   { path: '',             redirectTo: 'home', pathMatch: 'full' },
   { path: '**',           redirectTo: 'home' }
