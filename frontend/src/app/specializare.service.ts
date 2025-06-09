@@ -14,4 +14,8 @@ export class SpecializareService {
   getSpecializari(): Observable<SpecializareDto[]> {
     return this.http.get<SpecializareDto[]>(this.apiUrl);
   }
+
+    createSpecializare(s: Partial<SpecializareDto>): Observable<SpecializareDto> {
+      return this.http.post<SpecializareDto>(this.apiUrl, s);
+    }
 }

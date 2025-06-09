@@ -9,6 +9,10 @@ export class ServiciiService {
 
   constructor(private http: HttpClient) {}
 
+  createServiciu(s: Partial<ServiciuDto>): Observable<ServiciuDto> {
+    return this.http.post<ServiciuDto>(this.apiUrl, s);
+  }
+
   getServicii(): Observable<ServiciuDto[]> {
     return this.http.get<ServiciuDto[]>(this.apiUrl);
   }

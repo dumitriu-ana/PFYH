@@ -96,4 +96,118 @@
      class="text-center text-muted">
     Nu există cereri sau specialiști validați momentan.
   </p>
+
+
+  <hr class="my-5">
+
+  <!-- formular adaugare specializare -->
+  <div class="mb-4">
+    <h2>Adaugă Specializare</h2>
+    <form class="row g-2 align-items-center" (ngSubmit)="addSpecializare()" #f="ngForm">
+      <div class="col-auto">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Denumire specializare"
+          name="denumire"
+          [(ngModel)]="newSpecializare"
+          required>
+      </div>
+      <div class="col-auto">
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="f.invalid">
+          Adaugă
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="successMsgSpz" class="alert alert-success mt-3">
+      {{ successMsgSpz }}
+    </div>
+    <div *ngIf="errorMsgSpz" class="alert alert-danger mt-3">
+      {{ errorMsgSpz }}
+    </div>
+  </div>
+
+
+
+  <hr class="my-5">
+
+  <!-- Form: Adaugă Serviciu -->
+  <div class="mb-5">
+    <h2>Adaugă Serviciu</h2>
+    <form (ngSubmit)="addServiciu()" #f2="ngForm" class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label">Specializare</label>
+        <select
+          class="form-select"
+          name="idSpecializare"
+          [(ngModel)]="newServiciu.idSpecializare"
+          required>
+          <option [ngValue]="null">Alege specializare</option>
+          <option *ngFor="let sp of specializari" [ngValue]="sp.id">
+            {{ sp.denumire }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Titlu</label>
+        <input
+          class="form-control"
+          name="titlu"
+          [(ngModel)]="newServiciu.titlu"
+          required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Tip Serviciu</label>
+        <input
+          class="form-control"
+          name="tipServiciu"
+          [(ngModel)]="newServiciu.tipServiciu"
+          required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Preț</label>
+        <input
+          type="number"
+          step="0.01"
+          class="form-control"
+          name="pret"
+          [(ngModel)]="newServiciu.pret"
+          required>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Max caractere</label>
+        <input
+          type="number"
+          class="form-control"
+          name="numarMaxCaractere"
+          [(ngModel)]="newServiciu.numarMaxCaractere"
+          required>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Durata rezolvare</label>
+        <input
+          class="form-control"
+          name="durataRezolvare"
+          [(ngModel)]="newServiciu.durataRezolvare">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Durata ședință</label>
+        <input
+          class="form-control"
+          name="durataSedinta"
+          [(ngModel)]="newServiciu.durataSedinta">
+      </div>
+      <div class="col-12 text-center">
+        <button type="submit" class="btn btn-success" [disabled]="f2.invalid">
+          Adaugă serviciu
+        </button>
+      </div>
+    </form>
+    <div *ngIf="successMsgSrv" class="alert alert-success mt-3">{{ successMsgSrv }}</div>
+    <div *ngIf="errorMsgSrv"   class="alert alert-danger  mt-3">{{ errorMsgSrv   }}</div>
+  </div>
 </div>
