@@ -25,9 +25,8 @@ public class Specialist {
     private Long idUtilizator;
 
     @Column(name = "specializare_id", nullable = false)
-    private Long specializareId;             // ← nou
+    private Long specializareId;
 
-    // mapping many-to-many către tabelul de legătură
     @ElementCollection
     @CollectionTable(
             name = "specialisti_servicii",

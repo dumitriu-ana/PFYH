@@ -38,10 +38,6 @@ public class ComandaMapper {
         Comanda comanda = new Comanda();
         comanda.setId(comandaDto.getId());
 
-        // Aici va trebui sa adaugi logica pentru a prelua Utilizator, Specialist, Serviciu
-        // din repository folosind idClient, idSpecialist, idServiciu din comandaDto
-        // Exemplu:
-        // comanda.setClient(utilizatorRepository.findById(comandaDto.getIdClient()).orElse(null));
 
         comanda.setDataCreare(comandaDto.getDataCreare());
         comanda.setStatus(comandaDto.getStatus());

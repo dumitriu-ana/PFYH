@@ -27,11 +27,6 @@ public class SpecialistiServiciiMapper {
         SpecialistiServicii specialistiServicii = new SpecialistiServicii();
         specialistiServicii.setId(specialistiServiciiDto.getId());
 
-        // Aici va trebui sa adaugi logica pentru a prelua Specialist si Serviciu
-        // din repository folosind idSpecialist si idServiciu din specialistiServiciiDto
-        // Exemplu:
-        // specialistiServicii.setSpecialist(specialistRepository.findById(specialistiServiciiDto.getIdSpecialist()).orElse(null));
-        // specialistiServicii.setServiciu(serviciuRepository.findById(specialistiServiciiDto.getIdServiciu()).orElse(null));
 
         return specialistiServicii;
     }

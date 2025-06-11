@@ -34,17 +34,17 @@ import { ServiciiListComponent } from '../servicii-list/servicii-list.component'
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  // Pentru secțiunea de specializări
+  //  secțiunea de specializări
   specializari: SpecializareDto[] = [];
   isLoadingSpecializari: boolean = true;
   errorMessageSpecializari: string = '';
 
-  // Pentru lista de specialiști pasată componentei SpecialistListComponent
+  //  lista de specialiști
   specialistiPentruLista: SpecialistCuNumeDto[] | null = null;
   isLoadingSpecialisti: boolean = true; // <-- Denumire corectată
   errorSpecialisti: string | null = null;   // <-- Denumire corectată
 
-    // pentru servicii
+    //  servicii
     servicii: ServiciuDto[] | null = null;
     isLoadingServicii:boolean = true;
     errorServicii: string | null = null;
@@ -78,20 +78,20 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  // Metoda pentru încărcarea specialiștilor pentru componenta listă
-  loadSpecialistiPentruLista(): void { // <-- Denumire corectată a metodei
-    this.isLoadingSpecialisti = true;   // Folosește proprietatea corectată
-    this.errorSpecialisti = null;       // Folosește proprietatea corectată
+  //
+  loadSpecialistiPentruLista(): void {
+    this.isLoadingSpecialisti = true;
+    this.errorSpecialisti = null;
     this.specialistService.getSpecialisti().subscribe({
       next: (data) => {
         this.specialistiPentruLista = data;
-        this.isLoadingSpecialisti = false; // Folosește proprietatea corectată
+        this.isLoadingSpecialisti = false;
       },
       error: (err) => {
         console.error("Eroare la încărcarea specialiștilor pentru listă în Home:", err);
-        this.errorSpecialisti = "Nu s-au putut încărca specialiștii relevanți."; // Folosește proprietatea corectată
+        this.errorSpecialisti = "Nu s-au putut încărca specialiștii relevanți.";
         this.specialistiPentruLista = [];
-        this.isLoadingSpecialisti = false; // Folosește proprietatea corectată
+        this.isLoadingSpecialisti = false;
       }
     });
   }

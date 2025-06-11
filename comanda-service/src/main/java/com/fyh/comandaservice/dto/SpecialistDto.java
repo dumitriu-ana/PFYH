@@ -15,8 +15,8 @@ import java.util.List;
 public class SpecialistDto {
     private Long id;
     private Long idUtilizator;
-    private Long specializareId;         // ← adăugat
-    private List<Long> serviciuIds;      // ← adăugat
+    private Long specializareId;
+    private List<Long> serviciuIds;
     private String atestat;
     private String statusValidare;
     private String descriere;

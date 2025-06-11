@@ -1,4 +1,3 @@
-// src/app/pages/administrare/administrare.component.ts
 import { Component, OnInit }        from '@angular/core';
 import { CommonModule }             from '@angular/common';
 import { FormsModule }              from '@angular/forms';
@@ -107,6 +106,11 @@ export class AdministrareComponent implements OnInit {
   addServiciu(): void {
     this.successMsgSrv = undefined;
     this.errorMsgSrv   = undefined;
+
+      const payload: ServiciuDto = { ...this.newServiciu as ServiciuDto };
+
+      console.log('Payload efectiv trimis:', payload);
+
     this.svcSrv.createServiciu(this.newServiciu as ServiciuDto).subscribe({
       next: srv => {
         this.successMsgSrv = `Serviciu „${srv.titlu}” creat (ID: ${srv.id})`;

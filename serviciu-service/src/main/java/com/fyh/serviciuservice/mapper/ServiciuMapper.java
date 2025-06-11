@@ -31,12 +31,7 @@ public class ServiciuMapper {
 
         Serviciu serviciu = new Serviciu();
         serviciu.setId(serviciuDto.getId());
-
-        // Aici va trebui sa adaugi logica pentru a prelua Specializare
-        // din repository folosind idSpecializare din serviciuDto
-        // Exemplu:
-        // serviciu.setSpecializari(specializareRepository.findById(serviciuDto.getIdSpecializare()).orElse(null));
-
+        serviciu.setIdSpecializare(serviciuDto.getIdSpecializare());
         serviciu.setTitlu(serviciuDto.getTitlu());
         serviciu.setTipServiciu(serviciuDto.getTipServiciu());
         serviciu.setPret(serviciuDto.getPret());

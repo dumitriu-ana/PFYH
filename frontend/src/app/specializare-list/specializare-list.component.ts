@@ -12,12 +12,12 @@ import { CommonModule } from '@angular/common';
 export class SpecializareListComponent implements OnChanges {
   @Input() specializari: SpecializareDto[] = [];
 
-  // --- proprietăți paginare ---
-  pagina = 1;                      // pagina curentă
-  itemsPerPage = 8;                // câte elemente per pagină
-  totalPagini = 0;                 // numărul total de pagini
-  pagini: number[] = [];           // array [1,2,3...]
-  paginaCurenta: SpecializareDto[] = [];  // slice-ul din specializari
+
+  pagina = 1;
+  itemsPerPage = 8;
+  totalPagini = 0;
+  pagini: number[] = [];
+  paginaCurenta: SpecializareDto[] = [];
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['specializari']) {

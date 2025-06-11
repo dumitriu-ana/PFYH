@@ -85,7 +85,6 @@ public class ServiciuServiceImpl implements ServiciuService {
         try {
             ids = specialistClient.getServiciiIdsForSpecialist(idSpecialist);
         } catch (feign.FeignException.NotFound e) {
-            // specialistul nu există sau nu are id-uri: întoarce listă goală
             return Collections.emptyList();
         }
 

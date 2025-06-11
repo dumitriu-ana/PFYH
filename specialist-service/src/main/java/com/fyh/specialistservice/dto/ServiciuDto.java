@@ -20,7 +20,7 @@ public class ServiciuDto {
     private String titlu;
     private String tipServiciu;
     private BigDecimal pret;
-    private Duration durataRezolvare;
-    private Duration durataSedinta;
+    private Double durataRezolvare;
+    private Double durataSedinta;
     private Integer numarMaxCaractere;
 }

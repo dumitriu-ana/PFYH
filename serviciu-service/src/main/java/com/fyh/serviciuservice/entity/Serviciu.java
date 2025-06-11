@@ -34,10 +34,10 @@ public class Serviciu {
     private BigDecimal pret;
 
     @Column(name = "durata_rezolvare")
-    private Duration durataRezolvare;
+    private Double durataRezolvare;
 
     @Column(name = "durata_sedinta")
-    private Duration durataSedinta;
+    private Double durataSedinta;
 
     @Column(name = "numar_max_caractere")
     private Integer numarMaxCaractere;
