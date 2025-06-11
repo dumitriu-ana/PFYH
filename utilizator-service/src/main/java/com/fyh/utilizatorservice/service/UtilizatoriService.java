@@ -12,4 +12,5 @@ public interface UtilizatoriService {
     List<UtilizatorDto> getAllUtilizatori();
     UtilizatorDto updateUtilizatori(Long id, UtilizatorDto utilizatorDto);
     void deleteUtilizatori(Long id);
+    void changeTip(Long id, String noulTip);
 }

@@ -80,13 +80,13 @@ export class AdministrareComponent implements OnInit {
     });
   }
 
-  onValidate(sp: SpecialistAdminDto): void {
-    const adminId = this.auth.getCurrentUser()!.id;
-    this.svc.validateSpecialist(sp.id, adminId).subscribe({
-      next: () => this.load(),
-      error: err => console.error('Validare eșuată', err)
-    });
-  }
+onValidate(sp: SpecialistAdminDto) {
+  const adminId = this.auth.getCurrentUser()!.id;
+  this.svc.validateAndPromote(sp.id, adminId).subscribe({
+    next: () => this.load(),
+    error: err => console.error('Validare eșuată', err)
+  });
+}
 
   addSpecializare(): void {
     this.successMsgSpz = undefined;

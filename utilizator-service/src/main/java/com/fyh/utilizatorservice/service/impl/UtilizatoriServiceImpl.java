@@ -6,6 +6,7 @@ import com.fyh.utilizatorservice.entity.Utilizator;
 import com.fyh.utilizatorservice.mapper.UtilizatorMapper;
 import com.fyh.utilizatorservice.repository.UtilizatoriRepository;
 import com.fyh.utilizatorservice.service.UtilizatoriService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,4 +57,13 @@ public class UtilizatoriServiceImpl implements UtilizatoriService {
     public void deleteUtilizatori(Long id) {
         utilizatoriRepository.deleteById(id);
     }
+
+    @Override
+    public void changeTip(Long id, String nouTip) {
+        Utilizator u = utilizatoriRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Nu există"));
+        u.setTipUtilizator(nouTip);
+        utilizatoriRepository.save(u);
+    }
+
 }

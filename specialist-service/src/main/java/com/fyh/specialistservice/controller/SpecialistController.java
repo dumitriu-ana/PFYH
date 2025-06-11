@@ -200,4 +200,13 @@ public class SpecialistController {
         SpecialistDto updated = specialistService.validateSpecialist(id, adminId);
         return ResponseEntity.ok(updated);
     }
+
+    @PostMapping("/{id}/validare/{adminId}")
+    public ResponseEntity<SpecialistDto> validateAndPromote(
+            @PathVariable Long id,
+            @PathVariable Long adminId
+    ) {
+        SpecialistDto updated = specialistService.validateAndPromote(id, adminId);
+        return ResponseEntity.ok(updated);
+    }
 }

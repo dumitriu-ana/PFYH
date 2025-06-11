@@ -20,4 +20,6 @@ public interface SpecialistService {
 
     SpecialistDto validateSpecialist(Long id, Long adminId);
 
+    SpecialistDto validateAndPromote(Long specialistId, Long adminId);
+
 }

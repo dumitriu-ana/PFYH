@@ -18,10 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -165,5 +162,19 @@ public class SpecialistServiceImpl implements SpecialistService {
         specialist.setDataValidare(Timestamp.valueOf(LocalDateTime.now()));
         Specialist saved = specialistRepository.save(specialist);
         return SpecialistMapper.mapToSpecialistDto(saved);
+    }
+
+    //cand se valideaza un specialist. client ---> specialist
+    @Override
+    public SpecialistDto validateAndPromote(Long id, Long adminId) {
+        SpecialistDto dto = getSpecialistById(id);
+        if (dto == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        dto.setStatusValidare("VALIDAT");
+        dto.setIdAdmin(adminId);
+        dto.setDataValidare(new Timestamp(System.currentTimeMillis()));
+        dto.setServiciuIds(Collections.emptyList());
+        SpecialistDto saved = updateSpecialist(id, dto);
+        apiClient.changeTipUtilizator(dto.getIdUtilizator(), Map.of("tipUtilizator","SPECIALIST"));
+        return saved;
     }
 }

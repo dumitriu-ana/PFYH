@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/utilizatori")
@@ -59,5 +60,11 @@ public class UtilizatoriController {
         UtilizatorPublicDto pub =
                 new UtilizatorPublicDto(full.getId(), full.getNume(), full.getEmail(), full.getTipUtilizator());
         return ResponseEntity.ok(pub);
+    }
+
+    @PutMapping("/{id}/tip")
+    public ResponseEntity<Void> changeTip(@PathVariable Long id, @RequestBody Map<String,String> body) {
+        utilizatoriService.changeTip(id, body.get("tipUtilizator"));
+        return ResponseEntity.ok().build();
     }
 }
