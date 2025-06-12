@@ -44,4 +44,10 @@ export class SpecialistService {
       `${this.apiUrl}/${id}/validare/${adminId}`, {}
     );
   }
+
+    addServiciuToSpecialist(specialistId: number, serviciuId: number): Observable<SpecialistFullDto> {
+      return this.http.post<SpecialistFullDto>(
+        `${this.apiUrl}/${specialistId}/servicii/${serviciuId}`, {}
+      );
+    }
 }

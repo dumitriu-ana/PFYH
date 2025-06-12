@@ -177,4 +177,16 @@ public class SpecialistServiceImpl implements SpecialistService {
         apiClient.changeTipUtilizator(dto.getIdUtilizator(), Map.of("tipUtilizator","SPECIALIST"));
         return saved;
     }
+
+    @Override
+    public SpecialistDto addServiciuToSpecialist(Long specialistId, Long serviciuId) {
+        Specialist ent = specialistRepository.findById(specialistId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Specialist inexistent"));
+        // Ad dacă nu e deja
+        if (!ent.getServiciuIds().contains(serviciuId)) {
+            ent.getServiciuIds().add(serviciuId);
+            specialistRepository.save(ent);
+        }
+        return SpecialistMapper.mapToSpecialistDto(ent);
+    }
 }

@@ -7,6 +7,8 @@ import { Router }              from '@angular/router';
 import { AuthService }         from '../../services/auth.service';
 import { SpecialistService }   from '../../specialist.service';
 import { SpecializareService } from '../../specializare.service';
+import { ServiciiService }     from '../../servicii.service';
+import { ServiciuDto }         from '../../models/serviciu.dto';
 
 import { UtilizatorDto }       from '../../models/utilizator.dto';
 import { SpecializareDto }     from '../../models/specializare.dto';
@@ -25,6 +27,9 @@ export class ContComponent implements OnInit {
 
   specializari: SpecializareDto[]        = [];
   mySpecialist: SpecialistFullDto | null = null;
+
+  showAddTable = false;
+  toateServiciile: ServiciuDto[] = [];
 
   showForm = false;
   specialistDto: Partial<SpecialistFullDto> = {
@@ -45,10 +50,13 @@ export class ContComponent implements OnInit {
     private auth:    AuthService,
     private svcSpz:  SpecializareService,
     private svcSpec: SpecialistService,
+    private svcSrv:  ServiciiService,
     private router:  Router
   ) {}
 
   ngOnInit() {
+    this.svcSrv.getServicii().subscribe(list => this.toateServiciile = list);
+
     this.user = this.auth.getCurrentUser()!;
     if (!this.user) {
       this.router.navigate(['/login']);
@@ -111,4 +119,26 @@ export class ContComponent implements OnInit {
   isClient(): boolean {
     return this.user?.tipUtilizator?.toLowerCase() === 'client';
   }
+
+  get serviciiDisponibile(): ServiciuDto[] {
+      if (!this.mySpecialist) {
+        return [];
+      }
+      return this.toateServiciile.filter(
+        srv => srv.idSpecializare === this.mySpecialist!.specializareId
+      );
+    }
+  // --- Adaugă serviciu ---
+    toggleAddTable() {
+      this.showAddTable = !this.showAddTable;
+    }
+    isAlreadyAdded(srvId: number): boolean {
+      return !!this.mySpecialist?.serviciuIds.includes(srvId);
+    }
+    onAddService(srv: ServiciuDto) {
+      if (!this.mySpecialist) return;
+      this.svcSpec.addServiciuToSpecialist(this.mySpecialist.id, srv.id)
+        .subscribe(updated => this.mySpecialist = updated);
+    }
+
 }

@@ -209,4 +209,10 @@ public class SpecialistController {
         SpecialistDto updated = specialistService.validateAndPromote(id, adminId);
         return ResponseEntity.ok(updated);
     }
+
+    @PostMapping("/{id}/servicii/{serviciuId}")
+    public ResponseEntity<SpecialistDto> addServiciu(@PathVariable Long id, @PathVariable Long serviciuId) {
+        SpecialistDto updated = specialistService.addServiciuToSpecialist(id, serviciuId);
+        return ResponseEntity.ok(updated);
+    }
 }

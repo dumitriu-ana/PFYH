@@ -40,7 +40,6 @@
     </p>
     <p class="field"><strong>Tip Utilizator:</strong> {{ user?.tipUtilizator }}</p>
 
-    <!-- Aici decizi: dacă există mySpecialist, arată datele lui, altfel #notYet -->
     <ng-container *ngIf="mySpecialist; else notYet">
       <div class="specialist-data mt-4">
         <p><strong>ID Specialist:</strong> {{ mySpecialist.id }}</p>
@@ -54,6 +53,39 @@
         </p>
       </div>
     </ng-container>
+
+    <!-- adaugare servicii buton + tabel -->
+
+    <ng-container *ngIf="mySpecialist?.statusValidare === 'VALIDAT'">
+      <button class="btn btn-outline-primary mb-3"
+              (click)="toggleAddTable()">
+        {{ showAddTable ? 'Ascunde servicii' : 'Adaugă serviciu' }}
+      </button>
+
+      <table *ngIf="showAddTable" class="table table-sm table-bordered mb-4">
+        <thead>
+        <tr>
+          <th>#</th><th>Titlu</th><th>Tip</th><th>Preț</th><th>Acțiune</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let srv of serviciiDisponibile; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ srv.titlu }}</td>
+          <td>{{ srv.tipServiciu }}</td>
+          <td>{{ srv.pret | number:'1.2-2' }} lei</td>
+          <td>
+            <button class="btn btn-sm btn-success"
+                    [disabled]="isAlreadyAdded(srv.id)"
+                    (click)="onAddService(srv)">
+              {{ isAlreadyAdded(srv.id) ? 'Adăugat' : 'Adaugă' }}
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
 
     <!-- secţiune buton+formular pentru cei care NU sunt încă specialist -->
     <ng-template #notYet>
