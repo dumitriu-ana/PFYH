@@ -8,13 +8,30 @@ import { SpecialistService }        from '../../specialist.service';
 import { SpecializareDto }          from '../../models/specializare.dto';
 import { SpecialistCuNumeDto }      from '../../models/specialistCuNume.dto';
 
+
+import { MatCardModule }            from '@angular/material/card';
+import { MatButtonModule }          from '@angular/material/button';
+import { MatIconModule }            from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatGridListModule }        from '@angular/material/grid-list';
+import { MatDividerModule }         from '@angular/material/divider';
+import { MatListModule }            from '@angular/material/list';
+
 @Component({
   selector: 'app-specializari',
   standalone: true,
   imports: [
     CommonModule,
     HttpClientModule,
-    RouterLink
+    RouterLink,
+
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatListModule,
   ],
   templateUrl: './specializari.component.html',
   styleUrls: ['./specializari.component.css']

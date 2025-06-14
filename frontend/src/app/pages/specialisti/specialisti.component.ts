@@ -5,13 +5,29 @@ import { HttpClientModule }   from '@angular/common/http';
 import { SpecialistService }   from '../../specialist.service';
 import { SpecialistCuNumeDto } from '../../models/specialistCuNume.dto';
 
+import { MatCardModule }            from '@angular/material/card';
+import { MatButtonModule }          from '@angular/material/button';
+import { MatIconModule }            from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatGridListModule }        from '@angular/material/grid-list';
+import { MatDividerModule }         from '@angular/material/divider';
+import { MatListModule }            from '@angular/material/list';
+
+
 @Component({
   selector: 'app-specialisti',
   standalone: true,
   imports: [
     CommonModule,
     HttpClientModule,
-    // scoți SpecialistListComponent
+
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatListModule,
   ],
   templateUrl: './specialisti.component.html',
   styleUrls: ['./specialisti.component.css']

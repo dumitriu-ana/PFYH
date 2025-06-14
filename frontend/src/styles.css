@@ -1,5 +1,7 @@
 /* 1. Reset margin/padding implicit */
 html, body {
+  background-image: url('/assets/img/fundal_portocaliu_deschis.png');
+  background-size: cover;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -22,3 +24,9 @@ html, body {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+

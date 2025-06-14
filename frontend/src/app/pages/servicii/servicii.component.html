@@ -1,81 +1,59 @@
-<div class="container py-4">
-  <h1 class="mb-4">Servicii</h1>
+<div class="specialisti-page">
+  <h1 class="page-title text-center">Servicii</h1>
 
+  <mat-progress-spinner
+    *ngIf="loadingServicii"
+    mode="indeterminate"
+    color="primary"
+    class="spinner"
+  ></mat-progress-spinner>
 
-  <div *ngIf="loadingServicii" class="text-center py-3">
-    <div class="spinner-border text-success" role="status"></div>
-    <span class="visually-hidden">Loading...</span>
-  </div>
-
-
-  <div *ngIf="errorServicii" class="alert alert-danger">
+  <div *ngIf="errorServicii && !loadingServicii" class="alert alert-danger text-center">
     {{ errorServicii }}
+    <button mat-button color="warn" (click)="ngOnInit()">Reîncearcă</button>
   </div>
 
+  <div *ngIf="!loadingServicii && !errorServicii">
+    <mat-card *ngFor="let srv of servicii" class="spec-card">
+      <!-- Header -->
+      <mat-card-header class="spec-header">
+        <mat-card-title class="spec-name">{{ srv.titlu }}</mat-card-title>
+        <mat-card-subtitle class="spec-desc">{{ srv.tipServiciu }}</mat-card-subtitle>
+      </mat-card-header>
 
-  <table *ngIf="!loadingServicii && !errorServicii" class="table table-hover">
-    <thead class="table-dark">
-    <tr>
-      <th>#</th>
-      <th>Titlu</th>
-      <th>Tip</th>
-      <th>Pret (lei)</th>
-      <th>Durata Rezolvare</th>
-      <th>Durata Ședință</th>
-      <th class="text-center">Acțiuni</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngFor="let srv of servicii; let i = index">
-      <tr>
-        <td>{{ i + 1 }}</td>
-        <td>{{ srv.titlu }}</td>
-        <td>{{ srv.tipServiciu }}</td>
-        <td>{{ srv.pret | number:'1.2-2' }}</td>
-        <td>{{ srv.durataRezolvare }}</td>
-        <td>{{ srv.durataSedinta }}</td>
-        <td class="text-center">
-          <button
-            class="btn btn-sm btn-primary"
-            [disabled]="loadingSpecialisti.has(srv.id)"
-            (click)="toggleSpecialisti(srv.id)">
-            {{ isOpen(srv.id) ? 'Ascunde specialiști' : 'Vezi specialiști' }}
-          </button>
-        </td>
-      </tr>
+      <!-- Conținut -->
+      <mat-card-content>
+        <p><strong>Preț:</strong> {{ srv.pret | number:'1.2-2' }} lei</p>
+        <p><strong>Durata rezolvare:</strong> {{ srv.durataRezolvare }} ore</p>
+        <p><strong>Durata ședință:</strong> {{ srv.durataSedinta }} ore</p>
+      </mat-card-content>
 
-      <tr *ngIf="isOpen(srv.id)">
-        <td colspan="7" class="p-0 bg-light">
-          <table class="table table-sm mb-4">
-            <thead class="table-secondary">
-            <tr>
-              <th>#</th>
-              <th>Nume</th>
-              <th>Descriere</th>
-              <th>Atestat</th>
-              <th class="text-center">Achizitionare</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let sp of specialistiMap[srv.id]; let j = index">
-              <td>{{ j + 1 }}</td>
-              <td>{{ sp.nume }}</td>
-              <td>{{ sp.descriere }}</td>
-              <td>{{ sp.atestat }}</td>
-              <td class="text-center">
-                  <button class="btn btn-success btn-sm"> Cumpără </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </ng-container>
-    </tbody>
-  </table>
+      <!-- Acțiune: Afișare specialiști -->
+      <mat-card-actions align="end" class="spec-actions">
+        <button mat-stroked-button color="primary" (click)="toggleSpecialisti(srv.id)">
+          {{ isOpen(srv.id) ? 'Ascunde specialiști' : 'Vezi specialiști' }}
+        </button>
+      </mat-card-actions>
 
-  <p *ngIf="!loadingServicii && !errorServicii && servicii.length === 0"
-     class="text-center text-muted">
+      <!-- Lista specialiști -->
+      <mat-card-content *ngIf="isOpen(srv.id)" class="servicii-wrap">
+        <mat-card *ngFor="let sp of specialistiMap[srv.id]" class="srv-card">
+          <mat-card-header class="srv-header">
+            <mat-card-title>{{ sp.nume }}</mat-card-title>
+            <mat-card-subtitle>{{ sp.atestat }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>{{ sp.descriere }}</p>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-raised-button color="accent">Cumpără</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <p *ngIf="!loadingServicii && !errorServicii && !servicii.length" class="text-center text-muted">
     Nu există servicii disponibile momentan.
   </p>
 </div>

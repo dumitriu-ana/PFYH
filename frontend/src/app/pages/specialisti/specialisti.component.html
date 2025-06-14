@@ -1,84 +1,66 @@
-<div class="container py-4">
-  <h1 class="mb-4 text-center">Specialiști</h1>
+<div class="specialisti-page">
+  <h1 class="page-title text-center">Specialiști</h1>
 
-  <div *ngIf="isLoading" class="text-center py-3">
-    <div class="spinner-border text-primary" role="status"></div>
-    <p class="mt-2">Se încarcă specialiștii...</p>
-  </div>
+  <mat-progress-spinner
+    *ngIf="isLoading"
+    mode="indeterminate"
+    color="primary"
+    class="spinner"
+  ></mat-progress-spinner>
 
   <div *ngIf="errorMsg && !isLoading" class="alert alert-danger text-center">
     {{ errorMsg }}
-    <button (click)="load()" class="btn btn-sm btn-link text-danger ms-2">
-      Reîncearcă
-    </button>
+    <button mat-button color="warn" (click)="load()">Reîncearcă</button>
   </div>
 
-  <table *ngIf="!isLoading && !errorMsg" class="table table-hover">
-    <thead class="table-dark">
-    <tr>
-      <th>#</th>
-      <th>Nume</th>
-      <th>Descriere</th>
-      <th>Acțiuni</th>
-    </tr>
-    </thead>
-    <tbody>
-    <ng-container *ngFor="let s of specialisti; let i = index">
-      <!-- rând principal -->
-      <tr>
-        <td>{{ i + 1 }}</td>
-        <td>{{ s.nume }}</td>
-        <td>{{ s.descriere }}</td>
-        <td>
-          <button
-            class="btn btn-sm btn-outline-primary"
-            (click)="toggle(s.id)"
-          >
-            {{ isExpanded(s.id) ? 'Ascunde servicii' : 'Vezi servicii' }}
-          </button>
-        </td>
-      </tr>
-      <!-- rând extensibil -->
-      <tr *ngIf="isExpanded(s.id)">
-        <td colspan="4" class="p-0">
-          <table class="table table-bordered mb-4">
-            <thead class="table-light">
-            <tr>
-              <th>#</th>
-              <th>Titlu</th>
-              <th>Tip</th>
-              <th>Preț (lei)</th>
-              <th>Durata rezolvare</th>
-              <th>Durata ședință</th>
-              <th>Max. caractere</th>
-              <th>Acțiune</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let srv of s.servicii; let j = index">
-              <td>{{ j + 1 }}</td>
-              <td>{{ srv.titlu }}</td>
-              <td>{{ srv.tipServiciu }}</td>
-              <td>{{ srv.pret | number:'1.2-2' }}</td>
-              <td>{{ srv.durataRezolvare }}</td>
-              <td>{{ srv.durataSedinta }}</td>
-              <td>{{ srv.numarMaxCaractere }}</td>
-              <td>
-                <button class="btn btn-success btn-sm">
-                  Cumpără
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </td>
-      </tr>
-    </ng-container>
-    </tbody>
-  </table>
+  <div *ngIf="!isLoading && !errorMsg">
+    <mat-card
+      *ngFor="let s of specialisti; let i = index"
+      class="spec-card"
+    >
+      <!-- HEADER SPECIALIST-->
+      <mat-card-header class="spec-header">
+        <mat-card-title class="spec-name">{{ s.nume }}</mat-card-title>
+        <mat-card-subtitle class="spec-desc">{{ s.descriere }}</mat-card-subtitle>
+      </mat-card-header>
 
-  <p *ngIf="!isLoading && !errorMsg && specialisti.length === 0"
-     class="text-center text-muted">
-    Nu există specialiști disponibili momentan.
-  </p>
+
+      <mat-card-actions align="end" class="spec-actions">
+        <button
+          mat-stroked-button
+          color="primary"
+          (click)="toggle(s.id)"
+        >
+          {{ isExpanded(s.id) ? 'Ascunde servicii' : 'Vezi servicii' }}
+        </button>
+      </mat-card-actions>
+
+      <!-- lista serv -->
+      <mat-card-content
+        *ngIf="isExpanded(s.id)"
+        class="servicii-wrap"
+      >
+        <mat-card
+          *ngFor="let srv of s.servicii"
+          class="srv-card"
+        >
+          <mat-card-header class="srv-header">
+            <mat-card-title>{{ srv.titlu }}</mat-card-title>
+            <mat-card-subtitle>{{ srv.tipServiciu }}</mat-card-subtitle>
+          </mat-card-header>
+
+          <mat-card-content>
+            <p><strong>Pret:</strong> {{ srv.pret | number:'1.2-2' }} lei</p>
+            <p><strong>Durata rezolvare:</strong> {{ srv.durataRezolvare }} ore</p>
+            <p><strong>Durata ședință:</strong> {{ srv.durataSedinta }} ore</p>
+            <p><strong>Max caractere:</strong> {{ srv.numarMaxCaractere }}</p>
+          </mat-card-content>
+
+          <mat-card-actions align="end">
+            <button mat-raised-button color="accent">Cumpără</button>
+          </mat-card-actions>
+        </mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

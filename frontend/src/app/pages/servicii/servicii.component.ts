@@ -10,10 +10,26 @@ import { SpecialistService }    from '../../specialist.service';
 import { ServiciuDto }          from '../../models/serviciu.dto';
 import { SpecialistCuNumeDto }  from '../../models/specialistCuNume.dto';
 
+
+import { MatCardModule }            from '@angular/material/card';
+import { MatButtonModule }          from '@angular/material/button';
+import { MatIconModule }            from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatGridListModule }        from '@angular/material/grid-list';
+import { MatDividerModule }         from '@angular/material/divider';
+import { MatListModule }            from '@angular/material/list';
+
 @Component({
   selector: 'app-servicii',
   standalone: true,
-  imports: [ CommonModule, HttpClientModule, RouterLink ],
+  imports: [ CommonModule, HttpClientModule, RouterLink,     MatProgressSpinnerModule,
+                                                             MatGridListModule,
+                                                             MatCardModule,
+                                                             MatButtonModule,
+                                                             MatIconModule,
+                                                             MatDividerModule,
+                                                             MatListModule,
+  ],
   templateUrl: './servicii.component.html',
   styleUrls: ['./servicii.component.css']
 })
