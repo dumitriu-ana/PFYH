@@ -128,6 +128,22 @@ export class ContComponent implements OnInit {
         srv => srv.idSpecializare === this.mySpecialist!.specializareId
       );
     }
+
+    //serviciile existente
+      get serviciiAdaugate(): ServiciuDto[] {
+        if (!this.mySpecialist) return [];
+        return this.toateServiciile
+          .filter(srv => this.mySpecialist!.serviciuIds.includes(srv.id));
+      }
+
+//apel back pt elim serviciu
+  onRemoveService(srv: ServiciuDto) {
+    if (!this.mySpecialist) return;
+    this.svcSpec
+      .removeServiciuFromSpecialist(this.mySpecialist.id, srv.id)
+      .subscribe(updated => this.mySpecialist = updated);
+  }
+
   // --- Adaugă serviciu ---
     toggleAddTable() {
       this.showAddTable = !this.showAddTable;

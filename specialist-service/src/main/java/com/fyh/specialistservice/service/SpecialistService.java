@@ -24,4 +24,6 @@ public interface SpecialistService {
 
     SpecialistDto addServiciuToSpecialist(Long specialistId, Long serviciuId);
 
+    SpecialistDto removeServiciuFromSpecialist(Long id, Long serviciuId);
+
 }

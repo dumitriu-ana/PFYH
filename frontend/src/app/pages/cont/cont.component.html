@@ -54,9 +54,41 @@
       </div>
     </ng-container>
 
+    <!-- tabel serv existente-->
+    <ng-container *ngIf="serviciiAdaugate.length">
+      <h3 class="mt-4">Serviciile mele</h3>
+      <table class="table table-sm table-bordered mb-4">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Titlu</th>
+          <th>Tip</th>
+          <th>Preț</th>
+          <th>Elimina</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let srv of serviciiAdaugate; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ srv.titlu }}</td>
+          <td>{{ srv.tipServiciu }}</td>
+          <td>{{ srv.pret | number:'1.2-2' }} lei</td>
+          <td>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="onRemoveService(srv)">
+              Elimină
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-container>
+
     <!-- adaugare servicii buton + tabel -->
 
     <ng-container *ngIf="mySpecialist?.statusValidare === 'VALIDAT'">
+      <h3 class="mt-4">Adaugă servicii</h3>
       <button class="btn btn-outline-primary mb-3"
               (click)="toggleAddTable()">
         {{ showAddTable ? 'Ascunde servicii' : 'Adaugă serviciu' }}
@@ -65,7 +97,7 @@
       <table *ngIf="showAddTable" class="table table-sm table-bordered mb-4">
         <thead>
         <tr>
-          <th>#</th><th>Titlu</th><th>Tip</th><th>Preț</th><th>Acțiune</th>
+          <th>#</th><th>Titlu</th><th>Tip</th><th>Preț</th><th>Adaugă</th>
         </tr>
         </thead>
         <tbody>

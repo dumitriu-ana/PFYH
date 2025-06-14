@@ -215,4 +215,12 @@ public class SpecialistController {
         SpecialistDto updated = specialistService.addServiciuToSpecialist(id, serviciuId);
         return ResponseEntity.ok(updated);
     }
+
+    @DeleteMapping("/{id}/servicii/{serviciuId}")
+    public ResponseEntity<SpecialistDto> removeServiciu(
+            @PathVariable Long id,
+            @PathVariable Long serviciuId) {
+        SpecialistDto updated = specialistService.removeServiciuFromSpecialist(id, serviciuId);
+        return ResponseEntity.ok(updated);
+    }
 }

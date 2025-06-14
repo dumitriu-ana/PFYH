@@ -50,4 +50,10 @@ export class SpecialistService {
         `${this.apiUrl}/${specialistId}/servicii/${serviciuId}`, {}
       );
     }
+
+    //elim serviciu
+      removeServiciuFromSpecialist(idSpecialist: number, serviciuId: number): Observable<SpecialistFullDto> {
+        const url = `${this.apiUrl}/${idSpecialist}/servicii/${serviciuId}`;
+        return this.http.delete<SpecialistFullDto>(url);
+      }
 }

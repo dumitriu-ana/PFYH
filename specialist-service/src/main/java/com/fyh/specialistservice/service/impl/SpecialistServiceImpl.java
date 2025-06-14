@@ -189,4 +189,15 @@ public class SpecialistServiceImpl implements SpecialistService {
         }
         return SpecialistMapper.mapToSpecialistDto(ent);
     }
+
+    //elim serviciu
+    @Override
+    public SpecialistDto removeServiciuFromSpecialist(Long id, Long serviciuId) {
+        Specialist specialist = specialistRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Specialistul nu există"));
+        if (specialist.getServiciuIds().remove(serviciuId)) {
+            specialist = specialistRepository.save(specialist);
+        }
+        return SpecialistMapper.mapToSpecialistDto(specialist);
+    }
 }
