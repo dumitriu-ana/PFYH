@@ -1,90 +1,55 @@
+<img src="/assets/img/fundal_acasa_up.png" class="img-fluid w-100" alt="fundal">
+
 <div class="home-page container py-4">
-
   <div class="text-center mb-5">
-    <h1>Bun venit în aplicația noastră pentru Specialiști!</h1>
-    <p class="lead">Descoperă și conectează-te cu specialiști în diverse domenii.</p>
-    <button routerLink="/specialisti" class="btn btn-lg btn-primary">
-      Vezi lista completă de Specialiști
-    </button>
+    <h1 class="display-4 fw-bold">Find Your Human!</h1>
+    <p class="lead text-dark">
+      Platformă digitală care te conectează rapid cu specialiști din domenii diverse. Caută, compară și colaborează cu profesioniști validați.
+    </p>
   </div>
 
-  <hr class="my-4">
+  <!-- Card: Specializări -->
+  <mat-card class="spec-card text-center">
+    <mat-card-header class="spec-header">
+      <mat-card-title class="spec-name">Specializări</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="spec-desc">
+        Alege domeniul potrivit nevoilor tale și descoperă specialiști certificați.
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="spec-actions text-center">
+      <button mat-stroked-button routerLink="/specializari">Vezi Specializări</button>
+    </mat-card-actions>
+  </mat-card>
 
-  <!-- Specializări -->
-  <h2 class="text-center mb-4">Specializări Disponibile</h2>
+  <!-- Card: Specialiști -->
+  <mat-card class="spec-card text-center">
+    <mat-card-header class="spec-header">
+      <mat-card-title class="spec-name">Specialiști</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="spec-desc">
+        Consultă lista noastră actualizată de specialiști și contactează-i direct.
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="spec-actions text-center">
+      <button mat-stroked-button routerLink="/specialisti">Vezi Specialiști</button>
+    </mat-card-actions>
+  </mat-card>
 
-  <div *ngIf="isLoadingSpecializari" class="text-center py-3">
-    <div class="spinner-border text-info" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Se încarcă specializările...</p>
-  </div>
-
-  <div *ngIf="errorMessageSpecializari && !isLoadingSpecializari" class="alert alert-warning text-center" role="alert">
-    {{ errorMessageSpecializari }}
-    <button (click)="loadSpecializari()" class="btn btn-sm btn-link text-warning ms-2">Reîncearcă</button>
-  </div>
-
-  <app-specializare-list
-    *ngIf="!isLoadingSpecializari && !errorMessageSpecializari && specializari?.length"
-    [specializari]="specializari">
-  </app-specializare-list>
-
-  <p *ngIf="!isLoadingSpecializari && !errorMessageSpecializari && (!specializari || specializari.length === 0)"
-     class="text-center text-muted">
-    Nu există specializări disponibile momentan.
-  </p>
-
-  <hr class="my-4">
-
-  <!-- Specialiști -->
-  <h2 class="text-center mb-4">Specialiști Relevanți</h2>
-
-  <div *ngIf="isLoadingSpecialisti && !specialistiPentruLista" class="text-center py-3">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Se încarcă specialiștii...</p>
-  </div>
-
-  <div *ngIf="errorSpecialisti && !isLoadingSpecialisti" class="alert alert-danger text-center" role="alert">
-    {{ errorSpecialisti }}
-    <button (click)="loadSpecialistiPentruLista()" class="btn btn-sm btn-link text-danger ms-2">Reîncearcă</button>
-  </div>
-
-  <app-specialist-list
-    *ngIf="!isLoadingSpecialisti && specialistiPentruLista?.length"
-    [specialistiCuNume]="specialistiPentruLista">
-  </app-specialist-list>
-
-  <p *ngIf="!isLoadingSpecialisti && !errorSpecialisti && (!specialistiPentruLista || specialistiPentruLista.length === 0)"
-     class="text-center text-muted">
-    Nu există specialiști disponibili momentan.
-  </p>
-
-  <hr class="my-4">
-
-  <h2 class="text-center mb-4">Servicii Disponibile</h2>
-
-  <div *ngIf="isLoadingServicii" class="text-center py-3">
-    <div class="spinner-border text-success" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <p class="mt-2">Se încarcă serviciile...</p>
-  </div>
-
-  <div *ngIf="errorServicii && !isLoadingServicii" class="alert alert-danger text-center">
-    {{ errorServicii }}
-    <button (click)="loadServicii()" class="btn btn-sm btn-link text-danger ms-2">Reîncearcă</button>
-  </div>
-
-  <app-servicii-list
-    *ngIf="!isLoadingServicii && servicii?.length"
-    [servicii]="servicii">
-  </app-servicii-list>
-
-  <p *ngIf="!isLoadingServicii && !errorServicii && servicii?.length === 0"
-     class="text-center text-muted">
-    Nu există servicii disponibile momentan.
-  </p>
+  <!-- Card: Servicii -->
+  <mat-card class="spec-card text-center">
+    <mat-card-header class="spec-header">
+      <mat-card-title class="spec-name">Servicii</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p class="spec-desc">
+        Găsește exact serviciul de care ai nevoie și achiziționează-l direct.
+      </p>
+    </mat-card-content>
+    <mat-card-actions class="spec-actions text-center">
+      <button mat-stroked-button routerLink="/servicii">Vezi Servicii</button>
+    </mat-card-actions>
+  </mat-card>
 </div>

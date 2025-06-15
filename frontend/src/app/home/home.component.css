@@ -1,100 +1,67 @@
-/* home.component.css */
-
 .home-page {
+  padding: 32px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  gap: 24px;
 }
 
-h1 {
-  color: #333;
-  margin-bottom: 15px;
+img {
+  max-height: 300px;
+  object-fit: cover;
 }
 
-p {
-  color: red;
-  margin-bottom: 20px;
-  text-align: center;
+h1, h2, p {
+  color: #000;
 }
 
-button.btn-primary {
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button.btn-primary:hover {
-  background-color: #0056b3;
-}
-
-.specializari-container {
+/* Card general */
+.spec-card {
+  width: 100%;
+  max-width: 1000px;
+  background-color: #fff3e0;
+  border-radius: 8px;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: flex-start;
-  margin-top: 20px; /* Adaugă spațiu deasupra containerului de carduri */
+  flex-direction: column;
+  margin-bottom: 24px;
 }
 
-.specializare-card {
-  background-color: #f8f0e3; /* Crem deschis */
-  border: 1px solid #386641; /* Verde închis */
-  border-radius: 0.5rem; /* Colțuri ușor rotunjite */
-  transition: background-color 0.3s ease; /* Efect de hover pentru fundal */
+/* Header */
+.spec-header {
+  background-color: #e8f5e9;
+}
+
+/* Titlu */
+.spec-name {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+/* Text */
+.spec-desc {
+  font-size: 1rem;
+  color: #000;
+  opacity: 1;
+  padding: 8px 16px;
+}
+
+/* Buton acțiune */
+.spec-actions {
   text-align: center;
-  width: calc(33.33% - 10px); /* Implicit 3 carduri pe linie */
-  margin-bottom: 0; /* Elimină marginea inferioară implicită */
+  padding: 0 0 16px;
 }
 
-.specializare-card:hover {
-  background-color: #f0e6d2; /* Fundal mai deschis la hover */
+.spec-actions button {
+  display: inline-block;
+  background-color: #2e7d32;
+  color: #fff;
+  border: 1px solid #2e7d32;
+  border-radius: 24px;
+  padding: 6px 20px;
+  transition: background-color .3s;
 }
 
-.card-body {
-  padding: 0.5rem; /* Padding general pentru corpul cardului */
-}
-
-.card-title.text-dark-green {
-  color: #386641; /* Verde închis pentru titlu */
-  margin-bottom: 1rem; /* Adaugă spațiu sub titlu */
-}
-
-.btn-specialisti,
-.btn-servicii {
-  background-color: #ffb703; /* Portocaliu pentru fundalul butoanelor */
-  color: #386641; /* Verde închis pentru textul butoanelor */
-  border: 1px solid #386641; /* Border verde pentru butoane */
-  padding: 0.5rem 1rem; /* Padding pentru butoane */
-  border-radius: 0.25rem; /* Colțuri ușor rotunjite pentru butoane */
-  transition: background-color 0.3s ease; /* Efect de hover pentru fundalul butoanelor */
-  margin: 0.25rem; /* Margine pentru a distanța butoanele */
-}
-
-.btn-specialisti:hover,
-.btn-servicii:hover {
-  background-color: #e09f00; /* Fundal mai închis la hover */
-}
-
-/* Ajustări responsive pentru carduri */
-@media (max-width: 992px) { /* Pentru ecrane mai mici decât laptop */
-  .specializare-card {
-    width: calc(50% - 10px); /* 2 carduri pe linie */
-  }
-}
-
-@media (max-width: 768px) { /* Pentru tablete */
-  .specializare-card {
-    width: calc(100% - 10px); /* 1 card pe linie */
-  }
-}
-
-@media (min-width: 1200px) { /* Pentru ecrane mai mari */
-  .specializare-card {
-    width: calc(25% - 10px); /* 4 carduri pe linie pe ecrane mari */
-  }
+.spec-actions button:hover {
+  background-color: #1b5e20;
 }

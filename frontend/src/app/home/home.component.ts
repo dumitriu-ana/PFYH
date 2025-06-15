@@ -17,7 +17,13 @@ import { ServiciiService } from '../servicii.service';
 import { ServiciuDto } from '../models/serviciu.dto';
 import { ServiciiListComponent } from '../servicii-list/servicii-list.component';
 
-
+import { MatCardModule }            from '@angular/material/card';
+import { MatButtonModule }          from '@angular/material/button';
+import { MatIconModule }            from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatGridListModule }        from '@angular/material/grid-list';
+import { MatDividerModule }         from '@angular/material/divider';
+import { MatListModule }            from '@angular/material/list';
 
 @Component({
   selector: 'app-home',
@@ -28,7 +34,15 @@ import { ServiciiListComponent } from '../servicii-list/servicii-list.component'
     HttpClientModule,
     SpecialistListComponent,
     ServiciiListComponent,
-    SpecializareListComponent
+    SpecializareListComponent,
+
+    MatProgressSpinnerModule,
+    MatGridListModule,
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatDividerModule,
+    MatListModule,
   ],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
@@ -41,8 +55,8 @@ export class HomeComponent implements OnInit {
 
   //  lista de specialiști
   specialistiPentruLista: SpecialistCuNumeDto[] | null = null;
-  isLoadingSpecialisti: boolean = true; // <-- Denumire corectată
-  errorSpecialisti: string | null = null;   // <-- Denumire corectată
+  isLoadingSpecialisti: boolean = true;
+  errorSpecialisti: string | null = null;
 
     //  servicii
     servicii: ServiciuDto[] | null = null;
@@ -57,8 +71,8 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadSpecializari();
-    this.loadSpecialistiPentruLista(); // <-- Denumire corectată pentru apelul metodei
-        this.loadServicii();               // << apel nou
+    this.loadSpecialistiPentruLista();
+        this.loadServicii();
 
   }
 
