@@ -96,9 +96,7 @@ export class SpecializariComponent implements OnInit {
     return this.openServicii.has(specId);
   }
 
-  /**
-   * Buton “Afișează TOT”: deschide toate specializările (dar serviciile rămân închise)
-   */
+// buton afisare tot
   expandAll() {
     this.specializari.forEach(sp => {
       if (!this.isOpen(sp.id)) {

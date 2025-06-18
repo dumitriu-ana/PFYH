@@ -15,27 +15,27 @@
 
   <div *ngIf="!loadingServicii && !errorServicii">
     <mat-card *ngFor="let srv of servicii" class="spec-card">
-      <!-- Header -->
+      <!-- titlu -->
       <mat-card-header class="spec-header">
         <mat-card-title class="spec-name">{{ srv.titlu }}</mat-card-title>
         <mat-card-subtitle class="spec-desc">{{ srv.tipServiciu }}</mat-card-subtitle>
       </mat-card-header>
 
-      <!-- Conținut -->
+      <!-- continut -->
       <mat-card-content>
         <p><strong>Preț:</strong> {{ srv.pret | number:'1.2-2' }} lei</p>
         <p><strong>Durata rezolvare:</strong> {{ srv.durataRezolvare }} ore</p>
         <p><strong>Durata ședință:</strong> {{ srv.durataSedinta }} ore</p>
       </mat-card-content>
 
-      <!-- Acțiune: Afișare specialiști -->
+      <!-- btn afisare-->
       <mat-card-actions align="end" class="spec-actions">
         <button mat-stroked-button color="primary" (click)="toggleSpecialisti(srv.id)">
           {{ isOpen(srv.id) ? 'Ascunde specialiști' : 'Vezi specialiști' }}
         </button>
       </mat-card-actions>
 
-      <!-- Lista specialiști -->
+      <!-- lista sp -->
       <mat-card-content *ngIf="isOpen(srv.id)" class="servicii-wrap">
         <mat-card *ngFor="let sp of specialistiMap[srv.id]" class="srv-card">
           <mat-card-header class="srv-header">

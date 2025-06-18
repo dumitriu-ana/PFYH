@@ -1,16 +1,11 @@
-// src/app/pages/servicii/servicii.component.ts
-
 import { Component, OnInit }   from '@angular/core';
 import { CommonModule }         from '@angular/common';
 import { HttpClientModule }     from '@angular/common/http';
 import { RouterLink }           from '@angular/router';
-
 import { ServiciiService }      from '../../servicii.service';
 import { SpecialistService }    from '../../specialist.service';
 import { ServiciuDto }          from '../../models/serviciu.dto';
 import { SpecialistCuNumeDto }  from '../../models/specialistCuNume.dto';
-
-
 import { MatCardModule }            from '@angular/material/card';
 import { MatButtonModule }          from '@angular/material/button';
 import { MatIconModule }            from '@angular/material/icon';
@@ -22,14 +17,8 @@ import { MatListModule }            from '@angular/material/list';
 @Component({
   selector: 'app-servicii',
   standalone: true,
-  imports: [ CommonModule, HttpClientModule, RouterLink,     MatProgressSpinnerModule,
-                                                             MatGridListModule,
-                                                             MatCardModule,
-                                                             MatButtonModule,
-                                                             MatIconModule,
-                                                             MatDividerModule,
-                                                             MatListModule,
-  ],
+  imports: [ CommonModule, HttpClientModule, RouterLink,   MatProgressSpinnerModule, MatGridListModule, MatCardModule,
+            MatButtonModule, MatIconModule, MatDividerModule, MatListModule, ],
   templateUrl: './servicii.component.html',
   styleUrls: ['./servicii.component.css']
 })
@@ -54,8 +43,8 @@ export class ServiciiComponent implements OnInit {
         this.loadingServicii = false;
       },
       error: (err: any) => {
-        console.error('Eroare incarcare servicii', err);
-        this.errorServicii = 'Nu am putut incarca serviciile';
+        console.error('Eroare la incarcare servicii', err);
+        this.errorServicii = 'Nu s-au incarcat serviciile';
         this.loadingServicii = false;
       }
     });
@@ -74,13 +63,12 @@ export class ServiciiComponent implements OnInit {
           this.loadingSpecialisti.delete(serviciuId);
         },
         error: (err: any) => {
-          console.error(`Eroare la încărcare specialiști pentru serviciu ${serviciuId}`, err);
+          console.error(`Eroare la incarcare specialisti pentru serviciu ${serviciuId}`, err);
           this.loadingSpecialisti.delete(serviciuId);
         }
       });
     }
   }
-
   isOpen(serviciuId: number): boolean {
     return this.openServicii.has(serviciuId);
   }
