@@ -25,4 +25,7 @@ export class ComenziService {
     return this.http.post<ComandaDto>(`${this.apiUrl}/cu-fisier`, formData);
   }
 
+  getComenziByClientId(clientId: number): Observable<ComandaDto[]> {
+    return this.http.get<ComandaDto[]>(`${this.apiUrl}/client/${clientId}`);
+  }
 }

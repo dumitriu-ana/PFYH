@@ -78,7 +78,10 @@ public class ComandaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
     }
 
-
-
+    @GetMapping("/client/{clientId}")
+    public ResponseEntity<List<ComandaDto>> getComenziByClientId(@PathVariable Long clientId) {
+        List<ComandaDto> comenzi = comandaService.getComenziByClientId(clientId);
+        return ResponseEntity.ok(comenzi);
+    }
 
 }

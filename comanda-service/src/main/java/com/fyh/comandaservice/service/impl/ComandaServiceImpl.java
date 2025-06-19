@@ -13,6 +13,7 @@ import com.fyh.comandaservice.service.ServiciuClient;
 import com.fyh.comandaservice.service.SpecialistClient;
 import com.fyh.comandaservice.service.UtilizatorClient;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -91,10 +92,31 @@ public class ComandaServiceImpl implements ComandaService {
         return null;
     }
 
-
-
     @Override
     public void deleteComanda(Long id) {
         comandaRepository.deleteById(id);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<ComandaDto> getComenziByClientId(Long clientId) {
+        List<Comanda> comenzi = comandaRepository.findByIdClient(clientId);
+
+        try {
+            UtilizatorDto client = utilizatorClient.getUtilizatoriById(clientId); // aici poate pica
+            return comenzi.stream()
+                    .map(comanda -> {
+                        ComandaDto dto = ComandaMapper.mapToComandaDto(comanda);
+                        dto.setIdClient(client.getId());
+                        return dto;
+                    })
+                    .collect(Collectors.toList());
+
+        } catch (Exception e) {
+            e.printStackTrace(); // vezi stacktrace în consola Spring Boot
+            throw new RuntimeException("Eroare la obținerea utilizatorului din utilizator-service", e);
+        }
+    }
+
+
 }

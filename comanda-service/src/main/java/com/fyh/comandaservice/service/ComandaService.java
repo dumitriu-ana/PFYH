@@ -11,4 +11,7 @@ public interface ComandaService {
     List<ComandaDto> getAllComenzi();
     ComandaDto updateComanda(Long id, ComandaDto comandaDto);
     void deleteComanda(Long id);
+
+    List<ComandaDto> getComenziByClientId(Long clientId);
+
 }

@@ -5,18 +5,20 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class UtilizatorDto {
     private Long id;
     private String idFirebase;
-    private java.sql.Timestamp dataInreg;
+    private Timestamp dataInreg;
     private String nume;
     private String email;
     private String parola;
     private String tipUtilizator;
-    private java.math.BigDecimal sold;
+    private BigDecimal sold;
 }

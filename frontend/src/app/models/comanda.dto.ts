@@ -3,12 +3,19 @@ export interface ComandaDto {
   idClient: number;
   idSpecialist: number;
   idServiciu: number;
-  dataCreare?: string; // poate fi null pentru POST
+  dataCreare?: string;
   status?: string;
   pret: number;
   mesajClient: string;
-  fisierClient?: string; // sau base64 dacă decizi să encodezi PDF-ul
+
+  // PDF   client
+  fisierClient?: string;
+  numeFisierClient?: string;
+
   dataMaximaLivrare?: string;
+
+  // rasp specialistului
   mesajSpecialist?: string;
   fisierSpecialist?: string;
+  numeFisierSpecialist?: string;
 }

@@ -1,1 +1,30 @@
-<p>comenzi functioneaza!</p>
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Comenzile tale</h2>
+
+  <div *ngIf="comenzi.length === 0" class="alert alert-info text-center">
+    Nu ai plasat nicio comandă.
+  </div>
+
+  <div *ngFor="let comanda of comenzi" class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Comandă #{{ comanda.id }}</h5>
+      <p><strong>Serviciu:</strong> {{ comanda.idServiciu }}</p>
+      <p><strong>Specialist:</strong> {{ comanda.idSpecialist }}</p>
+      <p><strong>Status:</strong> {{ comanda.status }}</p>
+      <p><strong>Preț:</strong> {{ comanda.pret }} RON</p>
+      <p><strong>Plasată pe:</strong> {{ comanda.dataCreare | date }}</p>
+      <p><strong>Data livrare estimată:</strong> {{ comanda.dataMaximaLivrare | date }}</p>
+
+      <button class="btn btn-outline-primary mt-2" (click)="toggleComanda(comanda.id!)">
+        {{ comandaDeschisa === comanda.id ? 'Ascunde detalii' : 'Vezi detalii' }}
+      </button>
+
+      <div *ngIf="comandaDeschisa === comanda.id" class="mt-3">
+        <p><strong>Mesaj trimis:</strong> {{ comanda.mesajClient }}</p>
+        <p *ngIf="comanda.numeFisierClient"><strong>Fișier atașat:</strong> {{ comanda.numeFisierClient }}</p>
+        <p *ngIf="comanda.mesajSpecialist"><strong>Răspuns specialist:</strong> {{ comanda.mesajSpecialist }}</p>
+        <p *ngIf="comanda.numeFisierSpecialist"><strong>Fișier răspuns:</strong> {{ comanda.numeFisierSpecialist }}</p>
+      </div>
+    </div>
+  </div>
+</div>
