@@ -14,6 +14,7 @@ import com.fyh.comandaservice.service.SpecialistClient;
 import com.fyh.comandaservice.service.UtilizatorClient;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,10 +52,19 @@ public class ComandaServiceImpl implements ComandaService {
 
     @Override
     public ComandaDto createComanda(ComandaDto comandaDto) {
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        comandaDto.setDataCreare(now);
+        Timestamp dataMaximaLivrare = new Timestamp(now.getTime() + 5L * 24 * 60 * 60 * 1000);
+        comandaDto.setDataMaximaLivrare(dataMaximaLivrare);
+        if (comandaDto.getStatus() == null) {
+            comandaDto.setStatus("Plasata");
+        }
         Comanda comanda = ComandaMapper.mapToComanda(comandaDto);
-        Comanda savedComanda = comandaRepository.save(comanda);
-        return ComandaMapper.mapToComandaDto(savedComanda);
+        Comanda saved = comandaRepository.save(comanda);
+
+        return ComandaMapper.mapToComandaDto(saved);
     }
+
 
     @Override
     public ComandaDto getComandaById(Long id) {

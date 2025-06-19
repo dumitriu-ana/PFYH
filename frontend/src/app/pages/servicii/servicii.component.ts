@@ -14,11 +14,16 @@ import { MatGridListModule }        from '@angular/material/grid-list';
 import { MatDividerModule }         from '@angular/material/divider';
 import { MatListModule }            from '@angular/material/list';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-servicii',
   standalone: true,
   imports: [ CommonModule, HttpClientModule, RouterLink,   MatProgressSpinnerModule, MatGridListModule, MatCardModule,
-            MatButtonModule, MatIconModule, MatDividerModule, MatListModule, ],
+            MatButtonModule, MatIconModule, MatDividerModule, MatListModule,
+             MatDialogModule, ComandaDialogComponent ],
   templateUrl: './servicii.component.html',
   styleUrls: ['./servicii.component.css']
 })
@@ -33,7 +38,8 @@ export class ServiciiComponent implements OnInit {
 
   constructor(
     private svcServ: ServiciiService,
-    private svcSpec: SpecialistService
+    private svcSpec: SpecialistService,
+    private dialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -72,4 +78,20 @@ export class ServiciiComponent implements OnInit {
   isOpen(serviciuId: number): boolean {
     return this.openServicii.has(serviciuId);
   }
+
+deschideDialog(serviciu: ServiciuDto, specialist: SpecialistCuNumeDto) {
+  const dialogRef = this.dialog.open(ComandaDialogComponent, {
+    width: '600px',
+    data: { serviciu, specialist }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    if (result) {
+      console.log('Comandă transmisă:', result);
+      // TODO: apel backend pentru salvare
+    }
+  });
+}
+
+
 }

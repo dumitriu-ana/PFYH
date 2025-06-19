@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Achiziționează serviciul</h2>
+<mat-dialog-content>
+  <p><strong>Serviciu:</strong> {{ data.serviciu.titlu }}</p>
+  <p><strong>Specialist:</strong> {{ data.specialist.nume }}</p>
+
+  <form [formGroup]="form">
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Descriere solicitare</mat-label>
+      <textarea matInput formControlName="mesaj" rows="4"></textarea>
+    </mat-form-field>
+
+    <label for="pdfUpload">Atașează fișier PDF:</label>
+    <input type="file" id="pdfUpload" accept=".pdf" (change)="onFisierSelectat($event)" />
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="inchide()">Anulează</button>
+  <button mat-raised-button color="primary" (click)="trimiteComanda()">Trimite</button>
+</mat-dialog-actions>

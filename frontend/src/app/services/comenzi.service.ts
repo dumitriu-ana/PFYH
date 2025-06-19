@@ -1,0 +1,28 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ComandaDto } from '../models/comanda.dto';
+
+@Injectable({ providedIn: 'root' })
+export class ComenziService {
+  private apiUrl = 'http://localhost:8081/api/comenzi';
+
+  constructor(private http: HttpClient) {}
+
+  creeazaComanda(dto: ComandaDto): Observable<ComandaDto> {
+    return this.http.post<ComandaDto>(this.apiUrl, dto);
+  }
+
+  getComenzi(): Observable<ComandaDto[]> {
+    return this.http.get<ComandaDto[]>(this.apiUrl);
+  }
+
+  getComandaById(id: number): Observable<ComandaDto> {
+    return this.http.get<ComandaDto>(`${this.apiUrl}/${id}`);
+  }
+
+  creeazaComandaCuFisier(formData: FormData): Observable<ComandaDto> {
+    return this.http.post<ComandaDto>(`${this.apiUrl}/cu-fisier`, formData);
+  }
+
+}

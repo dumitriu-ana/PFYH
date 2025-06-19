@@ -19,11 +19,9 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "Comenzi")
 public class Comanda {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "id_client")
     private Long idClient;
 
@@ -45,14 +43,12 @@ public class Comanda {
     @Column(name = "mesaj_client")
     private String mesajClient;
 
-    @Column(name = "fisier_client")
-    private String fisierClient;
+    @Lob
+    @Column(name = "fisier_client", columnDefinition = "BYTEA") // pentru PostgreSQL
+    private byte[] fisierClient;
 
-    @Column(name = "data_sedinta")
-    private Timestamp dataSedinta;
-
-    @Column(name = "status_sedinta")
-    private String statusSedinta;
+    @Column(name = "nume_fisier_client")
+    private String numeFisierClient;
 
     @Column(name = "data_maxima_livrare")
     private Timestamp dataMaximaLivrare;
@@ -60,6 +56,10 @@ public class Comanda {
     @Column(name = "mesaj_specialist")
     private String mesajSpecialist;
 
-    @Column(name = "fisier_specialist")
-    private String fisierSpecialist;
+    @Column(name = "nume_fisier_specialist")
+    private String numeFisierSpecialist;
+
+    @Lob
+    @Column(name = "fisier_specialist", columnDefinition = "BYTEA")
+    private byte[] fisierSpecialist;
 }

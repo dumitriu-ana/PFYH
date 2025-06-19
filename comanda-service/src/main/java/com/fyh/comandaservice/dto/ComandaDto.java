@@ -22,10 +22,12 @@ public class ComandaDto {
     private String status;
     private BigDecimal pret;
     private String mesajClient;
-    private String fisierClient;
-    private Timestamp dataSedinta;
-    private String statusSedinta;
+
+    private String numeFisierClient;
+    private byte[] fisierClient;
     private Timestamp dataMaximaLivrare;
     private String mesajSpecialist;
-    private String fisierSpecialist;
+
+    private String numeFisierSpecialist;
+    private byte[] fisierSpecialist;
 }

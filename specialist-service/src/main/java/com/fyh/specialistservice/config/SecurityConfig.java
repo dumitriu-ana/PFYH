@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,15 +24,14 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsSource))
 
                 .authorizeHttpRequests(auth -> auth
-                        // ————————————————
-                        // 1) endpoint-urile pe care VREI să le securizezi:
-                        // orice modificare sau acces detaliat la un specialist
+
+                        // 1) endp securizate
 //                        .requestMatchers(HttpMethod.POST,   "/api/specialisti/**").authenticated()
 //                        .requestMatchers(HttpMethod.PUT,    "/api/specialisti/**").authenticated()
 //                        .requestMatchers(HttpMethod.DELETE, "/api/specialisti/**").authenticated()
 //                        .requestMatchers(HttpMethod.GET,    "/api/specialisti/*"  ).authenticated()
 
-                        // 2) restul este PERMIȚII PUBLIC:
+
                         .anyRequest().permitAll()
                 );
 

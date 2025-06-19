@@ -6,7 +6,9 @@ import com.fyh.comandaservice.service.ComandaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -57,4 +59,26 @@ public class ComandaController {
         comandaService.deleteComanda(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PostMapping("/cu-fisier")
+    public ResponseEntity<ComandaDto> createComandaCuFisier(
+            @RequestPart("comanda") ComandaDto comandaDto,
+            @RequestPart(value = "fisier", required = false) MultipartFile fisier
+    ) {
+        if (fisier != null && !fisier.isEmpty()) {
+            try {
+                comandaDto.setFisierClient(fisier.getBytes());
+                comandaDto.setNumeFisierClient(fisier.getOriginalFilename());
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
+        ComandaDto saved = comandaService.createComanda(comandaDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+
+
+
 }
