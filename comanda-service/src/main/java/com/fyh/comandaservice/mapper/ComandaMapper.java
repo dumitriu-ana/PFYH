@@ -27,6 +27,9 @@ public class ComandaMapper {
         comandaDto.setMesajSpecialist(comanda.getMesajSpecialist());
         comandaDto.setFisierSpecialist(comanda.getFisierSpecialist());
 
+        comandaDto.setNumeFisierClient(comanda.getNumeFisierClient());
+        comandaDto.setNumeFisierSpecialist(comanda.getNumeFisierSpecialist());
+
         return comandaDto;
     }
 

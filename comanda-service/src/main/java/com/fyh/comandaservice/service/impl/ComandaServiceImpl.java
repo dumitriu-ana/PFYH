@@ -100,23 +100,37 @@ public class ComandaServiceImpl implements ComandaService {
     @Transactional(readOnly = true)
     @Override
     public List<ComandaDto> getComenziByClientId(Long clientId) {
+        try {
+            utilizatorClient.getUtilizatoriById(clientId);
+        } catch (Exception e) {
+            System.err.println("Clientul cu ID " + clientId + " nu a fost gasit.");
+            throw new RuntimeException("Client not found", e);
+        }
+
         List<Comanda> comenzi = comandaRepository.findByIdClient(clientId);
 
-        try {
-            UtilizatorDto client = utilizatorClient.getUtilizatoriById(clientId); // aici poate pica
-            return comenzi.stream()
-                    .map(comanda -> {
-                        ComandaDto dto = ComandaMapper.mapToComandaDto(comanda);
-                        dto.setIdClient(client.getId());
-                        return dto;
-                    })
-                    .collect(Collectors.toList());
+        return comenzi.stream()
+                .map(comanda -> {
+                    ComandaDto dto = ComandaMapper.mapToComandaDto(comanda);
+                    try {
+                        ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
+                        dto.setTitluServiciu(serviciu.getTitlu());
+                    } catch (Exception e) {
+                        System.err.println("Eroare la obtinerea serviciului cu ID: " + comanda.getIdServiciu());
+                        dto.setTitluServiciu("Serviciu indisponibil");
+                    }
+                    try {
+                        SpecialistDto specialistInfo = specialistClient.getSpecialistById(comanda.getIdSpecialist());
+                        UtilizatorDto utilizatorDtoSpecialist = utilizatorClient.getUtilizatoriById(specialistInfo.getIdUtilizator());
+                        dto.setNumeSpecialist(utilizatorDtoSpecialist.getNume());
+                    } catch (Exception e) {
+                        System.err.println("Eroare la obtinerea specialistului cu ID: " + comanda.getIdSpecialist());
+                        dto.setNumeSpecialist("Specialist indisponibil");
+                    }
 
-        } catch (Exception e) {
-            e.printStackTrace(); // vezi stacktrace în consola Spring Boot
-            throw new RuntimeException("Eroare la obținerea utilizatorului din utilizator-service", e);
-        }
+                    return dto;
+                })
+                .collect(Collectors.toList());
     }
-
 
 }

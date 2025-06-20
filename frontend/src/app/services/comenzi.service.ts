@@ -28,4 +28,11 @@ export class ComenziService {
   getComenziByClientId(clientId: number): Observable<ComandaDto[]> {
     return this.http.get<ComandaDto[]>(`${this.apiUrl}/client/${clientId}`);
   }
+
+  descarcaFisier(idComanda: number, tipFisier: 'client' | 'specialist'): Observable<Blob> {
+    const url = `${this.apiUrl}/${idComanda}/fisier/${tipFisier}`;
+    return this.http.get(url, {
+      responseType: 'blob' //  fisier binar
+    });
+  }
 }

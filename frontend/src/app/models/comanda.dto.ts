@@ -1,21 +1,20 @@
 export interface ComandaDto {
   id?: number;
-  idClient: number;
-  idSpecialist: number;
-  idServiciu: number;
+  idClient?: number;
+  idSpecialist?: number;
+  idServiciu?: number;
   dataCreare?: string;
   status?: string;
-  pret: number;
-  mesajClient: string;
-
-  // PDF   client
-  fisierClient?: string;
+  pret?: number;
+  mesajClient?: string;
   numeFisierClient?: string;
-
+  fisierClient?: any;
   dataMaximaLivrare?: string;
-
-  // rasp specialistului
   mesajSpecialist?: string;
-  fisierSpecialist?: string;
   numeFisierSpecialist?: string;
+  fisierSpecialist?: any;
+
+  titluServiciu?: string;
+  numeSpecialist?: string;
+  numeClient?: string;
 }

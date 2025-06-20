@@ -3,7 +3,11 @@ package com.fyh.comandaservice.controller;
 
 import com.fyh.comandaservice.dto.ComandaDto;
 import com.fyh.comandaservice.service.ComandaService;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -84,4 +88,35 @@ public class ComandaController {
         return ResponseEntity.ok(comenzi);
     }
 
+
+    //desc fisiere
+    @GetMapping("/{id}/fisier/client")
+    public ResponseEntity<Resource> downloadFisierClient(@PathVariable Long id) {
+        ComandaDto comanda = comandaService.getComandaById(id);
+        if (comanda == null || comanda.getFisierClient() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ByteArrayResource resource = new ByteArrayResource(comanda.getFisierClient());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + comanda.getNumeFisierClient() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM) // Tip generic pentru fisier
+                .body(resource);
+    }
+
+    @GetMapping("/{id}/fisier/specialist")
+    public ResponseEntity<Resource> downloadFisierSpecialist(@PathVariable Long id) {
+        ComandaDto comanda = comandaService.getComandaById(id);
+        if (comanda == null || comanda.getFisierSpecialist() == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        ByteArrayResource resource = new ByteArrayResource(comanda.getFisierSpecialist());
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + comanda.getNumeFisierSpecialist() + "\"")
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .body(resource);
+    }
 }

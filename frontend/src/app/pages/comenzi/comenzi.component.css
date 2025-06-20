@@ -1,0 +1,142 @@
+.comenzi-page {
+  padding: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.page-title {
+  margin-bottom: 24px;
+  color: #333;
+}
+
+.spinner {
+  display: block;
+  margin: 50px auto;
+}
+
+.comanda-card {
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: box-shadow 0.3s ease;
+}
+
+.comanda-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.comanda-header {
+  background-color: #e8f5e9; /* Un verde pal, ca la servicii */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+}
+
+.header-content {
+  flex-grow: 1;
+}
+
+.comanda-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #2e7d32; /* Verde inchis */
+}
+
+.comanda-specialist {
+  font-size: 1rem;
+  color: #555;
+}
+
+.comanda-pret {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #2e7d32;
+  white-space: nowrap;
+  margin-left: 16px;
+}
+
+.comanda-content {
+  padding: 16px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.info-item mat-icon {
+  margin-right: 6px;
+  font-size: 18px;
+}
+
+.status-chip {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-weight: 500;
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.status-plasata {
+  background-color: #ffa726; /* Portocaliu */
+}
+
+.status-livrata {
+  background-color: #66bb6a; /* Verde */
+}
+
+.status-progres {
+  background-color: #42a5f5; /* Albastru */
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.download-btn {
+  background-color: #2e7d32 !important; /* Important pentru a suprascrie stilul mat */
+  color: white !important;
+}
+
+.detalii-mesaj {
+    margin-top: 16px;
+    padding-top: 16px;
+    background-color: #fafafa;
+    padding: 12px;
+    border-radius: 4px;
+}
+
+mat-card-actions {
+  padding: 8px 16px !important;
+}
+
+.details-btn {
+  color: #2e7d32 !important;
+  border-color: #2e7d32 !important;
+}
+
+.details-btn mat-icon {
+    margin-right: 6px;
+}

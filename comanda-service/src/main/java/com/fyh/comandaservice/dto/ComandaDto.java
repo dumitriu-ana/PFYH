@@ -30,4 +30,8 @@ public class ComandaDto {
 
     private String numeFisierSpecialist;
     private byte[] fisierSpecialist;
+
+    private String titluServiciu;
+    private String numeSpecialist;
+    private String numeClient;
 }
