@@ -11,6 +11,9 @@ public interface SpecialistService {
     SpecialistDto createSpecialist(SpecialistDto specialistDto);
     SpecialistDto getSpecialistById(Long id);
     List<SpecialistDto> getAllSpecialisti();
+
+    SpecialistDto getSpecialistByUtilizatorId(Long idUtilizator);
+
     SpecialistDto updateSpecialist(Long id, SpecialistDto specialistDto);
     void deleteSpecialist(Long id);
 

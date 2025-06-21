@@ -200,4 +200,11 @@ public class SpecialistServiceImpl implements SpecialistService {
         }
         return SpecialistMapper.mapToSpecialistDto(specialist);
     }
+
+    @Override
+    public SpecialistDto getSpecialistByUtilizatorId(Long idUtilizator) {
+        Specialist specialist = specialistRepository.findByIdUtilizator(idUtilizator)
+                .orElseThrow(() -> new RuntimeException("Specialist not found for utilizator id: " + idUtilizator));
+        return SpecialistMapper.mapToSpecialistDto(specialist);
+    }
 }

@@ -13,5 +13,5 @@ public interface ComandaService {
     void deleteComanda(Long id);
 
     List<ComandaDto> getComenziByClientId(Long clientId);
-
+    List<ComandaDto> getComenziBySpecialistId(Long specialistId);
 }

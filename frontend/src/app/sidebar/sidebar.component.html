@@ -29,6 +29,10 @@
         <a routerLink="/comenzi" routerLinkActive="active">Comenzi</a>
       </li>
 
+      <li class="sidebar-item" *ngIf="isSpecialist()">
+        <a routerLink="/comenzi-specialist" routerLinkActive="active">Comenzi Alocate</a>
+      </li>
+
       <li class="sidebar-item" *ngIf="isAdmin()">
         <a routerLink="/administrare" routerLinkActive="active">Administrare</a>
       </li>

@@ -88,6 +88,11 @@ public class ComandaController {
         return ResponseEntity.ok(comenzi);
     }
 
+    @GetMapping("/specialist/utilizator/{utilizatorId}")
+    public ResponseEntity<List<ComandaDto>> getComenziBySpecialistUtilizatorId(@PathVariable Long utilizatorId) {
+        List<ComandaDto> comenzi = comandaService.getComenziBySpecialistId(utilizatorId);
+        return ResponseEntity.ok(comenzi);
+    }
 
     //desc fisiere
     @GetMapping("/{id}/fisier/client")

@@ -29,6 +29,11 @@ export class ComenziService {
     return this.http.get<ComandaDto[]>(`${this.apiUrl}/client/${clientId}`);
   }
 
+  getComenziBySpecialistId(utilizatorId: number): Observable<ComandaDto[]> {
+    const url = `${this.apiUrl}/specialist/utilizator/${utilizatorId}`;
+    return this.http.get<ComandaDto[]>(url);
+  }
+
   descarcaFisier(idComanda: number, tipFisier: 'client' | 'specialist'): Observable<Blob> {
     const url = `${this.apiUrl}/${idComanda}/fisier/${tipFisier}`;
     return this.http.get(url, {

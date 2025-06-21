@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 public interface ComandaRepository extends JpaRepository<Comanda, Long> {
     List<Comanda> findByIdClient(Long idClient);
-
+    List<Comanda> findByIdSpecialist(Long idSpecialist);
 }

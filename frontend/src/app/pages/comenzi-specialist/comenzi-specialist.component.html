@@ -1,0 +1,79 @@
+<div class="comenzi-page">
+  <h1 class="page-title text-center">Comenzi Alocate</h1>
+
+  <mat-progress-spinner
+    *ngIf="loading"
+    mode="indeterminate"
+    color="primary"
+    class="spinner"
+  ></mat-progress-spinner>
+
+  <div *ngIf="error && !loading" class="alert alert-danger text-center">
+    {{ error }}
+    <button mat-button color="warn" (click)="ngOnInit()">Reîncearcă</button>
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <mat-card *ngFor="let comanda of comenzi" class="comanda-card">
+      <mat-card-header class="comanda-header">
+        <div class="header-content">
+          <mat-card-title class="comanda-title">{{ comanda.titluServiciu }} #{{comanda.id}}</mat-card-title>
+          <mat-card-subtitle class="comanda-specialist">Client: {{ comanda.numeClient }}</mat-card-subtitle>
+        </div>
+        <div class="comanda-pret">{{ comanda.pret | number:'1.2-2' }} lei</div>
+      </mat-card-header>
+
+      <mat-card-content class="comanda-content">
+        <div class="info-row">
+            <span class="info-item">
+                <mat-icon>calendar_today</mat-icon>
+                Primită: <strong>{{ comanda.dataCreare | date:'dd/MM/yyyy' }}</strong>
+            </span>
+          <span class="info-item">
+                <mat-icon>event_available</mat-icon>
+                Termen: <strong>{{ comanda.dataMaximaLivrare | date:'dd/MM/yyyy' }}</strong>
+            </span>
+          <span class="status-chip" [ngClass]="{
+              'status-plasata': comanda.status === 'Plasata',
+              'status-livrata': comanda.status === 'Livrata' || comanda.status === 'Finalizata',
+              'status-progres': comanda.status === 'In Progres'
+            }">
+              {{ comanda.status }}
+            </span>
+        </div>
+
+        <div *ngIf="comanda.numeFisierClient" class="file-row">
+          <button mat-flat-button class="download-btn" (click)="descarcaFisier($event, comanda, 'client')">
+            <mat-icon>download</mat-icon> Descarcă fișier client
+          </button>
+          <span>{{ comanda.numeFisierClient }}</span>
+        </div>
+
+        <div *ngIf="comanda.numeFisierSpecialist" class="file-row">
+          <button mat-flat-button class="download-btn" (click)="descarcaFisier($event, comanda, 'specialist')">
+            <mat-icon>download</mat-icon> Descarcă fișierul tău
+          </button>
+          <span>{{ comanda.numeFisierSpecialist }}</span>
+        </div>
+
+        <div *ngIf="comandaDeschisa === comanda.id" class="detalii-mesaj">
+          <hr>
+          <p><strong>Mesaj de la client:</strong> {{ comanda.mesajClient || 'Fără mesaj.' }}</p>
+          <p *ngIf="comanda.mesajSpecialist"><strong>Răspunsul tău:</strong> {{ comanda.mesajSpecialist }}</p>
+        </div>
+
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-stroked-button class="details-btn" (click)="toggleComanda(comanda.id!)">
+          <mat-icon>{{ comandaDeschisa === comanda.id ? 'visibility_off' : 'visibility' }}</mat-icon>
+          {{ comandaDeschisa === comanda.id ? 'Ascunde detalii' : 'Vezi detalii' }}
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <p *ngIf="!loading && !error && !comenzi.length" class="text-center text-muted">
+      Nu ai nicio comandă alocată.
+    </p>
+  </div>
+</div>

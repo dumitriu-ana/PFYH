@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface SpecialistRepository extends JpaRepository<Specialist, Long> {
     Optional<Specialist> findByIdUtilizator(Long idUtilizator);
 
+
 }

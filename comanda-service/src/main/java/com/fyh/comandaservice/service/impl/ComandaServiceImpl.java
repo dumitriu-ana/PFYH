@@ -133,4 +133,66 @@ public class ComandaServiceImpl implements ComandaService {
                 .collect(Collectors.toList());
     }
 
+
+    //com pt specialist
+    @Transactional(readOnly = true)
+    @Override
+    public List<ComandaDto> getComenziBySpecialistId(Long utilizatorId) {
+        // Pas 1: Traducem ID-ul de utilizator in ID-ul de specialist (din tabela Specialist)
+        SpecialistDto specialist;
+        try {
+            specialist = specialistClient.getSpecialistByUtilizatorId(utilizatorId);
+            if (specialist == null) {
+                throw new RuntimeException("Nu a fost găsit un profil de specialist pentru utilizatorul cu ID: " + utilizatorId);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Eroare la comunicarea cu serviciul de specialiști.", e);
+        }
+
+        // Pas 2: Folosim ID-ul real de specialist pentru a prelua comenzile
+        List<Comanda> comenzi = comandaRepository.findByIdSpecialist(specialist.getId());
+
+        // Pas 3: Procesam fiecare comanda pentru a o imbogati cu date
+        return comenzi.stream()
+                .map(this::mapComandaToDtoWithDetails) // Folosim aceeasi metoda helper
+                .collect(Collectors.toList());
+    }
+
+    private ComandaDto mapComandaToDtoWithDetails(Comanda comanda) {
+        ComandaDto dto = ComandaMapper.mapToComandaDto(comanda);
+
+        // Incarcam titlul serviciului
+        try {
+            ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
+            dto.setTitluServiciu(serviciu.getTitlu());
+        } catch (Exception e) {
+            System.err.println("Eroare la preluarea serviciului cu ID: " + comanda.getIdServiciu());
+            dto.setTitluServiciu("Serviciu Indisponibil");
+        }
+
+        // Incarcam numele clientului
+        try {
+            UtilizatorDto clientInfo = utilizatorClient.getUtilizatoriById(comanda.getIdClient());
+            dto.setNumeClient(clientInfo.getNume());
+        } catch (Exception e) {
+            System.err.println("Eroare la preluarea clientului cu ID: " + comanda.getIdClient());
+            dto.setNumeClient("Client Indisponibil");
+        }
+
+        // Incarcam numele specialistului (LOGICA CORECTATA IN 2 PASI)
+        try {
+            // Pas 1: Obtinem obiectul Specialist pe baza idSpecialist din comanda
+            SpecialistDto specialistInfo = specialistClient.getSpecialistById(comanda.getIdSpecialist());
+            // Pas 2: Folosim idUtilizator din obiectul Specialist pentru a obtine datele utilizatorului
+            UtilizatorDto specialistUserInfo = utilizatorClient.getUtilizatoriById(specialistInfo.getIdUtilizator());
+            dto.setNumeSpecialist(specialistUserInfo.getNume());
+        } catch (Exception e) {
+            System.err.println("Eroare la preluarea numelui specialistului pentru comanda ID: " + comanda.getId());
+            dto.setNumeSpecialist("Specialist Indisponibil");
+        }
+
+        return dto;
+    }
+
+
 }

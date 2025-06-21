@@ -58,6 +58,11 @@ export class SidebarComponent {
     return user?.tipUtilizator === 'admin';
   }
 
+  isSpecialist(): boolean {
+      const user = this.auth.getCurrentUser();
+      return user?.tipUtilizator?.toUpperCase() === 'SPECIALIST';
+  }
+
   logout(): void {
     this.auth.clearToken();
     this.router.navigate(['/home']);

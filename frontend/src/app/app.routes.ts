@@ -9,6 +9,7 @@ import { LoginComponent }      from './pages/login/login.component';
 import { ContComponent }        from './pages/cont/cont.component';
 import { AdministrareComponent }        from './pages/administrare/administrare.component';
 import { ComenziComponent }        from './pages/comenzi/comenzi.component';
+import { ComenziSpecialistComponent } from './pages/comenzi-specialist/comenzi-specialist.component';
 
 export const routes: Routes = [
   { path: 'home',         component: HomeComponent },
@@ -21,9 +22,9 @@ export const routes: Routes = [
   { path: 'cont',         component: ContComponent },
   { path: 'logout',       redirectTo: 'home', pathMatch: 'full' },
 
-    { path: 'administrare', component: AdministrareComponent },
-    { path: 'comenzi', component: ComenziComponent },
-
+  { path: 'administrare', component: AdministrareComponent },
+  { path: 'comenzi', component: ComenziComponent },
+  { path: 'comenzi-specialist', component: ComenziSpecialistComponent },
   { path: '',             redirectTo: 'home', pathMatch: 'full' },
   { path: '**',           redirectTo: 'home' }
 ];

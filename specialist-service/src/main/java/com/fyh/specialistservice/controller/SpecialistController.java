@@ -46,6 +46,11 @@ public class SpecialistController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/utilizator/{idUtilizator}")
+    public ResponseEntity<SpecialistDto> getSpecialistByUtilizatorId(@PathVariable Long idUtilizator) {
+        SpecialistDto specialistDto = specialistService.getSpecialistByUtilizatorId(idUtilizator);
+        return ResponseEntity.ok(specialistDto);
+    }
 
     @GetMapping
     public ResponseEntity<List<SpecialistDto>> getAllSpecialisti() {
