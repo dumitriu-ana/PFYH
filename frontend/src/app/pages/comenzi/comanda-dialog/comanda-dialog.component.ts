@@ -6,6 +6,8 @@ import { SpecialistCuNumeDto } from '../../../models/specialistCuNume.dto';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
 
 import { ComenziService } from '../../../services/comenzi.service';
 import { ComandaDto } from '../../../models/comanda.dto';
@@ -14,7 +16,7 @@ import { AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-comanda-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatButtonModule, MatIconModule ],
   templateUrl: './comanda-dialog.component.html',
   styleUrls: ['./comanda-dialog.component.css']
 })
