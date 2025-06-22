@@ -208,14 +208,22 @@ public class ComandaServiceImpl implements ComandaService {
         comanda.setStatus("Finalizata");
         BigDecimal pretTotal = comanda.getPret();
         BigDecimal procentCastig = new BigDecimal("0.90");
+
         BigDecimal castigSpecialist = pretTotal.multiply(procentCastig).setScale(2, RoundingMode.HALF_UP);
+        BigDecimal castigAdmin = pretTotal.subtract(castigSpecialist);
 
         SpecialistDto specialistInfo = specialistClient.getSpecialistById(comanda.getIdSpecialist());
         Long idUtilizatorSpecialist = specialistInfo.getIdUtilizator();
+        Long idAdmin = specialistInfo.getIdAdmin();
 
         SoldUpdateDto soldUpdate = new SoldUpdateDto();
         soldUpdate.setSumaDeAdaugat(castigSpecialist);
+
+        SoldUpdateDto soldUpdateAdmin = new SoldUpdateDto();
+        soldUpdateAdmin.setSumaDeAdaugat(castigAdmin);
+
         utilizatorClient.adaugaLaSold(idUtilizatorSpecialist, soldUpdate);
+        utilizatorClient.adaugaLaSold(idAdmin, soldUpdateAdmin);
 
         Comanda comandaSalvata = comandaRepository.save(comanda);
 
