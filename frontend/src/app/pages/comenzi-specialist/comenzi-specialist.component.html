@@ -48,13 +48,13 @@
             <form [formGroup]="raspunsForm" (ngSubmit)="finalizeazaComanda(comanda)">
               <mat-form-field appearance="outline" class="w-100">
                 <mat-label>Mesajul tău de răspuns</mat-label>
-                <textarea matInput formControlName="raspuns" rows="4" required></textarea>
+                <textarea class="raspuns-input" matInput formControlName="raspuns" rows="4" required></textarea>
                 <mat-error *ngIf="raspunsForm.get('raspuns')?.hasError('required')">Mesajul este obligatoriu.</mat-error>
               </mat-form-field>
 
               <div class="file-row">
                 <input type="file" (change)="onFisierSelectat($event)" #fileInput hidden>
-                <button mat-stroked-button type="button" (click)="fileInput.click()">
+                <button mat-stroked-button type="button" class="upload-btn"  (click)="fileInput.click()">
                   <mat-icon>attach_file</mat-icon> Încarcă fișier
                 </button>
                 <span *ngIf="fisierSelectat" class="file-name">{{ fisierSelectat.name }}</span>
@@ -63,7 +63,7 @@
               <mat-progress-bar *ngIf="isSubmitting" mode="indeterminate" class="mt-3"></mat-progress-bar>
 
               <div class="finalizare-actions">
-                <button mat-raised-button color="primary" type="submit" [disabled]="raspunsForm.invalid || isSubmitting">
+                <button mat-raised-button color="primary" class="finalizeaza-btn" type="submit" [disabled]="raspunsForm.invalid || isSubmitting">
                   <mat-icon>done_all</mat-icon> Finalizează Comanda
                 </button>
               </div>
@@ -96,3 +96,10 @@
     <p *ngIf="!comenzi.length && !loading" class="text-center text-muted">Nu ai nicio comandă alocată.</p>
   </div>
 </div>
+
+
+<app-popup
+  *ngIf="showSuccessPopup"
+  [message]="popupMessage"
+  (close)="closePopup()">
+</app-popup>

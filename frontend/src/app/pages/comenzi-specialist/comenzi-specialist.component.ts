@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ComenziService } from '../../services/comenzi.service';
 import { AuthService } from '../../services/auth.service';
 import { ComandaDto } from '../../models/comanda.dto';
+import { PopupComponent }           from '../../shared/popup/popup.component';
 
 @Component({
   selector: 'app-comenzi-specialist',
@@ -23,7 +24,7 @@ import { ComandaDto } from '../../models/comanda.dto';
   imports: [
     CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule,
     MatProgressSpinnerModule, MatIconModule, MatFormFieldModule,
-    MatInputModule, MatProgressBarModule, MatTooltipModule, MatDividerModule
+    MatInputModule, MatProgressBarModule, MatTooltipModule, MatDividerModule, PopupComponent,
   ],
   templateUrl: './comenzi-specialist.component.html',
   styleUrls: ['./comenzi-specialist.component.css']
@@ -37,6 +38,9 @@ export class ComenziSpecialistComponent implements OnInit {
   raspunsForm!: FormGroup;
   fisierSelectat?: File;
   isSubmitting = false;
+
+  showSuccessPopup = false;
+  popupMessage = '';
 
   constructor(
     private comenziService: ComenziService,
@@ -109,6 +113,9 @@ export class ComenziSpecialistComponent implements OnInit {
         }
         this.authService.refreshUserData()?.subscribe();
         this.isSubmitting = false;
+
+        this.popupMessage = 'Comanda a fost finalizată și trimisă cu succes!';
+        this.showSuccessPopup = true;
       },
       error: (err) => {
         console.error('Eroare la trimiterea raspunsului', err);
@@ -130,4 +137,10 @@ export class ComenziSpecialistComponent implements OnInit {
       error: (err) => alert('Fișierul nu a putut fi descărcat.')
     });
   }
+
+  closePopup(): void {
+      this.showSuccessPopup = false;
+    }
 }
+
+

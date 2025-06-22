@@ -14,6 +14,7 @@ import { MatDividerModule }         from '@angular/material/divider';
 import { MatListModule }            from '@angular/material/list';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog.component';
+import { PopupComponent }           from '../../shared/popup/popup.component';
 
 
 @Component({
@@ -31,6 +32,7 @@ import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog
     MatDividerModule,
     MatListModule,
     MatDialogModule,
+    PopupComponent,
   ],
   templateUrl: './specialisti.component.html',
   styleUrls: ['./specialisti.component.css']
@@ -40,8 +42,10 @@ export class SpecialistiComponent implements OnInit {
   isLoading = true;
   errorMsg?: string;
 
-  // set cu id-urile extinse
   expanded = new Set<number>();
+
+  showSuccessPopup = false;
+  popupMessage = '';
 
   constructor(
   private svc: SpecialistService,
@@ -85,8 +89,13 @@ export class SpecialistiComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-         console.log('Comandă transmisă:', result);
+         this.popupMessage = 'Comanda a fost plasată cu succes!';
+         this.showSuccessPopup = true;
       }
     });
   }
+
+  closePopupAndNavigate() {
+     this.showSuccessPopup = false;
+    }
 }

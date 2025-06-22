@@ -65,3 +65,9 @@
     </mat-card>
   </div>
 </div>
+
+<app-popup
+  *ngIf="showSuccessPopup"
+  [message]="popupMessage"
+  (close)="closePopupAndNavigate()">
+</app-popup>

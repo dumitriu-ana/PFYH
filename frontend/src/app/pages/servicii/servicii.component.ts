@@ -17,13 +17,14 @@ import { MatListModule }            from '@angular/material/list';
 import { MatDialog } from '@angular/material/dialog';
 import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PopupComponent }           from '../../shared/popup/popup.component';
 
 @Component({
   selector: 'app-servicii',
   standalone: true,
   imports: [ CommonModule, HttpClientModule, RouterLink,   MatProgressSpinnerModule, MatGridListModule, MatCardModule,
             MatButtonModule, MatIconModule, MatDividerModule, MatListModule,
-             MatDialogModule, ComandaDialogComponent ],
+             MatDialogModule, ComandaDialogComponent,   PopupComponent, ],
   templateUrl: './servicii.component.html',
   styleUrls: ['./servicii.component.css']
 })
@@ -35,6 +36,9 @@ export class ServiciiComponent implements OnInit {
   specialistiMap: Record<number, SpecialistCuNumeDto[]> = {};
   openServicii = new Set<number>();
   loadingSpecialisti = new Set<number>();
+
+  showSuccessPopup = false;
+  popupMessage = '';
 
   constructor(
     private svcServ: ServiciiService,
@@ -87,10 +91,13 @@ deschideDialog(serviciu: ServiciuDto, specialist: SpecialistCuNumeDto) {
 
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
-      console.log('Comandă transmisă:', result);
+       this.popupMessage = 'Comanda a fost plasată cu succes!';
+       this.showSuccessPopup = true;
     }
   });
 }
 
-
+closePopupAndNavigate() {
+   this.showSuccessPopup = false;
+  }
 }

@@ -1,3 +1,4 @@
+
 .comenzi-page { padding: 24px; max-width: 900px; margin: 0 auto; background-color: #f0f4f0; }
 .page-title { margin-bottom: 24px; color: #333; font-weight: 600; }
 .spinner { display: block; margin: 50px auto; }
@@ -12,12 +13,13 @@
   overflow: hidden;
 }
 
+
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   padding: 16px;
-  background-color: #e8f5e9;
+  background-color: #e8f5e9; /* Verde pal */
   border-bottom: 1px solid #dcedc8;
 }
 .card-title {
@@ -38,26 +40,42 @@
   white-space: nowrap;
 }
 
+
 .card-body { padding: 16px; }
 .info-row { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; }
 .info-item { display: flex; align-items: center; font-size: 0.9rem; color: #666; }
 .info-item mat-icon { margin-right: 8px; font-size: 20px; color: #555; }
 .status-chip { margin-left: auto; padding: 4px 12px; border-radius: 16px; font-weight: 500; color: #fff; font-size: 0.85rem; }
-.status-plasata { background-color: #ffa726; }
+.status-plasata { background-color: #ffa726;  }
 .status-finalizata { background-color: #2e7d32; }
 .status-progres { background-color: #42a5f5; }
 
+
 .card-footer { padding: 8px 16px; display: flex; justify-content: flex-end; border-top: 1px solid #f0f0f0; }
 .details-btn { color: #2e7d32; border-color: #a5d6a7; }
+.details-btn:hover { background-color: rgba(46, 125, 50, 0.05); }
 .details-btn mat-icon { margin-right: 6px; }
+
 
 .details-container { padding: 16px; }
 .details-section-title { font-size: 1rem; font-weight: 500; color: #333; margin-top: 16px; margin-bottom: 8px; }
-.mesaj-text { white-space: pre-wrap; color: #444; background-color: #f9f9f9; padding: 12px; border-radius: 4px; }
+
+.mesaj-text { white-space: pre-wrap; color: #000; /* Text afisat negru */ background-color: #f9f9f9; padding: 12px; border-radius: 4px; }
+
+
+.raspuns-form-container textarea.raspuns-input {
+  color: #000;
+}
+
 
 .file-row { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
-.download-btn { background-color: #2e7d32 !important; color: white !important; }
 .w-100 { width: 100%; }
 .file-name { font-style: italic; color: #555; }
 .mt-3 { margin-top: 1rem; }
 .finalizare-actions { display: flex; justify-content: flex-end; margin-top: 16px; }
+
+
+.download-btn { background-color: #2e7d32 !important; color: white !important; }
+.upload-btn { color: #ffa726 !important; border-color: #ffe0b2 !important; }
+.upload-btn:hover { background-color: rgba(255, 167, 38, 0.05) !important; }
+.finalizeaza-btn { background-color: #2e7d32 !important; color: white !important; }

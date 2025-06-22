@@ -17,7 +17,8 @@ import { MatGridListModule }        from '@angular/material/grid-list';
 import { MatDividerModule }         from '@angular/material/divider';
 import { MatListModule }            from '@angular/material/list';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog.component';
+import { ComandaDialogComponent }   from '../comenzi/comanda-dialog/comanda-dialog.component';
+import { PopupComponent }           from '../../shared/popup/popup.component';
 
 @Component({
   selector: 'app-specializari',
@@ -35,6 +36,7 @@ import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog
     MatDividerModule,
     MatListModule,
     MatDialogModule,
+    PopupComponent,
   ],
   templateUrl: './specializari.component.html',
   styleUrls: ['./specializari.component.css']
@@ -47,6 +49,9 @@ export class SpecializariComponent implements OnInit {
   openServicii = new Set<number>();
 
   loadingSpecializari = new Set<number>();
+
+  showSuccessPopup = false;
+  popupMessage = '';
 
   constructor(
     private svcSp: SpecializareService,
@@ -117,8 +122,13 @@ deschideDialog(serviciu: ServiciuDto, specialist: SpecialistCuNumeDto) {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Comandă transmisă:', result);
+         this.popupMessage = 'Comanda a fost plasată cu succes!';
+         this.showSuccessPopup = true;
       }
     });
+  }
+
+closePopupAndNavigate() {
+   this.showSuccessPopup = false;
   }
 }

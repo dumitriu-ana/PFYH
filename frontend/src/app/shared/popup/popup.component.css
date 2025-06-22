@@ -1,4 +1,4 @@
-/* întreg ecranul semi-transparent */
+
 .overlay {
   position: fixed;
   top: 0; left: 0;
@@ -9,40 +9,39 @@
   align-items: center;
   z-index: 1000;
 }
-/* caseta popup */
+
 .popup {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   width: 75vw;
-  height: 60vh;
+  height: 40vh;
   max-width: 600px;
   max-height: 600px;
 
-  background: url('/assets/img/fundalpopup.jpg') no-repeat center center;
+  background: url('/assets/img/fundal_portocaliu_deschis.png') no-repeat center center;
   background-size: cover;
   border: 6px solid #005F00;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
-/* container-ul textului, restrânge lăţimea şi adaugă spaţiu */
 .message-container {
-  width: 65%;            /* textul ocupă doar 80% din lăţimea popup-ului */
-  margin-bottom: 2rem; /* spaţiu faţă de buton */
+  width: 65%;
+  margin-bottom: 2rem;
 }
 
-/* mesajul propriu-zis */
+
 .message {
   font-weight: bold;
+  font-size: 1.4rem;
   color: #005F00;
-  text-align: center;    /* centru orizontal */
-  word-wrap: break-word; /* pentru cuvinte lungi */
+  text-align: center;
+  word-wrap: break-word;
 }
 
-/* butonul Închide */
+
 .close-btn {
   background: #006400;
   color: white;
