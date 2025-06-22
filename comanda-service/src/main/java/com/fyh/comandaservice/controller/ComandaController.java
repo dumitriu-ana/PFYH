@@ -124,4 +124,14 @@ public class ComandaController {
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(resource);
     }
+
+    @PostMapping("/{id}/raspuns")
+    public ResponseEntity<ComandaDto> raspundeLaComanda(
+            @PathVariable Long id,
+            @RequestPart("raspuns") String mesajSpecialist,
+            @RequestPart(value = "fisier", required = false) MultipartFile fisier) throws IOException {
+
+        ComandaDto comandaActualizata = comandaService.raspundeLaComanda(id, mesajSpecialist, fisier);
+        return ResponseEntity.ok(comandaActualizata);
+    }
 }

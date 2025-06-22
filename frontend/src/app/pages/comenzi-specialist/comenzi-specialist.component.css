@@ -1,144 +1,63 @@
-/* Folosim aceleasi stiluri ca la comenzi.component.css */
-/* Poti crea un fisier _comenzi-shared.scss daca vrei sa nu duplici codul */
-.comenzi-page {
-  padding: 16px;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+.comenzi-page { padding: 24px; max-width: 900px; margin: 0 auto; background-color: #f0f4f0; }
+.page-title { margin-bottom: 24px; color: #333; font-weight: 600; }
+.spinner { display: block; margin: 50px auto; }
+.text-center.text-muted { margin-top: 32px; color: #666; }
 
-.page-title {
-  margin-bottom: 24px;
-  color: #333;
-}
 
-.spinner {
-  display: block;
-  margin: 50px auto;
-}
-
-.comanda-card {
-  margin-bottom: 20px;
-  background-color: #f9f9f9;
-  border: 1px solid #e0e0e0;
+.comanda-card-wrapper {
+  background-color: #fff;
   border-radius: 8px;
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+  overflow: hidden;
 }
 
-.comanda-card:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.comanda-header {
-  background-color: #e3f2fd; /* Un albastru pal pentru specialisti */
+.card-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 16px;
+  background-color: #e8f5e9;
+  border-bottom: 1px solid #dcedc8;
 }
-
-.header-content {
-  flex-grow: 1;
-}
-
-.comanda-title {
-  font-size: 1.3rem;
+.card-title {
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #0d47a1; /* Albastru inchis */
+  color: #2e7d32;
+  margin: 0;
 }
-
-.comanda-specialist { /* Aici afisam clientul */
-  font-size: 1rem;
+.card-subtitle {
+  font-size: 0.95rem;
   color: #555;
+  margin-top: 4px;
 }
-
-.comanda-pret {
+.card-price {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #0d47a1;
+  color: #2e7d32;
   white-space: nowrap;
-  margin-left: 16px;
 }
 
-.comanda-content {
-  padding: 16px;
-}
+.card-body { padding: 16px; }
+.info-row { display: flex; align-items: center; flex-wrap: wrap; gap: 24px; }
+.info-item { display: flex; align-items: center; font-size: 0.9rem; color: #666; }
+.info-item mat-icon { margin-right: 8px; font-size: 20px; color: #555; }
+.status-chip { margin-left: auto; padding: 4px 12px; border-radius: 16px; font-weight: 500; color: #fff; font-size: 0.85rem; }
+.status-plasata { background-color: #ffa726; }
+.status-finalizata { background-color: #2e7d32; }
+.status-progres { background-color: #42a5f5; }
 
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 16px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #eee;
-}
+.card-footer { padding: 8px 16px; display: flex; justify-content: flex-end; border-top: 1px solid #f0f0f0; }
+.details-btn { color: #2e7d32; border-color: #a5d6a7; }
+.details-btn mat-icon { margin-right: 6px; }
 
-.info-item {
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #666;
-}
+.details-container { padding: 16px; }
+.details-section-title { font-size: 1rem; font-weight: 500; color: #333; margin-top: 16px; margin-bottom: 8px; }
+.mesaj-text { white-space: pre-wrap; color: #444; background-color: #f9f9f9; padding: 12px; border-radius: 4px; }
 
-.info-item mat-icon {
-  margin-right: 6px;
-  font-size: 18px;
-}
-
-.status-chip {
-  padding: 4px 12px;
-  border-radius: 16px;
-  font-weight: 500;
-  color: #fff;
-  font-size: 0.85rem;
-}
-
-.status-plasata {
-  background-color: #ffa726; /* Portocaliu */
-}
-
-.status-livrata {
-  background-color: #66bb6a; /* Verde */
-}
-
-.status-progres {
-  background-color: #42a5f5; /* Albastru */
-}
-
-.file-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px;
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 6px;
-  margin-top: 10px;
-}
-
-.download-btn {
-  background-color: #1976d2 !important;
-  color: white !important;
-}
-
-.detalii-mesaj {
-    margin-top: 16px;
-    padding-top: 16px;
-    background-color: #fafafa;
-    padding: 12px;
-    border-radius: 4px;
-}
-
-mat-card-actions {
-  padding: 8px 16px !important;
-}
-
-.details-btn {
-  color: #1976d2 !important;
-  border-color: #1976d2 !important;
-}
-
-.details-btn mat-icon {
-    margin-right: 6px;
-}
+.file-row { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+.download-btn { background-color: #2e7d32 !important; color: white !important; }
+.w-100 { width: 100%; }
+.file-name { font-style: italic; color: #555; }
+.mt-3 { margin-top: 1rem; }
+.finalizare-actions { display: flex; justify-content: flex-end; margin-top: 16px; }

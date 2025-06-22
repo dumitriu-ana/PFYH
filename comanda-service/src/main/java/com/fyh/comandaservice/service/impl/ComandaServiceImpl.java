@@ -15,6 +15,12 @@ import com.fyh.comandaservice.service.UtilizatorClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fyh.comandaservice.dto.SoldUpdateDto;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -160,8 +166,6 @@ public class ComandaServiceImpl implements ComandaService {
 
     private ComandaDto mapComandaToDtoWithDetails(Comanda comanda) {
         ComandaDto dto = ComandaMapper.mapToComandaDto(comanda);
-
-        // Incarcam titlul serviciului
         try {
             ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
             dto.setTitluServiciu(serviciu.getTitlu());
@@ -179,19 +183,43 @@ public class ComandaServiceImpl implements ComandaService {
             dto.setNumeClient("Client Indisponibil");
         }
 
-        // Incarcam numele specialistului (LOGICA CORECTATA IN 2 PASI)
         try {
-            // Pas 1: Obtinem obiectul Specialist pe baza idSpecialist din comanda
             SpecialistDto specialistInfo = specialistClient.getSpecialistById(comanda.getIdSpecialist());
-            // Pas 2: Folosim idUtilizator din obiectul Specialist pentru a obtine datele utilizatorului
             UtilizatorDto specialistUserInfo = utilizatorClient.getUtilizatoriById(specialistInfo.getIdUtilizator());
             dto.setNumeSpecialist(specialistUserInfo.getNume());
         } catch (Exception e) {
             System.err.println("Eroare la preluarea numelui specialistului pentru comanda ID: " + comanda.getId());
             dto.setNumeSpecialist("Specialist Indisponibil");
         }
-
         return dto;
+    }
+
+
+    @Transactional
+    @Override
+    public ComandaDto raspundeLaComanda(Long id, String mesajSpecialist, MultipartFile fisier) throws IOException {
+        Comanda comanda = comandaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comanda not found with id: " + id));
+        comanda.setMesajSpecialist(mesajSpecialist);
+        if (fisier != null && !fisier.isEmpty()) {
+            comanda.setNumeFisierSpecialist(fisier.getOriginalFilename());
+            comanda.setFisierSpecialist(fisier.getBytes());
+        }
+        comanda.setStatus("Finalizata");
+        BigDecimal pretTotal = comanda.getPret();
+        BigDecimal procentCastig = new BigDecimal("0.90");
+        BigDecimal castigSpecialist = pretTotal.multiply(procentCastig).setScale(2, RoundingMode.HALF_UP);
+
+        SpecialistDto specialistInfo = specialistClient.getSpecialistById(comanda.getIdSpecialist());
+        Long idUtilizatorSpecialist = specialistInfo.getIdUtilizator();
+
+        SoldUpdateDto soldUpdate = new SoldUpdateDto();
+        soldUpdate.setSumaDeAdaugat(castigSpecialist);
+        utilizatorClient.adaugaLaSold(idUtilizatorSpecialist, soldUpdate);
+
+        Comanda comandaSalvata = comandaRepository.save(comanda);
+
+        return ComandaMapper.mapToComandaDto(comandaSalvata);
     }
 
 

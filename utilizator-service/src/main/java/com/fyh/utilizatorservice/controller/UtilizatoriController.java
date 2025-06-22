@@ -6,6 +6,8 @@ import com.fyh.utilizatorservice.service.UtilizatoriService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.fyh.utilizatorservice.dto.SoldUpdateDto;
+
 
 import java.util.List;
 import java.util.Map;
@@ -65,6 +67,12 @@ public class UtilizatoriController {
     @PutMapping("/{id}/tip")
     public ResponseEntity<Void> changeTip(@PathVariable Long id, @RequestBody Map<String,String> body) {
         utilizatoriService.changeTip(id, body.get("tipUtilizator"));
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/adauga-sold")
+    public ResponseEntity<Void> adaugaLaSold(@PathVariable Long id, @RequestBody SoldUpdateDto soldUpdateDto) {
+        utilizatoriService.adaugaLaSold(id, soldUpdateDto.getSumaDeAdaugat());
         return ResponseEntity.ok().build();
     }
 }

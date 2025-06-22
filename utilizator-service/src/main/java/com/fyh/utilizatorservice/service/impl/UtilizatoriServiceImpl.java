@@ -8,7 +8,9 @@ import com.fyh.utilizatorservice.repository.UtilizatoriRepository;
 import com.fyh.utilizatorservice.service.UtilizatoriService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,6 +66,17 @@ public class UtilizatoriServiceImpl implements UtilizatoriService {
                 .orElseThrow(() -> new EntityNotFoundException("Nu există"));
         u.setTipUtilizator(nouTip);
         utilizatoriRepository.save(u);
+    }
+
+
+    @Transactional
+    @Override
+    public void adaugaLaSold(Long utilizatorId, BigDecimal sumaDeAdaugat) {
+        Utilizator utilizator = utilizatoriRepository.findById(utilizatorId)
+                .orElseThrow(() -> new EntityNotFoundException("Utilizator not found with id: " + utilizatorId));
+        BigDecimal soldCurent = utilizator.getSold() == null ? BigDecimal.ZERO : utilizator.getSold();
+        utilizator.setSold(soldCurent.add(sumaDeAdaugat));
+        utilizatoriRepository.save(utilizator);
     }
 
 }

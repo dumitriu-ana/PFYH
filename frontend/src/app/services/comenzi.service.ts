@@ -37,7 +37,12 @@ export class ComenziService {
   descarcaFisier(idComanda: number, tipFisier: 'client' | 'specialist'): Observable<Blob> {
     const url = `${this.apiUrl}/${idComanda}/fisier/${tipFisier}`;
     return this.http.get(url, {
-      responseType: 'blob' //  fisier binar
+      responseType: 'blob'
     });
   }
+
+  trimiteRaspuns(idComanda: number, formData: FormData): Observable<ComandaDto> {
+      const url = `${this.apiUrl}/${idComanda}/raspuns`;
+      return this.http.post<ComandaDto>(url, formData);
+    }
 }
