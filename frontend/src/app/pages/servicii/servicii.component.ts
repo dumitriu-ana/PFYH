@@ -88,7 +88,6 @@ deschideDialog(serviciu: ServiciuDto, specialist: SpecialistCuNumeDto) {
   dialogRef.afterClosed().subscribe(result => {
     if (result) {
       console.log('Comandă transmisă:', result);
-      // TODO: apel backend pentru salvare
     }
   });
 }

@@ -7,7 +7,7 @@ import { SpecializareService }      from '../../specializare.service';
 import { SpecialistService }        from '../../specialist.service';
 import { SpecializareDto }          from '../../models/specializare.dto';
 import { SpecialistCuNumeDto }      from '../../models/specialistCuNume.dto';
-
+import { ServiciuDto }              from '../../models/serviciu.dto';
 
 import { MatCardModule }            from '@angular/material/card';
 import { MatButtonModule }          from '@angular/material/button';
@@ -16,6 +16,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatGridListModule }        from '@angular/material/grid-list';
 import { MatDividerModule }         from '@angular/material/divider';
 import { MatListModule }            from '@angular/material/list';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ComandaDialogComponent } from '../comenzi/comanda-dialog/comanda-dialog.component';
 
 @Component({
   selector: 'app-specializari',
@@ -32,6 +34,7 @@ import { MatListModule }            from '@angular/material/list';
     MatIconModule,
     MatDividerModule,
     MatListModule,
+    MatDialogModule,
   ],
   templateUrl: './specializari.component.html',
   styleUrls: ['./specializari.component.css']
@@ -47,7 +50,8 @@ export class SpecializariComponent implements OnInit {
 
   constructor(
     private svcSp: SpecializareService,
-    private svcSpec: SpecialistService
+    private svcSpec: SpecialistService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -101,6 +105,19 @@ export class SpecializariComponent implements OnInit {
     this.specializari.forEach(sp => {
       if (!this.isOpen(sp.id)) {
         this.toggleSpecialisti(sp.id);
+      }
+    });
+  }
+
+deschideDialog(serviciu: ServiciuDto, specialist: SpecialistCuNumeDto) {
+    const dialogRef = this.dialog.open(ComandaDialogComponent, {
+      width: '600px',
+      data: { serviciu, specialist }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Comandă transmisă:', result);
       }
     });
   }
