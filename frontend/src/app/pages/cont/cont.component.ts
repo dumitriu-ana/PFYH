@@ -1,8 +1,9 @@
 
-import { Component, OnInit }  from '@angular/core';
+import { Component, OnInit, OnDestroy }  from '@angular/core';
 import { CommonModule }        from '@angular/common';
 import { FormsModule }         from '@angular/forms';
 import { Router }              from '@angular/router';
+import { Subscription } from 'rxjs';
 
 import { AuthService }         from '../../services/auth.service';
 import { SpecialistService }   from '../../specialist.service';
@@ -15,6 +16,7 @@ import { SpecializareDto }     from '../../models/specializare.dto';
 import { SpecialistFullDto  }   from '../../models/specialistFull.dto';
 import { SpecialistCuNumeDto } from '../../models/specialistCuNume.dto';
 
+
 @Component({
   selector: 'app-cont',
   standalone: true,
@@ -22,8 +24,9 @@ import { SpecialistCuNumeDto } from '../../models/specialistCuNume.dto';
   templateUrl: './cont.component.html',
   styleUrls: ['./cont.component.css']
 })
-export class ContComponent implements OnInit {
+export class ContComponent implements OnInit, OnDestroy {
   user?: UtilizatorDto;
+  private userSubscription?: Subscription;
 
   specializari: SpecializareDto[]        = [];
   mySpecialist: SpecialistFullDto | null = null;
@@ -57,11 +60,17 @@ export class ContComponent implements OnInit {
   ngOnInit() {
     this.svcSrv.getServicii().subscribe(list => this.toateServiciile = list);
 
-    this.user = this.auth.getCurrentUser()!;
-    if (!this.user) {
-      this.router.navigate(['/login']);
-      return;
-    }
+    this.userSubscription = this.auth.currentUser$.subscribe(user => {
+      if (user) {
+        this.user = user;
+        // Re-incarcam datele de specialist daca user-ul se schimba
+        if (this.user.tipUtilizator === 'specialist') {
+          this.loadSpecialistData(this.user.id);
+        }
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
 
     this.svcSpz.getSpecializari().subscribe({
       next: list => this.specializari = list,
@@ -156,5 +165,17 @@ export class ContComponent implements OnInit {
       this.svcSpec.addServiciuToSpecialist(this.mySpecialist.id, srv.id)
         .subscribe(updated => this.mySpecialist = updated);
     }
-
+  loadSpecialistData(userId: number) {
+    this.svcSpec.getAllSpecialistiFull().subscribe({
+      next: list => {
+        this.mySpecialist = list.find(s => s.idUtilizator === userId) || null;
+      },
+      error: err => console.error('Eroare la încărcarea datelor de specialist', err)
+    });
+  }
+   ngOnDestroy() {
+      if (this.userSubscription) {
+        this.userSubscription.unsubscribe();
+      }
+    }
 }

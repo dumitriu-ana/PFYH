@@ -107,6 +107,7 @@ export class ComenziSpecialistComponent implements OnInit {
         if (index > -1) {
           this.comenzi[index] = comandaActualizata;
         }
+        this.authService.refreshUserData()?.subscribe();
         this.isSubmitting = false;
       },
       error: (err) => {
