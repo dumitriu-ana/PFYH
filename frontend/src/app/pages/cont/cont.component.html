@@ -30,13 +30,13 @@
         Admin: {{ mySpecialist.idAdmin ?? '–' }}
       </span>
       <span class="status-date">
-        Data validării: {{ mySpecialist.dataValidare ?? '–' }}
+        Data validarii: {{ mySpecialist.dataValidare | date:'dd.MM.yyyy'}}
       </span>
     </div>
 
     <p class="field"><strong>ID:</strong> {{ user?.id }}</p>
     <p class="field">
-      <strong>Data înregistrării:</strong> {{ user?.dataInreg || '–' }}
+      <strong>Data înregistrării:</strong> {{ user?.dataInreg  | date:'dd.MM.yyyy' }}
     </p>
     <p class="field"><strong>Tip Utilizator:</strong> {{ user?.tipUtilizator }}</p>
 

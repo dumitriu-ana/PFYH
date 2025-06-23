@@ -94,7 +94,6 @@ public class SpecialistController {
         if (s == null) {
             return ResponseEntity.notFound().build();
         }
-        // chiar şi dacă s.getServiciuIds() e golă, întoarce tot 200 cu []
         return ResponseEntity.ok(s.getServiciuIds());
     }
 
@@ -102,26 +101,20 @@ public class SpecialistController {
     public ResponseEntity<List<SpecialistListDto>> getAllSpecialistiCuNume(
             @RequestParam(required = false) Long specializareId
     ) {
-        // 1) Ia toți specialiștii
         List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
 
-        // 2) Dacă s-a transmis specializareId, filtrează
         if (specializareId != null) {
             specialisti = specialisti.stream()
                     .filter(s -> specializareId.equals(s.getSpecializareId()))
                     .collect(Collectors.toList());
         }
 
-        // 3) Mapează în SpecialistListDto (nume+descriere+servicii deja încărcate)
         List<SpecialistListDto> lista = specialisti.stream()
                 .map(s -> {
                     UtilizatorPublicDto u = utilizatorClient
                             .getPublicUtilizatorById(s.getIdUtilizator());
                     String nume = Optional.ofNullable(u.getNume()).orElse("–");
-                    String desc = Optional.ofNullable(s.getDescriere())
-                            .map(d -> d.length()>50? d.substring(0,50)+"…" : d)
-                            .orElse("");
-                    // feign client către serviciu-service deja aduce lista de ServiciuDto
+                    String desc = Optional.ofNullable(s.getDescriere()).orElse("");
                     List<ServiciuDto> srv = serviciiClient
                             .getServiciiBySpecialist(s.getId());
                     return new SpecialistListDto(
@@ -139,20 +132,14 @@ public class SpecialistController {
     public ResponseEntity<List<SpecialistListDto>> getSpecialistiByService(
             @PathVariable Long serviciuId
     ) {
-        // 1) Preia toți specialiștii scalzi (dto fără nume/servicii)
         List<SpecialistDto> specialisti = specialistService.getAllSpecialisti();
 
-        // 2) Mapare SpecialistDto → SpecialistListDto (cu nume + servicii)
         List<SpecialistListDto> completa = specialisti.stream()
                 .map(s -> {
-                    // preia numele
                     UtilizatorPublicDto u = utilizatorClient.getPublicUtilizatorById(s.getIdUtilizator());
                     String nume = Optional.ofNullable(u.getNume()).orElse("–");
-                    // scurtează descrierea
-                    String desc = Optional.ofNullable(s.getDescriere())
-                            .map(d -> d.length()>50 ? d.substring(0,50)+"…" : d)
-                            .orElse("");
-                    // lista completă de ServiciuDto (Feign call)
+                    String desc = Optional.ofNullable(s.getDescriere()).orElse("");
+
                     List<ServiciuDto> srv = serviciiClient.getServiciiBySpecialist(s.getId());
                     return new SpecialistListDto(
                             s.getId(),
@@ -165,7 +152,6 @@ public class SpecialistController {
                 })
                 .collect(Collectors.toList());
 
-        // 3) Filtrează după serviciuId
         List<SpecialistListDto> filtered = completa.stream()
                 .filter(sp -> sp.getServicii().stream()
                         .anyMatch(srv -> srv.getId().equals(serviciuId))
@@ -200,7 +186,7 @@ public class SpecialistController {
     @PostMapping("/{id}/validare")
     public ResponseEntity<SpecialistDto> validate(
             @PathVariable Long id,
-            @RequestBody Map<String, Long> body) {               //  adminId din body
+            @RequestBody Map<String, Long> body) {
         Long adminId = body.get("idAdmin");
         SpecialistDto updated = specialistService.validateSpecialist(id, adminId);
         return ResponseEntity.ok(updated);

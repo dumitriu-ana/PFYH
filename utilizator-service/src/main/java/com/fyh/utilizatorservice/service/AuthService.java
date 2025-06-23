@@ -8,6 +8,9 @@ import com.fyh.utilizatorservice.security.JwtTokenProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+
 @Service
 public class AuthService {
 
@@ -33,6 +36,8 @@ public class AuthService {
         u.setEmail(req.email());
         u.setParola(encoder.encode(req.password()));
         u.setTipUtilizator("client");
+        u.setDataInregistrare(new Timestamp(System.currentTimeMillis()));
+        u.setSold(BigDecimal.ZERO);
         Utilizator saved = repo.save(u);
 
         String token = jwt.createToken(saved.getEmail(), saved.getTipUtilizator()); //creare jwt
