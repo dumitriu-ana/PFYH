@@ -52,6 +52,7 @@ export class ComandaDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
+//cheie Stripe pk
 
     if (this.stripe) {
       const elements = this.stripe.elements();
