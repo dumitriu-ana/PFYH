@@ -78,3 +78,22 @@ h2[mat-dialog-title] {
   background-color: #4caf50 !important;
   color: white !important;
 }
+.payment-section {
+  margin-top: 16px;
+}
+.payment-title {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #2e7d32;
+  margin-bottom: 12px;
+}
+.stripe-card-element {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.stripe-error-message {
+  color: #f44336;
+  font-size: 0.9rem;
+  margin-top: 8px;
+}

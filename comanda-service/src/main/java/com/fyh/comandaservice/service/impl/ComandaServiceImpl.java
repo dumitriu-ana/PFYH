@@ -1,7 +1,7 @@
 package com.fyh.comandaservice.service.impl;
 
-
 import com.fyh.comandaservice.dto.ComandaDto;
+import com.fyh.comandaservice.dto.TranzactieDto;
 import com.fyh.comandaservice.dto.ServiciuDto;
 import com.fyh.comandaservice.dto.SpecialistDto;
 import com.fyh.comandaservice.dto.UtilizatorDto;
@@ -14,7 +14,7 @@ import com.fyh.comandaservice.service.SpecialistClient;
 import com.fyh.comandaservice.service.UtilizatorClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import com.fyh.comandaservice.service.*;
 import com.fyh.comandaservice.dto.SoldUpdateDto;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -33,18 +33,21 @@ public class ComandaServiceImpl implements ComandaService {
     private final UtilizatorClient utilizatorClient;
     private final SpecialistClient specialistClient;
     private final ServiciuClient serviciuClient;
-    public ComandaServiceImpl( ComandaRepository comandaRepository, UtilizatorClient utilizatorClient, SpecialistClient specialistClient, ServiciuClient serviciuClient) {
+    private final TranzactieClient tranzactieClient;
+
+    public ComandaServiceImpl( ComandaRepository comandaRepository, UtilizatorClient utilizatorClient, SpecialistClient specialistClient, ServiciuClient serviciuClient,  TranzactieClient tranzactieClient) {
         this.comandaRepository = comandaRepository;
         this.utilizatorClient = utilizatorClient;
         this.specialistClient = specialistClient;
         this.serviciuClient = serviciuClient;
+        this.tranzactieClient = tranzactieClient;
     }
 
     public ComandaDto getComandaWithDetails(Long idComanda) {
         Comanda comanda = comandaRepository.findById(idComanda).orElse(null);
         if (comanda != null) {
             UtilizatorDto client = utilizatorClient.getUtilizatoriById(comanda.getIdClient());
-            SpecialistDto specialist = specialistClient.getSpecialistByUtilizatorId(comanda.getIdSpecialist()); // Sau getSpecialistById
+            SpecialistDto specialist = specialistClient.getSpecialistByUtilizatorId(comanda.getIdSpecialist());
             ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
 
             ComandaDto comandaDto = ComandaMapper.mapToComandaDto(comanda);
@@ -58,6 +61,7 @@ public class ComandaServiceImpl implements ComandaService {
     }
 
     @Override
+    @Transactional
     public ComandaDto createComanda(ComandaDto comandaDto) {
         Timestamp now = new Timestamp(System.currentTimeMillis());
         comandaDto.setDataCreare(now);
@@ -67,9 +71,31 @@ public class ComandaServiceImpl implements ComandaService {
             comandaDto.setStatus("Plasata");
         }
         Comanda comanda = ComandaMapper.mapToComanda(comandaDto);
-        Comanda saved = comandaRepository.save(comanda);
+        Comanda savedComanda = comandaRepository.save(comanda);
 
-        return ComandaMapper.mapToComandaDto(saved);
+        try {
+            if (savedComanda.getIdClient() != null && savedComanda.getIdSpecialist() != null && savedComanda.getId() != null) {
+
+                TranzactieDto tranzactie = new TranzactieDto();
+                tranzactie.setIdClient(savedComanda.getIdClient());
+                tranzactie.setIdSpecialist(savedComanda.getIdSpecialist());
+                tranzactie.setIdComanda(savedComanda.getId());
+                tranzactie.setData(now);
+                tranzactie.setValoare(savedComanda.getPret());
+                tranzactie.setComisionProcent(new BigDecimal("0.10"));
+                tranzactieClient.createTranzactie(tranzactie);
+                System.out.println("Tranzactia pentru comanda ID: " + savedComanda.getId() + " a fost trimisa spre inregistrare.");
+            } else {
+                System.err.println("ID-uri lipsa la crearea tranzactiei pentru comanda: " + savedComanda.getId());
+            }
+        } catch (Exception e) {
+
+            System.err.println("Nu s-a putut inregistra tranzactia pentru comanda ID: " + savedComanda.getId());
+            e.printStackTrace();
+        }
+
+
+        return ComandaMapper.mapToComandaDto(savedComanda);
     }
 
 
@@ -140,11 +166,10 @@ public class ComandaServiceImpl implements ComandaService {
     }
 
 
-    //com pt specialist
+    //comanda pt specialist
     @Transactional(readOnly = true)
     @Override
     public List<ComandaDto> getComenziBySpecialistId(Long utilizatorId) {
-        // Pas 1: Traducem ID-ul de utilizator in ID-ul de specialist (din tabela Specialist)
         SpecialistDto specialist;
         try {
             specialist = specialistClient.getSpecialistByUtilizatorId(utilizatorId);
@@ -155,12 +180,10 @@ public class ComandaServiceImpl implements ComandaService {
             throw new RuntimeException("Eroare la comunicarea cu serviciul de specialiști.", e);
         }
 
-        // Pas 2: Folosim ID-ul real de specialist pentru a prelua comenzile
         List<Comanda> comenzi = comandaRepository.findByIdSpecialist(specialist.getId());
 
-        // Pas 3: Procesam fiecare comanda pentru a o imbogati cu date
         return comenzi.stream()
-                .map(this::mapComandaToDtoWithDetails) // Folosim aceeasi metoda helper
+                .map(this::mapComandaToDtoWithDetails)
                 .collect(Collectors.toList());
     }
 
@@ -174,7 +197,6 @@ public class ComandaServiceImpl implements ComandaService {
             dto.setTitluServiciu("Serviciu Indisponibil");
         }
 
-        // Incarcam numele clientului
         try {
             UtilizatorDto clientInfo = utilizatorClient.getUtilizatoriById(comanda.getIdClient());
             dto.setNumeClient(clientInfo.getNume());
@@ -229,6 +251,4 @@ public class ComandaServiceImpl implements ComandaService {
 
         return ComandaMapper.mapToComandaDto(comandaSalvata);
     }
-
-
 }

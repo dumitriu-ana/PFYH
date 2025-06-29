@@ -25,29 +25,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http,
-                                           CorsConfigurationSource corsSource) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CorsConfigurationSource corsSource) throws Exception {
         http
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsSource))
-
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives(
+                                        "default-src 'self'; " +
+                                                "script-src 'self' https://*.stripe.com https://*.hcaptcha.com; " +
+                                                "style-src 'self' 'unsafe-inline' https://*.stripe.com https://*.hcaptcha.com; " +
+                                                "connect-src 'self' https://*.stripe.com https://*.hcaptcha.com; " +
+                                                "frame-src 'self' https://*.stripe.com https://*.hcaptcha.com; " +
+                                                "img-src 'self' data: https://*.stripe.com;"
+                                )
+                        )
+                )
                 .authorizeHttpRequests(auth -> auth
-                        // — endpoint-urile pe care VREI să le securizezi —
-//                        .requestMatchers(HttpMethod.POST,   "/api/utilizatori/**").authenticated()
-//                        .requestMatchers(HttpMethod.PUT,    "/api/utilizatori/**").authenticated()
-//                        .requestMatchers(HttpMethod.DELETE, "/api/utilizatori/**").authenticated()
-//                        // (dacă vrei acces restricționat și la GET pe detaliu “full”)
-//                        .requestMatchers(HttpMethod.GET,    "/api/utilizatori/{id}").authenticated()
-
-                        // — tot restul e PUBLIC —
-                        // login/înregistrare
                         .requestMatchers("/api/auth/**").permitAll()
-                        // lista completă (dacă vrei să o expui)
                         .requestMatchers(HttpMethod.GET, "/api/utilizatori").permitAll()
-                        // datele “public” per user
                         .requestMatchers(HttpMethod.GET, "/api/utilizatori/*/public").permitAll()
-
-                        // orice alt request neașteptat rămâne permis
                         .anyRequest().permitAll()
                 );
 
@@ -59,7 +56,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
         cfg.setAllowedOrigins(List.of("http://localhost:4200"));
-        cfg.setAllowedMethods(List.of("GET","POST","PUT","DELETE","OPTIONS"));
+        cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
         cfg.setAllowCredentials(true);
 

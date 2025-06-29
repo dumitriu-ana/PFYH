@@ -1,8 +1,11 @@
 package com.fyh.tranzactieservice.controller;
 
 
+import com.fyh.tranzactieservice.dto.CreatePaymentIntentRequest;
+import com.fyh.tranzactieservice.dto.CreatePaymentIntentResponse;
 import com.fyh.tranzactieservice.dto.TranzactieDto;
 import com.fyh.tranzactieservice.service.TranzactieService;
+import com.stripe.exception.StripeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +58,16 @@ public class TranzactieController {
     public ResponseEntity<Void> deleteTranzactie(@PathVariable Long id) {
         tranzactieService.deleteTranzactie(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/create-payment-intent")
+    public ResponseEntity<CreatePaymentIntentResponse> createPaymentIntent(@RequestBody CreatePaymentIntentRequest request) {
+        try {
+            String clientSecret = tranzactieService.createPaymentIntent(request.getSuma());
+            return ResponseEntity.ok(new CreatePaymentIntentResponse(clientSecret));
+        } catch (StripeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new CreatePaymentIntentResponse("Eroare la crearea intentiei de plata: " + e.getMessage()));
+        }
     }
 }

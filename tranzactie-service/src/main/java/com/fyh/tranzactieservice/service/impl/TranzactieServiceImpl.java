@@ -7,8 +7,15 @@ import com.fyh.tranzactieservice.mapper.TranzactieMapper;
 import com.fyh.tranzactieservice.repository.TranzactieRepository;
 import com.fyh.tranzactieservice.service.ComandaClient;
 import com.fyh.tranzactieservice.service.TranzactieService;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,11 +23,35 @@ import java.util.stream.Collectors;
 public class TranzactieServiceImpl implements TranzactieService {
 
     private final TranzactieRepository tranzactieRepository;
-
     private final ComandaClient comandaClient;
+
+    @Value("${stripe.secret.key}")
+    private String secretKey;
+    @PostConstruct
+    public void init() {
+        Stripe.apiKey = secretKey;
+    }
     public TranzactieServiceImpl(TranzactieRepository tranzactieRepository, ComandaClient comandaClient) {
         this.tranzactieRepository = tranzactieRepository;
         this.comandaClient = comandaClient;
+    }
+    @Override
+    public String createPaymentIntent(BigDecimal suma) throws StripeException {
+        if (suma == null || suma.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Suma trebuie sa fie mai mare ca zero.");
+        }
+
+        long amountInCents = suma.multiply(new BigDecimal("100")).longValue();
+
+        PaymentIntentCreateParams params =
+                PaymentIntentCreateParams.builder()
+                        .setAmount(amountInCents)
+                        .setCurrency("ron")
+                        .addPaymentMethodType("card")
+                        .build();
+
+        PaymentIntent paymentIntent = PaymentIntent.create(params);
+        return paymentIntent.getClientSecret();
     }
 
     @Override

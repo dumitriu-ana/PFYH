@@ -1,6 +1,5 @@
 package com.fyh.tranzactieservice.mapper;
 
-
 import com.fyh.tranzactieservice.dto.TranzactieDto;
 import com.fyh.tranzactieservice.entity.Tranzactie;
 
@@ -18,7 +17,7 @@ public class TranzactieMapper {
         tranzactieDto.setIdComanda(tranzactie.getIdComanda());
         tranzactieDto.setData(tranzactie.getData());
         tranzactieDto.setComisionProcent(tranzactie.getComisionProcent());
-        tranzactieDto.setComisionValoare(tranzactie.getComisionValoare());
+        tranzactieDto.setValoare(tranzactie.getValoare());
 
         return tranzactieDto;
     }
@@ -31,16 +30,13 @@ public class TranzactieMapper {
         Tranzactie tranzactie = new Tranzactie();
         tranzactie.setId(tranzactieDto.getId());
 
-        // Aici va trebui sa adaugi logica pentru a prelua Utilizator, Specialist si Comanda
-        // din repository folosind idClient, idSpecialist si idComanda din tranzactieDto
-        // Exemplu:
-        // tranzactie.setClient(utilizatorRepository.findById(tranzactieDto.getIdClient()).orElse(null));
-        // tranzactie.setSpecialist(specialistRepository.findById(tranzactieDto.getIdSpecialist()).orElse(null));
-        // tranzactie.setComanda(comandaRepository.findById(tranzactieDto.getIdComanda()).orElse(null));
+        tranzactie.setIdClient(tranzactieDto.getIdClient());
+        tranzactie.setIdSpecialist(tranzactieDto.getIdSpecialist());
+        tranzactie.setIdComanda(tranzactieDto.getIdComanda());
 
         tranzactie.setData(tranzactieDto.getData());
         tranzactie.setComisionProcent(tranzactieDto.getComisionProcent());
-        tranzactie.setComisionValoare(tranzactieDto.getComisionValoare());
+        tranzactie.setValoare(tranzactieDto.getValoare());
 
         return tranzactie;
     }

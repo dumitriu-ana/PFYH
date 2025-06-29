@@ -29,10 +29,20 @@
         <span *ngIf="fisierSelectat" class="file-name">{{ fisierSelectat.name }}</span>
       </div>
     </form>
+
+    <div class="payment-section">
+      <h3 class="payment-title">Detalii Plată</h3>
+      <div id="card-element" class="stripe-card-element"></div>
+      <div id="card-errors" role="alert" class="stripe-error-message"></div>
+    </div>
+
   </mat-dialog-content>
 
   <mat-dialog-actions align="end" class="dialog-actions">
     <button mat-button class="cancel-btn" (click)="inchide()">Anulează</button>
-    <button mat-raised-button class="submit-btn" (click)="trimiteComanda()">Trimite</button>
+    <button mat-raised-button class="submit-btn" (click)="gestioneazaPlataSiComanda()" [disabled]="isLoading">
+      <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+      <span *ngIf="!isLoading">Plătește {{ data.serviciu.pret | number:'1.2-2' }} lei</span>
+    </button>
   </mat-dialog-actions>
 </div>

@@ -36,6 +36,6 @@ public class Tranzactie {
     @Column(name = "comision_procent")
     private BigDecimal comisionProcent;
 
-    @Column(name = "comision_valoare")
-    private BigDecimal comisionValoare;
+    @Column(name = "valoare")
+    private BigDecimal valoare;
 }
