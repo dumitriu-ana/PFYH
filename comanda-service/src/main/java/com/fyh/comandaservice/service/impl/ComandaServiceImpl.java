@@ -1,10 +1,6 @@
 package com.fyh.comandaservice.service.impl;
 
-import com.fyh.comandaservice.dto.ComandaDto;
-import com.fyh.comandaservice.dto.TranzactieDto;
-import com.fyh.comandaservice.dto.ServiciuDto;
-import com.fyh.comandaservice.dto.SpecialistDto;
-import com.fyh.comandaservice.dto.UtilizatorDto;
+import com.fyh.comandaservice.dto.*;
 import com.fyh.comandaservice.entity.Comanda;
 import com.fyh.comandaservice.mapper.ComandaMapper;
 import com.fyh.comandaservice.repository.ComandaRepository;
@@ -15,14 +11,16 @@ import com.fyh.comandaservice.service.UtilizatorClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.fyh.comandaservice.service.*;
-import com.fyh.comandaservice.dto.SoldUpdateDto;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -250,5 +248,28 @@ public class ComandaServiceImpl implements ComandaService {
         Comanda comandaSalvata = comandaRepository.save(comanda);
 
         return ComandaMapper.mapToComandaDto(comandaSalvata);
+    }
+
+    @Override
+    public List<ServiciuNumarDto> getStatisticiServiciiNumarComenzi() {
+        List<Comanda> toateComenzile = comandaRepository.findAll();
+
+        Map<Long, Long> numarComenziPerServiciu = toateComenzile.stream()
+                .filter(comanda -> Objects.nonNull(comanda.getIdServiciu()))
+                .collect(Collectors.groupingBy(Comanda::getIdServiciu, Collectors.counting()));
+
+        List<ServiciuNumarDto> statistici = new ArrayList<>();
+        numarComenziPerServiciu.forEach((idServiciu, numarComenzi) -> {
+            try {
+                ServiciuDto serviciu = serviciuClient.getServiciuById(idServiciu);
+                if (serviciu != null && serviciu.getTitlu() != null) {
+                    statistici.add(new ServiciuNumarDto(serviciu.getTitlu(), numarComenzi));
+                }
+            } catch (Exception e) {
+                System.err.println("Eroare la serviciu ID: " + idServiciu);
+            }
+        });
+
+        return statistici;
     }
 }

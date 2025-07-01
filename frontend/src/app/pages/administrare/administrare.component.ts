@@ -10,11 +10,12 @@ import { SpecializareService }      from '../../specializare.service';
 import { SpecializareDto }          from '../../models/specializare.dto';
 import { ServiciiService }          from '../../servicii.service';
 import { ServiciuDto }              from '../../models/serviciu.dto';
+import { GraficServiciiComponent } from './grafic-servicii/grafic-servicii.component';
 
 @Component({
   selector: 'app-administrare',
   standalone: true,
-  imports: [ CommonModule, HttpClientModule, FormsModule ],
+  imports: [ CommonModule, HttpClientModule, FormsModule, GraficServiciiComponent ],
   templateUrl: './administrare.component.html'
 })
 export class AdministrareComponent implements OnInit {

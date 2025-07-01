@@ -52,7 +52,7 @@ export class ComandaDialogComponent implements OnInit {
   }
 
   async ngOnInit() {
-//cheie Stripe pk
+//cheie Stripe pk  SA NU COMMIT CHEIA
 
     if (this.stripe) {
       const elements = this.stripe.elements();

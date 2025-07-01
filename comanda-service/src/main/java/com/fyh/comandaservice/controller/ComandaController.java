@@ -2,6 +2,7 @@ package com.fyh.comandaservice.controller;
 
 
 import com.fyh.comandaservice.dto.ComandaDto;
+import com.fyh.comandaservice.dto.ServiciuNumarDto;
 import com.fyh.comandaservice.service.ComandaService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -133,5 +134,11 @@ public class ComandaController {
 
         ComandaDto comandaActualizata = comandaService.raspundeLaComanda(id, mesajSpecialist, fisier);
         return ResponseEntity.ok(comandaActualizata);
+    }
+
+    @GetMapping("/statistici/servicii-numar")
+    public ResponseEntity<List<ServiciuNumarDto>> getStatisticiServicii() {
+        List<ServiciuNumarDto> statistici = comandaService.getStatisticiServiciiNumarComenzi();
+        return ResponseEntity.ok(statistici);
     }
 }

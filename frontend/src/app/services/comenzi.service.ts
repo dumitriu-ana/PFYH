@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ComandaDto } from '../models/comanda.dto';
+import { ServiciuNumarDto } from '../models/serviciu-numar.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ComenziService {
@@ -45,4 +46,9 @@ export class ComenziService {
       const url = `${this.apiUrl}/${idComanda}/raspuns`;
       return this.http.post<ComandaDto>(url, formData);
     }
+
+  getStatisticiServiciiNumar(): Observable<ServiciuNumarDto[]> {
+      return this.http.get<ServiciuNumarDto[]>(`${this.apiUrl}/statistici/servicii-numar`);
+  }
+
 }
