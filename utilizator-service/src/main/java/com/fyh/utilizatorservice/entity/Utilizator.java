@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity   //has a jpa ent
+@Entity
 @Table(name = "Utilizatori")
 public class Utilizator {
     @Id

@@ -36,7 +36,6 @@ export class SpecializareListComponent implements OnChanges {
     this.pagina = p;
     const start = (p - 1) * this.itemsPerPage;
     this.paginaCurenta = this.specializari.slice(start, start + this.itemsPerPage);
-    // opțional: scroll sus după schimbare
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 }

@@ -90,9 +90,7 @@ export class SpecializariComponent implements OnInit {
     return this.openSpecializari.has(spId);
   }
 
-  /**
-   * Nivel 2 → 3: toggle tabel servicii pentru un specialist
-   */
+
   toggleServicii(specId: number) {
     if (this.openServicii.has(specId)) {
       this.openServicii.delete(specId);

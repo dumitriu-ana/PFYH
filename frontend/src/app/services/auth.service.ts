@@ -1,4 +1,3 @@
-// src/app/services/auth.service.ts
 import { Injectable }       from '@angular/core';
 import { HttpClient }       from '@angular/common/http';
 import { environment }      from '../../environments/environment';
@@ -49,12 +48,10 @@ export class AuthService {
     }
   }
 
-  /** verifică existența unui token */
   hasToken(): boolean {
     return !!localStorage.getItem(this.TOKEN_KEY);
   }
 
-  /** logout */
   clearToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
     localStorage.removeItem(this.USER_KEY);

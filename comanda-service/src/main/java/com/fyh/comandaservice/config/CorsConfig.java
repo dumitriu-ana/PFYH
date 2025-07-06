@@ -13,10 +13,10 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**") // Aplica regula pentru toate endpoint-urile care incep cu /api
-                        .allowedOrigins("http://localhost:4200") // Permite request-uri de la aplicatia Angular
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Metodele HTTP permise
-                        .allowedHeaders("*") // Permite toate headerele
+                registry.addMapping("/api/**") // pt toate endp /api
+                        .allowedOrigins("http://localhost:4200") // allow pe tot ce vine din fr
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
                         .allowCredentials(true);
             }
         };

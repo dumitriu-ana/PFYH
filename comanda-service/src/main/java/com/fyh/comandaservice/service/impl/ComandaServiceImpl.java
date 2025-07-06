@@ -82,9 +82,9 @@ public class ComandaServiceImpl implements ComandaService {
                 tranzactie.setValoare(savedComanda.getPret());
                 tranzactie.setComisionProcent(new BigDecimal("0.10"));
                 tranzactieClient.createTranzactie(tranzactie);
-                System.out.println("Tranzactia pentru comanda ID: " + savedComanda.getId() + " a fost trimisa spre inregistrare.");
+                System.out.println("Tranzactia pentru comanda ID: " + savedComanda.getId() + " a fost trimisa.");
             } else {
-                System.err.println("ID-uri lipsa la crearea tranzactiei pentru comanda: " + savedComanda.getId());
+                System.err.println("ID-uri lipsa: " + savedComanda.getId());
             }
         } catch (Exception e) {
 
@@ -134,7 +134,7 @@ public class ComandaServiceImpl implements ComandaService {
             utilizatorClient.getUtilizatoriById(clientId);
         } catch (Exception e) {
             System.err.println("Clientul cu ID " + clientId + " nu a fost gasit.");
-            throw new RuntimeException("Client not found", e);
+            throw new RuntimeException("Clientul nu a fost gasit", e);
         }
 
         List<Comanda> comenzi = comandaRepository.findByIdClient(clientId);
@@ -146,7 +146,7 @@ public class ComandaServiceImpl implements ComandaService {
                         ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
                         dto.setTitluServiciu(serviciu.getTitlu());
                     } catch (Exception e) {
-                        System.err.println("Eroare la obtinerea serviciului cu ID: " + comanda.getIdServiciu());
+                        System.err.println("Eroare la serviciul cu ID: " + comanda.getIdServiciu());
                         dto.setTitluServiciu("Serviciu indisponibil");
                     }
                     try {
@@ -154,7 +154,7 @@ public class ComandaServiceImpl implements ComandaService {
                         UtilizatorDto utilizatorDtoSpecialist = utilizatorClient.getUtilizatoriById(specialistInfo.getIdUtilizator());
                         dto.setNumeSpecialist(utilizatorDtoSpecialist.getNume());
                     } catch (Exception e) {
-                        System.err.println("Eroare la obtinerea specialistului cu ID: " + comanda.getIdSpecialist());
+                        System.err.println("Eroare la  specialistul cu ID: " + comanda.getIdSpecialist());
                         dto.setNumeSpecialist("Specialist indisponibil");
                     }
 
@@ -172,10 +172,10 @@ public class ComandaServiceImpl implements ComandaService {
         try {
             specialist = specialistClient.getSpecialistByUtilizatorId(utilizatorId);
             if (specialist == null) {
-                throw new RuntimeException("Nu a fost găsit un profil de specialist pentru utilizatorul cu ID: " + utilizatorId);
+                throw new RuntimeException("Nu exista utilizatorul cu ID: " + utilizatorId);
             }
         } catch (Exception e) {
-            throw new RuntimeException("Eroare la comunicarea cu serviciul de specialiști.", e);
+            throw new RuntimeException("Eroare serviciul specialiști.", e);
         }
 
         List<Comanda> comenzi = comandaRepository.findByIdSpecialist(specialist.getId());
@@ -191,16 +191,16 @@ public class ComandaServiceImpl implements ComandaService {
             ServiciuDto serviciu = serviciuClient.getServiciuById(comanda.getIdServiciu());
             dto.setTitluServiciu(serviciu.getTitlu());
         } catch (Exception e) {
-            System.err.println("Eroare la preluarea serviciului cu ID: " + comanda.getIdServiciu());
-            dto.setTitluServiciu("Serviciu Indisponibil");
+            System.err.println("Eroare serviciu cu ID: " + comanda.getIdServiciu());
+            dto.setTitluServiciu("Serviciu indisponibil");
         }
 
         try {
             UtilizatorDto clientInfo = utilizatorClient.getUtilizatoriById(comanda.getIdClient());
             dto.setNumeClient(clientInfo.getNume());
         } catch (Exception e) {
-            System.err.println("Eroare la preluarea clientului cu ID: " + comanda.getIdClient());
-            dto.setNumeClient("Client Indisponibil");
+            System.err.println("Eroare client cu ID: " + comanda.getIdClient());
+            dto.setNumeClient("Client indisponibil");
         }
 
         try {
@@ -208,7 +208,7 @@ public class ComandaServiceImpl implements ComandaService {
             UtilizatorDto specialistUserInfo = utilizatorClient.getUtilizatoriById(specialistInfo.getIdUtilizator());
             dto.setNumeSpecialist(specialistUserInfo.getNume());
         } catch (Exception e) {
-            System.err.println("Eroare la preluarea numelui specialistului pentru comanda ID: " + comanda.getId());
+            System.err.println("Eroare sp: " + comanda.getId());
             dto.setNumeSpecialist("Specialist Indisponibil");
         }
         return dto;
@@ -219,7 +219,7 @@ public class ComandaServiceImpl implements ComandaService {
     @Override
     public ComandaDto raspundeLaComanda(Long id, String mesajSpecialist, MultipartFile fisier) throws IOException {
         Comanda comanda = comandaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Comanda not found with id: " + id));
+                .orElseThrow(() -> new RuntimeException("Comanda nu e gasita: " + id));
         comanda.setMesajSpecialist(mesajSpecialist);
         if (fisier != null && !fisier.isEmpty()) {
             comanda.setNumeFisierSpecialist(fisier.getOriginalFilename());
@@ -266,7 +266,7 @@ public class ComandaServiceImpl implements ComandaService {
                     statistici.add(new ServiciuNumarDto(serviciu.getTitlu(), numarComenzi));
                 }
             } catch (Exception e) {
-                System.err.println("Eroare la serviciu ID: " + idServiciu);
+                System.err.println("Eroare serviciu ID: " + idServiciu);
             }
         });
 

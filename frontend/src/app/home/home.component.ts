@@ -10,7 +10,7 @@ import { SpecializareListComponent } from '../specializare-list/specializare-lis
 import { HttpClientModule } from '@angular/common/http';
 
 import { SpecialistService } from '../specialist.service';
-import { SpecialistCuNumeDto } from '../models/specialistCuNume.dto'; // Asigură-te că această cale și nume de fișier sunt corecte
+import { SpecialistCuNumeDto } from '../models/specialistCuNume.dto';
 
 
 import { ServiciiService } from '../servicii.service';
@@ -48,12 +48,12 @@ import { MatListModule }            from '@angular/material/list';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  //  secțiunea de specializări
+  //  specializări
   specializari: SpecializareDto[] = [];
   isLoadingSpecializari: boolean = true;
   errorMessageSpecializari: string = '';
 
-  //  lista de specialiști
+  //  lista specialisti
   specialistiPentruLista: SpecialistCuNumeDto[] | null = null;
   isLoadingSpecialisti: boolean = true;
   errorSpecialisti: string | null = null;
@@ -85,14 +85,13 @@ export class HomeComponent implements OnInit {
         this.isLoadingSpecializari = false;
       },
       error: (error) => {
-        this.errorMessageSpecializari = 'Eroare la încărcarea specializărilor.';
-        console.error('Eroare încărcare specializări:', error);
+        this.errorMessageSpecializari = 'Eroare la incarcarea specializarilor.';
+        console.error('Eroare la incarcarea specializarilor:', error);
         this.isLoadingSpecializari = false;
       }
     });
   }
 
-  //
   loadSpecialistiPentruLista(): void {
     this.isLoadingSpecialisti = true;
     this.errorSpecialisti = null;
@@ -102,8 +101,8 @@ export class HomeComponent implements OnInit {
         this.isLoadingSpecialisti = false;
       },
       error: (err) => {
-        console.error("Eroare la încărcarea specialiștilor pentru listă în Home:", err);
-        this.errorSpecialisti = "Nu s-au putut încărca specialiștii relevanți.";
+        console.error("Eroare la incarcarea specialiștilor pentru lista:", err);
+        this.errorSpecialisti = "Eroare la incarcarea specialiștilor pentru lista";
         this.specialistiPentruLista = [];
         this.isLoadingSpecialisti = false;
       }
@@ -120,8 +119,8 @@ loadServicii(): void {
       this.isLoadingServicii = false;
     },
     error: (err: any) => {
-      console.error('Eroare încărcare servicii:', err);
-      this.errorServicii = 'Nu am putut prelua lista de servicii.';
+      console.error('Eroare incarcarea serviciilor:', err);
+      this.errorServicii = 'Eroare incarcarea serviciilor';
       this.servicii = [];
       this.isLoadingServicii = false;
     }

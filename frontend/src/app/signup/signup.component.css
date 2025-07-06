@@ -1,5 +1,3 @@
-/* Container full-screen, centrare pe orizontală și verticală */
-/* în styles.css sau în componenta de login */
 .login-page {
   background: url('/assets/img/loginbg.jpg') no-repeat center center;
   background-size: cover;
@@ -18,18 +16,16 @@
 
 }
 
-/* Cutia galbenă cu bordură groasă și umbră */
 .signup-card {
   background-color: #fcf19d;
-  border: 8px solid #2e7d32;       /* bordură mult mai groasă */
+  border: 8px solid #2e7d32;
   border-radius: 8px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.25);
   padding: 2rem 3rem;
-  width: 600px;                    /* mai lat */
+  width: 600px;
   max-width: 90%;
 }
 
-/* Titlu centrat, verde închis și bold */
 .signup-title {
   text-align: center;
   color: #2e7d32;
@@ -38,14 +34,13 @@
   margin-bottom: 1.5rem;
 }
 
-/* Grup de câte un label + input pe rând */
 .form-group {
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
 }
 .form-group label {
-  width: 140px;                   /* mai mult spațiu pentru label */
+  width: 140px;
   margin-right: 1rem;
   color: #2e7d32;
   font-weight: bold;
@@ -55,12 +50,11 @@
   flex: 1;
   padding: 0.6rem 0.8rem;
   font-size: 1rem;
-  background-color: #e8f5e9;      /* verde deschis */
-  border: 3px solid #2e7d32;      /* contur verde închis */
+  background-color: #e8f5e9;
+  border: 3px solid #2e7d32;
   border-radius: 4px;
 }
 
-/* Buton centrat pe orizontală */
 .button-wrapper {
   text-align: center;
   margin-top: 1.5rem;

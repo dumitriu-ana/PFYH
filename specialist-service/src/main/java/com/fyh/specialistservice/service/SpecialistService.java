@@ -3,6 +3,7 @@ package com.fyh.specialistservice.service;
 
 import com.fyh.specialistservice.dto.SpecialistDto;
 import com.fyh.specialistservice.dto.SpecializareDto;
+import com.fyh.specialistservice.dto.SpecializareStatisticiDto;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -28,5 +29,6 @@ public interface SpecialistService {
     SpecialistDto addServiciuToSpecialist(Long specialistId, Long serviciuId);
 
     SpecialistDto removeServiciuFromSpecialist(Long id, Long serviciuId);
+    List<SpecializareStatisticiDto> getStatisticiSpecializari();
 
 }

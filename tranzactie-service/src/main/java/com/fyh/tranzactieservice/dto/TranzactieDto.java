@@ -15,10 +15,10 @@ import java.sql.Timestamp;
 public class TranzactieDto {
 
     private Long id;
-    private Long idClient; //utilizatorul logat care comanda
+    private Long idClient;
     private Long idSpecialist;
     private Long idComanda;
     private Timestamp data;
-    private BigDecimal comisionProcent; //10% din valoarea serviciului
-    private BigDecimal valoare; // pret serviciu
+    private BigDecimal comisionProcent; //10% din val serv
+    private BigDecimal valoare;
 }

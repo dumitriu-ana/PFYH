@@ -1,4 +1,3 @@
-/* 1. Reset margin/padding implicit */
 html, body {
   background-image: url('/assets/img/fundal_portocaliu_deschis.png');
   background-size: cover;
@@ -7,19 +6,15 @@ html, body {
   height: 100%;
 }
 
-/* 2. Containerul principal: sidebar + conținut */
 .app-container {
   display: flex;
-  height: 100vh;       /* ocupă tot viewport-ul */
+  height: 100vh;
 }
 
-/* 3. Conținutul efectiv */
 .main-content {
-
-  overflow-y: auto;    /* scroll vertical dacă e nevoie */
+  overflow-y: auto;
 }
 
-/* 4. (Opțional) Suprascrie bootstrap .container ca să nu bage padding */
 .container {
   padding-left: 0 !important;
   padding-right: 0 !important;

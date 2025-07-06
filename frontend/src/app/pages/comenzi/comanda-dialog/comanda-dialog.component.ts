@@ -102,7 +102,7 @@ export class ComandaDialogComponent implements OnInit {
         });
 
         if (result.error) {
-          this.cardError = result.error.message || 'A apărut o eroare la plată.';
+          this.cardError = result.error.message || 'A apărut o eroare la plata.';
           this.isLoading = false;
         } else if (result.paymentIntent?.status === 'succeeded') {
           this.creeazaComandaFinala();
@@ -118,7 +118,7 @@ export class ComandaDialogComponent implements OnInit {
   creeazaComandaFinala() {
     const currentUser = this.authService.getCurrentUser();
     if (!currentUser) {
-      alert('Sesiune expirată. Vă rugăm să vă relogați.');
+      alert('Sesiune expirata');
       this.isLoading = false;
       return;
     }
@@ -142,7 +142,7 @@ export class ComandaDialogComponent implements OnInit {
         this.dialogRef.close(response);
       },
       error: (err) => {
-        alert('Plata a fost efectuată, dar a apărut o eroare la crearea comenzii. Vă rugăm contactați suportul.');
+        alert('Plata a fost efectuată, dar eroare la crearea comenzii.');
         this.isLoading = false;
       }
     });

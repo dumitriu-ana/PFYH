@@ -19,7 +19,7 @@
   justify-content: space-between;
   align-items: flex-start;
   padding: 16px;
-  background-color: #e8f5e9; /* Verde pal */
+  background-color: #e8f5e9; 
   border-bottom: 1px solid #dcedc8;
 }
 .card-title {

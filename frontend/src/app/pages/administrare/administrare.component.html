@@ -3,7 +3,7 @@
 
   <div *ngIf="isLoading" class="text-center">
     <div class="spinner-border"></div>
-    <p>Se încarcă …</p>
+    <p>Se încarcă</p>
   </div>
   <div *ngIf="errorMsg" class="alert alert-danger">{{ errorMsg }}</div>
 
@@ -57,7 +57,12 @@
     <!-- statistici servicii-->
     <section class="statistici-section">
       <app-grafic-servicii></app-grafic-servicii>
+
+      <app-grafic-specializari></app-grafic-specializari>
+
     </section>
+
+
     <hr class="my-5">
 
   <!-- formular adaugare specializare -->
@@ -93,7 +98,7 @@
 
   <hr class="my-5">
 
-  <!-- Form: Adaugă Serviciu -->
+  <!-- Formular ad serviciu -->
   <div class="mb-5">
     <h2>Adaugă Serviciu</h2>
     <form (ngSubmit)="addServiciu()" #f2="ngForm" class="row g-3">
@@ -169,7 +174,7 @@
     <div *ngIf="errorMsgSrv"   class="alert alert-danger  mt-3">{{ errorMsgSrv   }}</div>
   </div>
 
-    <!-- Tabel: Specialiști validați -->
+    <!-- Tabel specialiști validati -->
     <section *ngIf="listaValidati.length">
       <h2 class="mt-5">Specialiști validați</h2>
       <table class="table table-striped">
@@ -208,7 +213,7 @@
       </table>
     </section>
 
-    <!-- Empty state -->
+    <!-- cand nu ex date -->
     <p *ngIf="!isLoading && !errorMsg && !listaInProces.length && !listaValidati.length"
        class="text-center text-muted">
       Nu există cereri sau specialiști validați momentan.

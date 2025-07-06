@@ -11,11 +11,13 @@ import { SpecializareDto }          from '../../models/specializare.dto';
 import { ServiciiService }          from '../../servicii.service';
 import { ServiciuDto }              from '../../models/serviciu.dto';
 import { GraficServiciiComponent } from './grafic-servicii/grafic-servicii.component';
+import { GraficSpecializariComponent } from './grafic-specializari/grafic-specializari.component';
+
 
 @Component({
   selector: 'app-administrare',
   standalone: true,
-  imports: [ CommonModule, HttpClientModule, FormsModule, GraficServiciiComponent ],
+  imports: [ CommonModule, HttpClientModule, FormsModule, GraficServiciiComponent, GraficSpecializariComponent],
   templateUrl: './administrare.component.html'
 })
 export class AdministrareComponent implements OnInit {
@@ -115,7 +117,6 @@ onValidate(sp: SpecialistAdminDto) {
     this.svcSrv.createServiciu(this.newServiciu as ServiciuDto).subscribe({
       next: srv => {
         this.successMsgSrv = `Serviciu „${srv.titlu}” creat (ID: ${srv.id})`;
-        // resetează câmpurile
         this.newServiciu = {
           idSpecializare: null,
           titlu: '',

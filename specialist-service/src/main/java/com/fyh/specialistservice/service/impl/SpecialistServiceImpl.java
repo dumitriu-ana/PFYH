@@ -2,6 +2,7 @@ package com.fyh.specialistservice.service.impl;
 
 import com.fyh.specialistservice.dto.SpecialistDto;
 import com.fyh.specialistservice.dto.SpecializareDto;
+import com.fyh.specialistservice.dto.SpecializareStatisticiDto;
 import com.fyh.specialistservice.entity.Specialist;
 import com.fyh.specialistservice.mapper.SpecialistMapper;
 import com.fyh.specialistservice.repository.SpecialistRepository;
@@ -64,7 +65,6 @@ public class SpecialistServiceImpl implements SpecialistService {
         entity.setIdAdmin(       specialistDto.getIdAdmin()        );
         entity.setDataValidare(  specialistDto.getDataValidare()   );
 
-        // 3) now save() will always do an INSERT
         Specialist saved = specialistRepository.save(entity);
         return SpecialistMapper.mapToSpecialistDto(saved);
     }
@@ -199,6 +199,29 @@ public class SpecialistServiceImpl implements SpecialistService {
             specialist = specialistRepository.save(specialist);
         }
         return SpecialistMapper.mapToSpecialistDto(specialist);
+    }
+
+    @Override
+    public List<SpecializareStatisticiDto> getStatisticiSpecializari() {
+        List<Specialist> totiSpecialistii = specialistRepository.findAll();
+
+        Map<Long, Long> numarSpecialistiPerSpecializare = totiSpecialistii.stream()
+                .filter(s -> s.getSpecializareId() != null)
+                .collect(Collectors.groupingBy(Specialist::getSpecializareId, Collectors.counting()));
+
+        List<SpecializareStatisticiDto> statistici = new ArrayList<>();
+        numarSpecialistiPerSpecializare.forEach((idSpecializare, numarSpecialisti) -> {
+            try {
+                SpecializareDto specializare = specializareClient.getSpecializareById(idSpecializare);
+                if (specializare != null && specializare.getDenumire() != null) {
+                    statistici.add(new SpecializareStatisticiDto(specializare.getDenumire(), numarSpecialisti));
+                }
+            } catch (Exception e) {
+                System.err.println("Eroare la specializarea cu ID: " + idSpecializare);
+            }
+        });
+
+        return statistici;
     }
 
     @Override

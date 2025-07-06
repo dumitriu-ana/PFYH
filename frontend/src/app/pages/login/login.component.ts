@@ -1,4 +1,3 @@
-// src/app/pages/login/login.component.ts
 import { Component }       from '@angular/core';
 import { CommonModule }    from '@angular/common';
 import { FormsModule }     from '@angular/forms';
@@ -36,7 +35,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
       },
       error: err => {
-        this.errorMsg = err.error?.message || 'Credentialele folosite sunt invalide. Incearca din nou.';
+        this.errorMsg = err.error?.message || 'Credentialele folosite sunt invalide.';
       }
     });
   }

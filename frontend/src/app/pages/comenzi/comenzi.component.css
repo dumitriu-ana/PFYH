@@ -27,7 +27,7 @@
 }
 
 .comanda-header {
-  background-color: #e8f5e9; /* Un verde pal, ca la servicii */
+  background-color: #e8f5e9;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -41,7 +41,7 @@
 .comanda-title {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #2e7d32; /* Verde inchis */
+  color: #2e7d32;
 }
 
 .comanda-specialist {
@@ -93,15 +93,15 @@
 }
 
 .status-plasata {
-  background-color: #ffa726; /* Portocaliu */
+  background-color: #ffa726;
 }
 
 .status-livrata {
-  background-color: #66bb6a; /* Verde */
+  background-color: #66bb6a;
 }
 
 .status-progres {
-  background-color: #42a5f5; /* Albastru */
+  background-color: #42a5f5;
 }
 
 .file-row {
@@ -116,7 +116,7 @@
 }
 
 .download-btn {
-  background-color: #2e7d32 !important; /* Important pentru a suprascrie stilul mat */
+  background-color: #2e7d32 !important;
   color: white !important;
 }
 

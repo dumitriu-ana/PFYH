@@ -1,5 +1,3 @@
-// in src/app/components/comenzi/comenzi.component.ts
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComenziService } from '../../services/comenzi.service';
@@ -16,7 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-comenzi',
   standalone: true,
-  // Adauga modulele Material in imports
   imports: [ CommonModule, MatCardModule, MatButtonModule, MatProgressSpinnerModule, MatIconModule ],
   templateUrl: './comenzi.component.html',
   styleUrls: ['./comenzi.component.css']
@@ -66,7 +63,7 @@ export class ComenziComponent implements OnInit {
 
     this.comenziService.descarcaFisier(comanda.id, tipFisier).subscribe({
       next: (blob) => {
-        saveAs(blob, numeFisier); //  file-saver pt desc fisiere
+        saveAs(blob, numeFisier);
       },
       error: (err) => {
         console.error(`Eroare la descarcarea fisierului de la ${tipFisier}`, err);

@@ -18,9 +18,8 @@ public class SpecialistMapper {
         SpecialistDto dto = new SpecialistDto();
         dto.setId(specialist.getId());
         dto.setIdUtilizator(specialist.getIdUtilizator());
-        dto.setSpecializareId(specialist.getSpecializareId());           // ← nou
-        // convertim Set<Long> în List<Long> pentru DTO
-        dto.setServiciuIds(new ArrayList<>(specialist.getServiciuIds())); // ← nou
+        dto.setSpecializareId(specialist.getSpecializareId());
+        dto.setServiciuIds(new ArrayList<>(specialist.getServiciuIds()));
 
         dto.setAtestat(specialist.getAtestat());
         dto.setStatusValidare(specialist.getStatusValidare());
@@ -39,10 +38,9 @@ public class SpecialistMapper {
         Specialist entity = new Specialist();
         entity.setId(dto.getId());
         entity.setIdUtilizator(dto.getIdUtilizator());
-        entity.setSpecializareId(dto.getSpecializareId());               // ← nou
-        // convertim List<Long> în Set<Long> pentru entitate
+        entity.setSpecializareId(dto.getSpecializareId());
         if (dto.getServiciuIds() != null) {
-            entity.setServiciuIds(new HashSet<>(dto.getServiciuIds())); // ← nou
+            entity.setServiciuIds(new HashSet<>(dto.getServiciuIds()));
         }
 
         entity.setAtestat(dto.getAtestat());

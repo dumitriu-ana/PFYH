@@ -1,11 +1,9 @@
-/* fundal full-screen */
 .page-wrapper {
   min-height: 100vh;
   background: url('/assets/img/fundal_c.jpg') no-repeat center center;
   background-size: cover;
 }
 
-/* conținut centrat, cu padding lateral */
 .content {
   max-width: 800px;
   margin: 0 auto;
@@ -14,10 +12,9 @@
   border-radius: 8px;
 }
 
-/* 1) Titlu și nume */
 .page-title {
   text-align: center;
-  color: #2e7d32; /* verde închis */
+  color: #2e7d32;
   margin-bottom: 0.3rem;
   font-size: 2rem;
 }
@@ -28,10 +25,10 @@
   margin-bottom: 1rem;
 }
 
-/* 2) Specialist în... */
+
 .role {
   text-align: center;
-  color: #5d4037; /* maro închis */
+  color: #5d4037;
   margin-bottom: 1rem;
     font-weight: bold;
 }
@@ -39,24 +36,21 @@
   font-weight: bold;
 }
 
-/* 3) Sold */
 .sold-box {
   float: right;
-  background: #ef6c00; /* portocaliu închis */
-  color: #fff;         /* crem */
+  background: #ef6c00;
+  color: #fff;
   padding: 0.4rem 0.8rem;
   border-radius: 4px;
   font-weight: bold;
   margin-bottom: 1.5rem;
 }
 
-/* 4) Email */
 .email {
-  color: #1565c0; /* albastru */
+  color: #1565c0;
   margin-bottom: 1.5rem;
 }
 
-/* 5) Status validare + Admin + Data */
 .status-row {
   display: flex;
   flex-wrap: wrap;
@@ -71,17 +65,16 @@
   color: #fff;
 }
 .status-in-proces {
-  background: #f9a825; /* galben */
+  background: #f9a825;
 }
 .status-validat {
-  background: #388e3c; /* verde */
+  background: #388e3c;
 }
 .status-admin,
 .status-date {
   color: #424242;
 }
 
-/* 6) Câmpuri generale & specialist data */
 .field {
   margin-bottom: 1rem;
 }
@@ -93,7 +86,6 @@
   margin-bottom: 0.8rem;
 }
 
-/* Clear float sold */
 .content::after {
   content: "";
   display: block;

@@ -33,7 +33,7 @@ public class Specialist {
             joinColumns = @JoinColumn(name = "specialist_id")
     )
     @Column(name = "serviciu_id")
-    private Set<Long> serviciuIds = new HashSet<>();  // ← nou
+    private Set<Long> serviciuIds = new HashSet<>();
 
     @Column(name = "atestat")            private String atestat;
     @Column(name = "status_validare")    private String statusValidare;

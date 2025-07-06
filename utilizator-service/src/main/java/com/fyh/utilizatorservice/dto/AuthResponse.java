@@ -7,5 +7,5 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AuthResponse {
     private String token;
-    private UtilizatorDto user;      // DTO-ul existent cu câmpurile id, nume, email, etc.
+    private UtilizatorDto user;
 }

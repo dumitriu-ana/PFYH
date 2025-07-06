@@ -25,13 +25,6 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // 1) endp securizate
-//                        .requestMatchers(HttpMethod.POST,   "/api/specialisti/**").authenticated()
-//                        .requestMatchers(HttpMethod.PUT,    "/api/specialisti/**").authenticated()
-//                        .requestMatchers(HttpMethod.DELETE, "/api/specialisti/**").authenticated()
-//                        .requestMatchers(HttpMethod.GET,    "/api/specialisti/*"  ).authenticated()
-
-
                         .anyRequest().permitAll()
                 );
 

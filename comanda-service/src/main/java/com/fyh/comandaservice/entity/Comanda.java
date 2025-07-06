@@ -44,7 +44,7 @@ public class Comanda {
     private String mesajClient;
 
     @Lob
-    @Column(name = "fisier_client", columnDefinition = "BYTEA") // pentru PostgreSQL
+    @Column(name = "fisier_client", columnDefinition = "BYTEA")
     private byte[] fisierClient;
 
     @Column(name = "nume_fisier_client")

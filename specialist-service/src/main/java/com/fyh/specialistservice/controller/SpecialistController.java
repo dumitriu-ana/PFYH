@@ -214,4 +214,9 @@ public class SpecialistController {
         SpecialistDto updated = specialistService.removeServiciuFromSpecialist(id, serviciuId);
         return ResponseEntity.ok(updated);
     }
+
+    @GetMapping("/statistici/repartitie-specializari")
+    public ResponseEntity<List<SpecializareStatisticiDto>> getStatisticiRepartitie() {
+        return ResponseEntity.ok(specialistService.getStatisticiSpecializari());
+    }
 }

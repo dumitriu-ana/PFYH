@@ -15,7 +15,6 @@ import { SpecialistCuNumeDto } from '../models/specialistCuNume.dto';
 export class SpecialistListComponent implements OnInit, OnChanges {
   @Input() specialistiCuNume: SpecialistCuNumeDto[] | null = [];
 
-  // proprietăți de paginare
   toate: SpecialistCuNumeDto[] = [];
   paginaCurenta: SpecialistCuNumeDto[] = [];
   pagina = 1;

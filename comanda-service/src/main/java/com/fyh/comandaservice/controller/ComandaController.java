@@ -107,7 +107,7 @@ public class ComandaController {
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + comanda.getNumeFisierClient() + "\"")
-                .contentType(MediaType.APPLICATION_OCTET_STREAM) // Tip generic pentru fisier
+                .contentType(MediaType.APPLICATION_OCTET_STREAM) // fisier generic
                 .body(resource);
     }
 

@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { SpecialistFullDto } from './models/specialistFull.dto';
 import { SpecialistCuNumeDto } from './models/specialistCuNume.dto';
 import { SpecialistAdminDto } from './models/specialist-admin.dto';
+import { SpecializareStatisticiDto } from './models/specializare-statistici.dto';
+
 
 @Injectable({
   providedIn: 'root'
@@ -56,4 +58,8 @@ export class SpecialistService {
         const url = `${this.apiUrl}/${idSpecialist}/servicii/${serviciuId}`;
         return this.http.delete<SpecialistFullDto>(url);
       }
+
+    getStatisticiSpecializari(): Observable<SpecializareStatisticiDto[]> {
+      return this.http.get<SpecializareStatisticiDto[]>(`${this.apiUrl}/statistici/repartitie-specializari`);
+    }
 }

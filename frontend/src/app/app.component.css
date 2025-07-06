@@ -1,5 +1,3 @@
-/* app.component.css */
-
 .app-container {
   display: flex;
   min-height: 100vh;
@@ -8,18 +6,17 @@
 
 .main-content {
   flex-grow: 1;
-  margin-left: 15vw; /* Lățimea sidebar-ului pe desktop */
+  margin-left: 15vw;
   transition: margin-left 0.3s ease-in-out;
 }
 
-/* Ajustare pentru vizualizarea mobilă */
 @media (max-width: 768px) {
   .main-content {
-    margin-left: 0; /* Nu are margine pe mobil */
-    padding-left: 50px; /* Compensează pentru butonul burger */
+    margin-left: 0;
+    padding-left: 50px;
   }
 
   .main-content.sidebar-open-mobile {
-    padding-left: 270px; /* Compensează când sidebar-ul este deschis pe mobil */
+    padding-left: 270px;
   }
 }

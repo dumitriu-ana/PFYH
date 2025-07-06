@@ -1,4 +1,3 @@
-
 import { Component, OnInit, OnDestroy }  from '@angular/core';
 import { CommonModule }        from '@angular/common';
 import { FormsModule }         from '@angular/forms';
@@ -63,7 +62,6 @@ export class ContComponent implements OnInit, OnDestroy {
     this.userSubscription = this.auth.currentUser$.subscribe(user => {
       if (user) {
         this.user = user;
-        // Re-incarcam datele de specialist daca user-ul se schimba
         if (this.user.tipUtilizator === 'specialist') {
           this.loadSpecialistData(this.user.id);
         }
@@ -153,7 +151,7 @@ export class ContComponent implements OnInit, OnDestroy {
       .subscribe(updated => this.mySpecialist = updated);
   }
 
-  // --- Adaugă serviciu ---
+  // ad serviciu
     toggleAddTable() {
       this.showAddTable = !this.showAddTable;
     }
